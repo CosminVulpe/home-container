@@ -1,4 +1,4 @@
-import Container8 from '../imagines/container8.jpg';
+import Container8 from '../images/container8.jpg';
 
 export const SliderImageData = [
     {

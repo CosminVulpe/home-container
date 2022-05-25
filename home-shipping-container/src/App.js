@@ -4,6 +4,8 @@ import ImagineSlider from "./components/image-carousel/ImageCarousel";
 import {SliderImageData} from "./components/data/SliderImageData";
 import {useState} from "react";
 import DropDownMenu from "./components/drop-down-menu/DropDownMenu";
+import InfoSectionIndex from "./components/info-section/InfoSectionIndex";
+import {InfoData} from "./components/data/InfoSectionIndexData";
 
 function App() {
     const [isOpen, setIsOpen] = useState(false);
@@ -18,6 +20,7 @@ function App() {
             <NavBar toggle={toggle}/>
             <DropDownMenu isOpen={isOpen} toggle={toggle}/>
             <ImagineSlider slides={SliderImageData}/>
+            <InfoSectionIndex {...InfoData}/>
         </>
     );
 }

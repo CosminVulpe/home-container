@@ -8,6 +8,7 @@ import 'swiper/css/pagination';
 import 'swiper/css/scrollbar';
 import {dataReview} from "../data/ReviewData";
 import './reviews.css';
+import StarRatingEffect from "./StarRatingEffect";
 
 SwiperCore.use([EffectCoverflow, Pagination]);
 
@@ -31,6 +32,7 @@ function ReviewSection() {
                         <SwiperSlide key={index}>
                             <img src={item.image} alt={item.username}/>
                             <h3>{item.username}</h3>
+                            <StarRatingEffect/>
                             <p>{item.review}</p>
                         </SwiperSlide>
                     ))}

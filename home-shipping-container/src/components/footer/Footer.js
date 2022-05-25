@@ -77,7 +77,7 @@ function Footer() {
             <Container>
                 <Row>
                     <FooterCol>
-                        <Title>Company</Title>
+                        <Title>General Info</Title>
                         <ul>
                             <li>
                                 <Link href="#">About us</Link>
@@ -92,20 +92,20 @@ function Footer() {
                         <ul>
                             <li>
                                 <Link href="#">About us</Link>
-                                <Link href="#">Our Service</Link>
-                                <Link href="#">Privacy Policy</Link>
-                                <Link href="#">Affiliate Program</Link>
+                                <Link href="#">Careers</Link>
+                                <Link href="#">Investors</Link>
+                                <Link href="#">Our Founders</Link>
                             </li>
                         </ul>
                     </FooterCol>
                     <FooterCol>
-                        <Title>Company</Title>
+                        <Title>Support</Title>
                         <ul>
                             <li>
-                                <Link href="#">About us</Link>
-                                <Link href="#">Our Service</Link>
-                                <Link href="#">Privacy Policy</Link>
-                                <Link href="#">Affiliate Program</Link>
+                                <Link href="#">Help Center</Link>
+                                <Link href="#">Cancellation Policy</Link>
+                                <Link href="#">Safety Info Covid-19</Link>
+                                <Link href="#">Support people with disabilities</Link>
                             </li>
                         </ul>
                     </FooterCol>

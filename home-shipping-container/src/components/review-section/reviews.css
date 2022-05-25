@@ -1,0 +1,32 @@
+.swiper-container {
+    width: 100%;
+    padding-top: 3rem;
+    padding-bottom: 3rem;
+}
+
+.swiper-slide {
+    display: grid;
+    text-align: center;
+    padding: 0.5rem 1rem;
+    background: rgb(240, 240, 240);
+    width: 18.75rem;
+    height: 18.75rem;
+}
+
+.swiper-slide img {
+    display: block;
+    width: 6rem;
+    justify-self: center;
+    border-radius: 50%;
+    margin-top: 0.6rem;
+}
+
+h5 {
+    font-family: "GFS Didot", serif;
+    font-weight: bold;
+    color: #292f33;
+}
+
+p {
+    color: #141823;
+}

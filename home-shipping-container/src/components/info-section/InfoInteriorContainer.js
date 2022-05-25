@@ -5,6 +5,7 @@ import Container8 from '../images/container8.jpg';
 import {Button} from "../button/Button";
 import {useEffect} from "react";
 import AOS from "aos";
+import ReviewSection from "../review-section/ReviewSection";
 
 const Box = styled.div`
     border: thin solid black;
@@ -65,6 +66,7 @@ function InfoInteriorContainer() {
             {/*<Box/>*/}
             <Section>
                 <Header data-aos="zoom-in">Reviews</Header>
+                <ReviewSection/>
             </Section>
         </>
     );

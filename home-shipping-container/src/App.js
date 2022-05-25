@@ -6,6 +6,7 @@ import {useState} from "react";
 import DropDownMenu from "./components/drop-down-menu/DropDownMenu";
 import InfoSectionIndex from "./components/info-section/InfoSectionIndex";
 import {InfoData} from "./components/data/InfoSectionIndexData";
+import Footer from "./components/footer/Footer";
 
 function App() {
     const [isOpen, setIsOpen] = useState(false);
@@ -21,6 +22,7 @@ function App() {
             <DropDownMenu isOpen={isOpen} toggle={toggle}/>
             <ImagineSlider slides={SliderImageData}/>
             <InfoSectionIndex {...InfoData}/>
+            <Footer/>
         </>
     );
 }

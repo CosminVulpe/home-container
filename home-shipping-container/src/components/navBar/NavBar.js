@@ -7,32 +7,32 @@ import Bars from '../../components/imagines/bars.svg';
 
 const Nav = styled.nav`
     height: 60px;
-    display:flex;
+    display: flex;
     justify-content: space-between;
-    padding:1rem 2rem;
-    position:fixed;
-    z-index:100;
-    width:100%;
+    padding: 1rem 2rem;
+    position: fixed;
+    z-index: 100;
+    width: 100%;
     background: #CE8952;
 `;
 
 const NavLink = css`
-    color:#fff;
-    display:flex;
-    align-items:center;
+    color: #fff;
+    display: flex;
+    align-items: center;
     padding: 0 1rem;
-    height:100%;
-    cursor:pointer;
-    text-decoration:none;
+    height: 100%;
+    cursor: pointer;
+    text-decoration: none;
 `;
 
 const Logo = styled(Link)`
     ${NavLink}
-    font-style:italic;
+    font-style: italic;
 `;
 
 const MenuBars = styled.i`
-    display:none;
+    display: none;
     @media screen and (max-width: 768px){
         display: block;
         background-image: url(${Bars});
@@ -40,9 +40,9 @@ const MenuBars = styled.i`
         height: 40px;
         width: 40px;
         cursor: pointer;
-        position:absolute;
-        top:0;
-        right:0;
+        position: absolute;
+        top: 0;
+        right: 0;
         transform: translate(-50%, 25%);
     }
 `;
@@ -54,7 +54,7 @@ const NavMenu = styled.div`
     margin-right: -48px;
     
     @media screen and(max-width: 768px){
-        display:none;
+        display: none;
     }
 `;
 
@@ -63,11 +63,11 @@ const NavMenuLinks = styled(Link)`
 `;
 
 const NavBtn = styled.div`
-    display:flex;
-    align-items:center;
-    margin-right:24px;
+    display: flex;
+    align-items: center;
+    margin-right: 24px;
     @media screen and(max-width: 768px){
-        display:none;
+        display: none;
     }
 `;
 

@@ -14,9 +14,10 @@ export const Button = styled(Link)`
     display: flex;
     justify-content: center;
     align-items: center;
-    padding:${({sizeBig}) => (sizeBig ? '16px 40px' : '14px 24px')};
-    color: ${({primary}) => (primary ? '#fff' : '#000d1a')};
-    font-size:${({sizeBig}) => (sizeBig ? '25px' : '12px')};
+    padding:${({ sizeBig }) => (sizeBig ? '16px 40px' : '14px 24px')};
+    color: ${({ primary }) => (primary ? '#fff' : '#000d1a')};
+    font-size:${({ sizeBig }) => (sizeBig ? '25px' : '15px')};
+    margin: 5px;
     
     &:hover{
         transform: translateY(-2px);

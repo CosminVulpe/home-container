@@ -3,7 +3,7 @@ import styled, {css} from "styled-components/macro";
 import {Link} from 'react-router-dom';
 import {menuData} from "../data/NavBarData";
 import {Button} from "../button/Button";
-import Bars from '../../components/imagines/bars.svg';
+import Bars from '../imagines/bars.svg';
 
 const Nav = styled.nav`
     height: 60px;
@@ -14,6 +14,7 @@ const Nav = styled.nav`
     z-index: 100;
     width: 100%;
     background: #CE8952;
+    opacity: 1;
 `;
 
 const NavLink = css`
@@ -32,7 +33,8 @@ const Logo = styled(Link)`
 `;
 
 const MenuBars = styled.i`
-    display: none;
+    display:none;
+
     @media screen and (max-width: 768px){
         display: block;
         background-image: url(${Bars});
@@ -53,7 +55,7 @@ const NavMenu = styled.div`
     align-items: center;
     margin-right: -48px;
     
-    @media screen and(max-width: 768px){
+    @media screen and (max-width: 768px){
         display: none;
     }
 `;
@@ -66,16 +68,17 @@ const NavBtn = styled.div`
     display: flex;
     align-items: center;
     margin-right: 24px;
-    @media screen and(max-width: 768px){
+    @media screen and (max-width: 768px){
         display: none;
     }
 `;
 
-function NavBar() {
+function NavBar({toggle}) {
+
     return (
         <Nav>
             <Logo to="/">House Container</Logo>
-            <MenuBars/>
+            <MenuBars onClick={toggle}/>
             <NavMenu>
                 {menuData.map((item, index) =>
                     <NavMenuLinks to={item.link} key={index}>
@@ -84,7 +87,9 @@ function NavBar() {
                 )}
             </NavMenu>
             <NavBtn>
-                <Button to="/contact" primary="true">Contact Us</Button>
+                <Button to="/register" primary={'true'}>Register</Button>
+                <Button to="/login" primary={'true'}>Login</Button>
+                <Button to="/contact" primary={'true'}>Contact Us</Button>
             </NavBtn>
         </Nav>
     );

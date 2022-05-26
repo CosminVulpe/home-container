@@ -1,9 +1,10 @@
-import React from "react";
+import React, {useEffect, useState} from "react";
 import styled, {css} from "styled-components/macro";
 import {Link} from 'react-router-dom';
 import {menuData} from "../data/NavBarData";
 import {Button} from "../button/Button";
 import Bars from '../images/bars.svg';
+import axios from "axios";
 
 const Nav = styled.nav`
     height: 60px;
@@ -74,13 +75,21 @@ const NavBtn = styled.div`
 `;
 
 function NavBar({toggle}) {
+    const [navBarData, setNavBarData] = useState([]);
 
+    useEffect(() => {
+        axios.get("http://localhost:8080/navBarData")
+            .then(data => setNavBarData(data.data))
+            .catch(error => {
+                console.log(error);
+            })
+    }, []);
     return (
         <Nav>
             <Logo to="/">House Container</Logo>
             <MenuBars onClick={toggle}/>
             <NavMenu>
-                {menuData.map((item, index) =>
+                {navBarData.map((item, index) =>
                     <NavMenuLinks to={item.link} key={index}>
                         {item.title}
                     </NavMenuLinks>

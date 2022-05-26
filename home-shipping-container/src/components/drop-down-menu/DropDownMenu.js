@@ -3,6 +3,8 @@ import {menuData} from "../data/NavBarData";
 import {Button} from "../button/Button";
 import {Link} from 'react-router-dom';
 import {FaTimes} from 'react-icons/fa';
+import {useEffect, useState} from "react";
+import axios from "axios";
 
 const DropDownContainer = styled.div`
     position: fixed;
@@ -72,6 +74,16 @@ const BtnWrapper = styled.div`
 
 
 function DropDownMenu({isOpen, toggle}) {
+    const [navBarData, setNavBarData] = useState([]);
+
+    useEffect(() => {
+        axios.get("http://localhost:8080/navBarData")
+            .then(data => setNavBarData(data.data))
+            .catch(error => {
+                console.log(error);
+            })
+    }, []);
+
     return (
         <DropDownContainer isOpen={isOpen} onClick={toggle}>
             <Icon onClick={toggle}>
@@ -79,7 +91,7 @@ function DropDownMenu({isOpen, toggle}) {
             </Icon>
             <DropDownWrapper>
                 <DropDownMenuList>
-                    {menuData.map((item, index) =>
+                    {navBarData.map((item, index) =>
                         <DropDownLink to={item.link} key={index}>
                             {item.title}
                         </DropDownLink>

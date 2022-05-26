@@ -1,18 +1,26 @@
-import React from "react";
-import styled from "styled-components/macro";
+import React, {useEffect, useState} from "react";
 import {Swiper, SwiperSlide} from 'swiper/react';
 import SwiperCore, {EffectCoverflow, Pagination} from "swiper/core";
 import 'swiper/css';
 import 'swiper/css/navigation';
 import 'swiper/css/pagination';
 import 'swiper/css/scrollbar';
-import {dataReview} from "../data/ReviewData";
 import './reviews.css';
 import StarRatingEffect from "./StarRatingEffect";
+import axios from "axios";
 
 SwiperCore.use([EffectCoverflow, Pagination]);
 
 function ReviewSection() {
+    const [reviewData, setReviewData] = useState([]);
+
+    useEffect(() => {
+        axios.get("http://localhost:8080/reviewData")
+            .then(data => setReviewData(data.data))
+            .catch(error => {
+                console.log(error);
+            })
+    }, []);
     return (
         <section>
             <Swiper effect={"coverflow"}
@@ -28,7 +36,7 @@ function ReviewSection() {
                     }}
             >
                 <>
-                    {dataReview.map((item, index) => (
+                    {reviewData.map((item, index) => (
                         <SwiperSlide key={index}>
                             <img src={item.image} alt={item.username}/>
                             <h3>{item.username}</h3>

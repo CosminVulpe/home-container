@@ -155,7 +155,7 @@ function ImagineSlider({slides}) {
             setCurrent(current => (current === (length - 1)) ? 0 : (current + 1));
         }
 
-        timeOut.current = setTimeout(nextImageSlider, 4500);
+        timeOut.current = setTimeout(nextImageSlider, 4000);
         return function () {
             if (timeOut.current) {
                 clearTimeout(timeOut.current);

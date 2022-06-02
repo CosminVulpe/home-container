@@ -1,7 +1,6 @@
 import React, {useEffect, useState} from "react";
 import styled, {css} from "styled-components/macro";
 import {Link} from 'react-router-dom';
-import {menuData} from "../data/NavBarData";
 import {Button} from "../button/Button";
 import Bars from '../images/bars.svg';
 import axios from "axios";
@@ -26,6 +25,7 @@ const NavLink = css`
     height: 100%;
     cursor: pointer;
     text-decoration: none;
+    font-size: 18px;
 `;
 
 const Logo = styled(Link)`

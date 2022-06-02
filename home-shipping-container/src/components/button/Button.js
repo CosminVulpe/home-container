@@ -16,7 +16,7 @@ export const Button = styled(Link)`
     align-items: center;
     padding:${({ sizeBig }) => (sizeBig ? '16px 40px' : '14px 24px')};
     color: ${({ primary }) => (primary ? '#fff' : '#000d1a')};
-    font-size:${({ sizeBig }) => (sizeBig ? '25px' : '15px')};
+    font-size:${({ sizeBig }) => (sizeBig ? '25px' : '16px')};
     margin: 5px;
     
     &:hover{

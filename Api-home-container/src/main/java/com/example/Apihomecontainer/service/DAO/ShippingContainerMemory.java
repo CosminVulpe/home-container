@@ -14,8 +14,10 @@ public class ShippingContainerMemory implements ShippingContainerDAO {
                         , "link", "/about"),
                 Map.of("title", "Containers"
                         , "link", "/containers"),
-                Map.of("title", "Rentals"
-                        , "link", "/rentals")
+                Map.of("title", "Gallery"
+                        , "link", "/Gallery"),
+                Map.of("title", "Location"
+                        , "link", "/location")
 
         );
     }

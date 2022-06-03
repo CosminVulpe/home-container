@@ -4,12 +4,16 @@ import './index.css';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
 import {BrowserRouter as Router} from "react-router-dom";
+import SupportAdmin from "./components/live-support-chat/support-admin/SupportAdmin";
+
+const path = window.location.pathname;
+
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
     <React.StrictMode>
         <Router>
-            <App/>
+            {path.indexOf('/support') === -1 ? <App/> : <SupportAdmin/>}
         </Router>
     </React.StrictMode>
 );

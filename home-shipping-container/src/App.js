@@ -40,7 +40,7 @@ function App() {
             <ImagineSlider slides={detailsCarousel}/>
             <InfoSectionIndex {...contentData}/>
             <Footer/>
-            {window.location.pathname.indexOf("/support") === -1 ? <></> : <SupportAdmin/>}
+            {/*{window.location.pathname.indexOf("/support") === -1 ? <></> : <SupportAdmin/>}*/}
             <SupportEngine/>
         </>
     );

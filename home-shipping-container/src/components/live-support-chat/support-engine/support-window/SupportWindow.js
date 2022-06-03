@@ -1,6 +1,7 @@
 import React, {useState} from "react";
 import {styles} from "../SupportEngineStyle";
 import EmailForm from "./EmailForm";
+import ChatEngine from "./ChatEngine";
 
 function SupportWindow(props) {
     const [user, setUser] = useState(null);
@@ -17,6 +18,11 @@ function SupportWindow(props) {
                 visible={user === null || chat === null}
                 setUser={user=> setUser(user)}
                 setChat={chat=> setChat(chat)}
+            />
+            <ChatEngine
+                visible={user !== null && chat !== null}
+                chat={chat}
+                user={user}
             />
         </div>
     );

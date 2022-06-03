@@ -49,7 +49,6 @@ function EmailForm(props) {
             }
         )
     }
-
     return (
         <div style={{
             ...styles.emailFormWindow,

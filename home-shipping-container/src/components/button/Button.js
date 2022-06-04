@@ -19,6 +19,11 @@ export const Button = styled(Link)`
     font-size:${({ sizeBig }) => (sizeBig ? '25px' : '16px')};
     margin: 5px;
     
-    &:hover{
+    &:hover {
         transform: translateY(-2px);
+    }
+    
+    &:visited{
+        color: white;
+    }
 `;

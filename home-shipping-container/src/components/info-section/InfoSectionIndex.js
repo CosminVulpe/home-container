@@ -7,7 +7,8 @@ import {useEffect} from "react";
 import Container8 from '../images/container8.jpg';
 import Container7 from '../images/container7.png';
 import InfoInteriorContainer from "./InfoInteriorContainer";
-
+import {useState} from "react";
+import axios from "axios";
 
 export const Section = styled.section`
     width: 100%;
@@ -79,20 +80,25 @@ export const Delimiter = styled.hr`
 `;
 
 
-function InfoSectionIndex({
-                         heading
-                         , paragraphOne
-                         , paragraphTwo
-                         , buttonLabel
-                         , image
-                         , reverse
-                     }) {
+function InfoSectionIndex() {
+
+    const [firstContainer, setFirstContainer] = useState({});
+    const [secondContainer, setSecondContainer] = useState({});
 
     useEffect(() => {
         AOS.init({
             duration: 1500
         });
         AOS.refresh();
+
+        axios.get("http://localhost:8080/container/1")
+            .then(data => setFirstContainer(data.data))
+        axios.get("http://localhost:8080/container/2")
+            .then(info => setSecondContainer(info.data))
+            .catch(error => {
+                console.log(error);
+            });
+
     }, []);
 
 
@@ -103,16 +109,23 @@ function InfoSectionIndex({
                 <Container>
                     <ColumnLeft>
                         <div data-aos="zoom-out">
-                            <h1>{heading}</h1>
-                            <p>{paragraphOne}</p>
-                            <p>{paragraphTwo}</p>
+                            <h1>Explore our cozy shipping-containers</h1>
+                            <p>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum
+                                has been the industry's standard dummy text ever since the 1500s, when an unknown
+                                printer took a galley of type and scrambled it to make a type specimen book.</p>
+                            <p>It has survived not only five centuries, but also the leap into electronic typesetting,
+                                remaining essentially unchanged.It was popularised in the 1960s with the release of
+                                Letraset sheets containing Lorem Ipsum passages, and more recently with desktop
+                                publishing software like Aldus PageMaker including versions of Lorem Ipsum.</p>
                             <Button to="/homes" primary="true">
-                                {buttonLabel}
+                                View Container
                             </Button>
                         </div>
                     </ColumnLeft>
-                    <ColumnRight reverse={reverse}>
-                        <img src={image} alt="homes" data-aos="zoom-in"/>
+                    <ColumnRight>
+                        <img
+                            src="https://external-content.duckduckgo.com/iu/?u=https%3A%2F%2Fcdn.getinthetrailer.com%2Fwp-content%2Fuploads%2Fdiy-shipping-container-homes-kits_846795.jpg&f=1&nofb=1"
+                            alt="homes" data-aos="zoom-in"/>
                     </ColumnRight>
                 </Container>
             </Section>
@@ -122,26 +135,25 @@ function InfoSectionIndex({
                     <ColumnLeft>
                         <div>
                             <h1 data-aos="fade-right">View our containers</h1>
-                            <ColumnRight reverse={reverse} data-aos="zoom-in">
+                            <ColumnRight data-aos="zoom-in">
                                 <div css={`display: flex, flex-direction: column`}>
                                     <img src={Container8} alt="container8"/>
-                                    <p css={`font-family: 'Lato', sans-serif; font-size: 18px`}>One Bathroom, One
-                                        Bedroom with the view of Mogosoaia Lake</p>
+                                    <p css={`font-family: 'Lato', sans-serif; font-size: 18px`}>
+                                        {firstContainer.description} </p>
                                     <Button to="/homes" primary="true" css={`margin-top: -25px`}>
-                                        {buttonLabel}
+                                        View Container
                                     </Button>
                                 </div>
                             </ColumnRight>
                         </div>
                     </ColumnLeft>
-                    <ColumnRight reverse={reverse}>
+                   <ColumnRight>
                         <div css={`position: absolute, object-fit: contain !important`} data-aos="zoom-in">
                             <img src={Container7} alt="container8" css={`width: 80% !important`}/>
-                            <p css={`font-family: 'Lato', sans-serif; font-size: 18px`}>Two Bathroom, Two Bedroom with
-                                the view of Mogosoaia Lake</p>
+                            <p css={`font-family: 'Lato', sans-serif; font-size: 18px`}>
+                                {secondContainer.description}</p>
                             <Button to="/homes" primary="true" css={`margin-top: 10px`}>
-                                {buttonLabel}
-                            </Button>
+                                View Container </Button>
                         </div>
                     </ColumnRight>
                 </Container>

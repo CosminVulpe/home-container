@@ -15,12 +15,13 @@ function ReviewSection() {
     const [reviewData, setReviewData] = useState([]);
 
     useEffect(() => {
-        axios.get("http://localhost:8080/reviewData")
+        axios.get("http://localhost:8080/review")
             .then(data => setReviewData(data.data))
             .catch(error => {
                 console.log(error);
             })
     }, []);
+
     return (
         <section>
             <Swiper effect={"coverflow"}
@@ -38,10 +39,10 @@ function ReviewSection() {
                 <>
                     {reviewData.map((item, index) => (
                         <SwiperSlide key={index}>
-                            <img src={item.image} alt={item.username}/>
-                            <h3>{item.username}</h3>
+                            <img src={item.avatarImageUrl} alt={item.userName}/>
+                            <h3>{item.userName}</h3>
                             <StarRatingEffect/>
-                            <p>{item.review}</p>
+                            <p>{item.description}</p>
                         </SwiperSlide>
                     ))}
                 </>

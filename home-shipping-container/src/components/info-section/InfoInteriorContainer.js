@@ -37,7 +37,6 @@ function InfoInteriorContainer() {
     }, []);
     return (
         <>
-            {/*<Box/>*/}
             <Delimiter/>
             <Section>
                 <Container>
@@ -63,7 +62,6 @@ function InfoInteriorContainer() {
                 </Container>
             </Section>
             <Delimiter/>
-            {/*<Box/>*/}
             <Section>
                 <Header data-aos="zoom-in">Reviews</Header>
                 <ReviewSection/>

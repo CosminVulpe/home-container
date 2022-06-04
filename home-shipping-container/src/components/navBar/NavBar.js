@@ -75,30 +75,20 @@ const NavBtn = styled.div`
 `;
 
 function NavBar({toggle}) {
-    const [navBarData, setNavBarData] = useState([]);
 
-    useEffect(() => {
-        axios.get("http://localhost:8080/navBarData")
-            .then(data => setNavBarData(data.data))
-            .catch(error => {
-                console.log(error);
-            })
-    }, []);
     return (
         <Nav>
             <Logo to="/">House Container</Logo>
             <MenuBars onClick={toggle}/>
             <NavMenu>
-                {navBarData.map((item, index) =>
-                    <NavMenuLinks to={item.link} key={index}>
-                        {item.title}
-                    </NavMenuLinks>
-                )}
+                <NavMenuLinks to="/about">About 📰</NavMenuLinks>
+                <NavMenuLinks to="/container">Containers 🏠</NavMenuLinks>
+                <NavMenuLinks to="/gallery">Gallery 📸</NavMenuLinks>
+                <NavMenuLinks to="/location">Location 📍</NavMenuLinks>
             </NavMenu>
             <NavBtn>
-                <Button to="/register" primary={'true'}>Register</Button>
-                <Button to="/login" primary={'true'}>Login</Button>
-                <Button to="/contact" primary={'true'}>Contact Us</Button>
+                <Button to="/login" primary='true'>Login</Button>
+                <Button to="/contact" primary='true'>Contact Us</Button>
             </NavBtn>
         </Nav>
     );

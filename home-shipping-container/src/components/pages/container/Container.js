@@ -1,25 +1,44 @@
 import NavBar from "../../navBar/NavBar";
 import GlobalStyle from "../../global-style/GlobalStyles";
 import {Section} from "../../info-section/InfoSectionIndex";
-import styled, {css} from "styled-components/macro";
+import {css} from "styled-components/macro";
 import './containerGallery.css';
-import Container1 from '../../images/container8.jpg';
-import Container2 from '../../images/container9.png';
 import Interior3 from '../../images/interior-container/interior3.png';
 import Interior4 from '../../images/interior-container/interior4.png';
 import Interior5 from '../../images/interior-container/interior5.png';
 import Interior6 from '../../images/interior-container/interior6.png';
 import Interior7 from '../../images/interior-container/interior7.png';
 import Interior8 from '../../images/interior-container/interior8.png';
+import ContentContainer from "./content-container/ContentContainer";
+import {useEffect, useState} from "react";
+import {useParams} from "react-router-dom";
+import axios from "axios";
+import {ContainerDetails} from "../../userContext/UserContext";
+import Footer from "../../footer/Footer";
+import React from "react";
+
 
 function ContainerSection() {
+    window.scroll(0, 0);
+    const [oneContainerDetails, setOneContainerDetails] = useState([]);
+    let {id} = useParams();
+
+    useEffect(() => {
+        axios.get("http://localhost:8080/container/" + id)
+            .then(data => setOneContainerDetails(data.data))
+            .catch(error => {
+                console.log(error);
+            });
+    }, [id]);
+
+
     return (
         <>
             <GlobalStyle/>
             <NavBar/>
             <Section css={css`padding: 7rem 0rem`}>
                 <div className="container">
-                    <h2>Luxury Container</h2>
+                    <h2>{oneContainerDetails.name}</h2>
                     <div className="gallery-container">
 
                         <figure className="gallery__item gallery__item--1">
@@ -34,7 +53,7 @@ function ContainerSection() {
 
                         <figure className="gallery__item gallery__item--3">
                             <img src={Interior6} className="gallery__img" alt="shipping-container 3"/>
-                            <div className="text-img">View</div>
+                            <div className="text-img">Entrance</div>
                         </figure>
 
                         <figure className="gallery__item gallery__item--4">
@@ -52,8 +71,12 @@ function ContainerSection() {
                             <div className="text-img">Bedroom</div>
                         </figure>
                     </div>
+                    <ContainerDetails.Provider value={oneContainerDetails}>
+                        <ContentContainer/>
+                    </ContainerDetails.Provider>
                 </div>
             </Section>
+            <Footer/>
         </>
     );
 }

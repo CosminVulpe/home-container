@@ -27,7 +27,6 @@ function App() {
 
     return (
         <>
-
             <GlobalStyle/>
             <NavBar toggle={toggle}/>
             <DropDownMenu isOpen={isOpen} toggle={toggle}/>

@@ -90,8 +90,8 @@ function NavBar({toggle}) {
             <MenuBars onClick={toggle}/>
             <NavMenu>
                 <NavMenuLinks to="/about">About 📰</NavMenuLinks>
-                <NavMenuLinks to="/container">Containers 🏠</NavMenuLinks>
-                <NavMenuLinks to="/gallery">Gallery 📸</NavMenuLinks>
+                <NavMenuLinks to="/all-containers">Containers 🏠</NavMenuLinks>
+                {/*<NavMenuLinks to="/gallery">Gallery 📸</NavMenuLinks>*/}
                 <NavMenuLinks to="/location">Location 📍</NavMenuLinks>
             </NavMenu>
             <NavBtn>

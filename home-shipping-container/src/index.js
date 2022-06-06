@@ -14,13 +14,15 @@ const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
     <React.StrictMode>
         <Router>
-            {/*{path.indexOf('/support') === -1 ? <App/> : <SupportAdmin/>}*/}
             <Routes>
                 <Route path="/" element={<App/>}/>
-                <Route path="/container" element={<ContainerSection/>}/>
+                <Route path="/container/:id" element={<ContainerSection/>}/>
             </Routes>
         </Router>
     </React.StrictMode>
 );
 
 reportWebVitals();
+
+
+// {/*{path.indexOf('/support') === -1 ? <App/> : <SupportAdmin/>}*/}

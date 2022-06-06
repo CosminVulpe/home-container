@@ -76,13 +76,14 @@ export const Delimiter = styled.hr`
    border: 0;
    height: 4px;
    background: #095484;
-   background-image: linear-gradient(to right, #ccc, #8F8F8F, #ccc);
+   background-image: linear-gradient(to right, black, #808080, black);
 `;
 
 
 function InfoSectionIndex() {
     const [firstContainer, setFirstContainer] = useState({});
     const [secondContainer, setSecondContainer] = useState({});
+
 
     useEffect(() => {
         AOS.init({
@@ -100,73 +101,74 @@ function InfoSectionIndex() {
 
     }, []);
 
+
     return (
         <>
-                <Section>
-                    <Delimiter/>
-                    <Container>
-                        <ColumnLeft>
-                            <div data-aos="zoom-out">
-                                <h1>Explore our cozy shipping-containers</h1>
-                                <p>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem
-                                    Ipsum
-                                    has been the industry's standard dummy text ever since the 1500s, when an unknown
-                                    printer took a galley of type and scrambled it to make a type specimen book.</p>
-                                <p>It has survived not only five centuries, but also the leap into electronic
-                                    typesetting,
-                                    remaining essentially unchanged.It was popularised in the 1960s with the release of
-                                    Letraset sheets containing Lorem Ipsum passages, and more recently with desktop
-                                    publishing software like Aldus PageMaker including versions of Lorem Ipsum.</p>
-                                <Button to="/container" primary="true">
-                                    View Container
-                                </Button>
-                            </div>
-                        </ColumnLeft>
-                        <ColumnRight>
-                            <img
-                                src="https://external-content.duckduckgo.com/iu/?u=https%3A%2F%2Fcdn.getinthetrailer.com%2Fwp-content%2Fuploads%2Fdiy-shipping-container-homes-kits_846795.jpg&f=1&nofb=1"
-                                alt="homes" data-aos="zoom-in"/>
-                        </ColumnRight>
-                    </Container>
-                </Section>
+            <Section>
                 <Delimiter/>
-                <Section>
-                    <Container>
-                        <ColumnLeft>
-                            <div>
-                                <h1 data-aos="fade-right">View our containers</h1>
-                                <ColumnRight data-aos="zoom-in">
-                                    <div css={`display: flex, flex-direction: column`}>
-                                        <img src={Container8} alt="container8"/>
-                                        <p css={`font-family: 'Lato', sans-serif; font-size: 18px`}>
-                                            {firstContainer.description} </p>
-                                        <Button
-                                            to="/container"
-                                            primary="true"
-                                            css={`margin-top: -25px`}
-                                        >
-                                            View Container
-                                        </Button>
-                                    </div>
-                                </ColumnRight>
-                            </div>
-                        </ColumnLeft>
-                        <ColumnRight>
-                            <div css={`position: absolute, object-fit: contain !important`} data-aos="zoom-in">
-                                <img src={Container7} alt="container8" css={`width: 80% !important`}/>
-                                <p css={`font-family: 'Lato', sans-serif; font-size: 18px`}>
-                                    {secondContainer.description}</p>
-                                <Button
-                                    to="/container"
-                                    primary="true"
-                                    css={`margin-top: 10px`}
-                                >
-                                    View Container </Button>
-                            </div>
-                        </ColumnRight>
-                    </Container>
-                </Section>
-                <InfoInteriorContainer/>
+                <Container>
+                    <ColumnLeft>
+                        <div data-aos="zoom-out">
+                            <h1>Explore our cozy shipping-containers</h1>
+                            <p>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem
+                                Ipsum
+                                has been the industry's standard dummy text ever since the 1500s, when an unknown
+                                printer took a galley of type and scrambled it to make a type specimen book.</p>
+                            <p>It has survived not only five centuries, but also the leap into electronic
+                                typesetting,
+                                remaining essentially unchanged.It was popularised in the 1960s with the release of
+                                Letraset sheets containing Lorem Ipsum passages, and more recently with desktop
+                                publishing software like Aldus PageMaker including versions of Lorem Ipsum.</p>
+                            <Button to="/all-containers" primary="true">
+                                View All Containers
+                            </Button>
+                        </div>
+                    </ColumnLeft>
+                    <ColumnRight>
+                        <img
+                            src="https://external-content.duckduckgo.com/iu/?u=https%3A%2F%2Fcdn.getinthetrailer.com%2Fwp-content%2Fuploads%2Fdiy-shipping-container-homes-kits_846795.jpg&f=1&nofb=1"
+                            alt="homes" data-aos="zoom-in"/>
+                    </ColumnRight>
+                </Container>
+            </Section>
+            <Delimiter/>
+            <Section>
+                <Container>
+                    <ColumnLeft>
+                        <div>
+                            <h1 data-aos="fade-right">View our containers</h1>
+                            <ColumnRight data-aos="zoom-in">
+                                <div css={`display: flex, flex-direction: column`}>
+                                    <img src={Container8} alt="container8"/>
+                                    <p css={`font-family: 'Lato', sans-serif; font-size: 18px`}>
+                                        {firstContainer.description} </p>
+                                    <Button
+                                        to={"/container/" + firstContainer.id}
+                                        primary="true"
+                                        css={`margin-top: -25px`}
+                                    >
+                                        View Container
+                                    </Button>
+                                </div>
+                            </ColumnRight>
+                        </div>
+                    </ColumnLeft>
+                    <ColumnRight>
+                        <div css={`position: absolute, object-fit: contain !important`} data-aos="zoom-in">
+                            <img src={Container7} alt="container8" css={`width: 80% !important`}/>
+                            <p css={`font-family: 'Lato', sans-serif; font-size: 18px`}>
+                                {secondContainer.description}</p>
+                            <Button
+                                to={"/container/" + secondContainer.id}
+                                primary="true"
+                                css={`margin-top: 10px`}
+                            >
+                                View Container </Button>
+                        </div>
+                    </ColumnRight>
+                </Container>
+            </Section>
+            <InfoInteriorContainer/>
         </>
     );
 }

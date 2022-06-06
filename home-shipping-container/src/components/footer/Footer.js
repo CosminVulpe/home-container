@@ -5,19 +5,23 @@ import {
     , FaTwitterSquare
     , FaTiktok
 } from "react-icons/fa";
+import DropDownCurrency from "../drop-down-list-currency/DropDownCurrency";
 
 const FooterContent = styled.footer`
     background: #24262b;
     padding: 70px 0;
 `;
+
 const Container = styled.div`
     max-width: 1170px;
     margin: auto;
 `;
+
 const Row = styled.div`
     display: flex;
     flex-wrap: wrap;
 `;
+
 const FooterCol = styled.div`
     width: 25%;
     padding: 0 15px;
@@ -35,6 +39,7 @@ const FooterCol = styled.div`
 
 const Title = styled.h4`
     font-size: 18px;
+    margin-left: 2rem;
     color: #ffffff;
     text-transform: capitalize;
     margin-bottom: 35px;
@@ -119,6 +124,10 @@ function Footer() {
                                 <Link href="https://www.tiktok.com/" target="_blank"><FaTiktok/></Link>
                             </li>
                         </ul>
+                    </FooterCol>
+                    <FooterCol>
+                        <Title>Currency</Title>
+                        <DropDownCurrency/>
                     </FooterCol>
                 </Row>
             </Container>

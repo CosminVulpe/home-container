@@ -86,8 +86,8 @@ function DropDownMenu({isOpen, toggle}) {
                     <DropDownLink to="/location">Location 📍</DropDownLink>
                 </DropDownMenuList>
                 <BtnWrapper>
-                    <Button primary="true" round="true" sizeBig="true" to="/contact">Contact Us</Button>
-                    <Button primary="true" round="true" sizeBig="true" to="/contact">Login</Button>
+                    <Button primary="true" round="true" size="true" to="/contact">Contact Us</Button>
+                    <Button primary="true" round="true" size="true" to="/contact">Login</Button>
                 </BtnWrapper>
             </DropDownWrapper>
         </DropDownContainer>

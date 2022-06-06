@@ -40,7 +40,7 @@ function ReviewSection() {
                     {reviewData.map((item, index) => (
                         <SwiperSlide key={index}>
                             <img src={item.avatarImageUrl} alt={item.userName}/>
-                            <h3>{item.userName}</h3>
+                            <h4>{item.userName}</h4>
                             <StarRatingEffect/>
                             <p>{item.description}</p>
                         </SwiperSlide>

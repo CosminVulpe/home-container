@@ -144,6 +144,7 @@ function ImagineSlider({slides}) {
     const length = slides.length;
     const timeOut = useRef(null);
 
+
     useEffect(() => {
 
         AOS.init({
@@ -192,14 +193,14 @@ function ImagineSlider({slides}) {
                                     <Image src={item.imageUrl} alt="shipping-container"/>
                                     <Content>
                                         <h1 data-aos="fade-down">{item.name}</h1>
-                                        <p data-aos="fade-down"><em>220 Lei / night</em></p>
-                                        <Button to="/container"
-                                                primary='true'
-                                                css={`max-width:160px`} data-aos="zoom-in-up"
-                                                >
-                                            View Container
-                                            <Arrow/>
-                                        </Button>
+                                        <p data-aos="fade-down"><em>{item.pricePerNight} Lei / night</em></p>
+                                        {/*<Button to="/container"*/}
+                                        {/*        primary='true'*/}
+                                        {/*        css={`max-width:160px`} data-aos="zoom-in-up"*/}
+                                        {/*        >*/}
+                                        {/*    View Container*/}
+                                        {/*    <Arrow/>*/}
+                                        {/*</Button>*/}
                                     </Content>
                                 </Slider>
                             )}

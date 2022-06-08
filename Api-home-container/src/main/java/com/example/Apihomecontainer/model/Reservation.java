@@ -1,11 +1,14 @@
 package com.example.Apihomecontainer.model;
 
+import com.example.Apihomecontainer.model.enums.ReservationStatus;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.*;
 
 import javax.persistence.*;
 import java.text.NumberFormat;
 import java.time.LocalDate;
 import java.time.temporal.ChronoUnit;
+import java.util.Locale;
 
 import static javax.persistence.GenerationType.SEQUENCE;
 
@@ -29,6 +32,8 @@ public class Reservation {
             generator = "reservation_sequence"
     )
     private Long id;
+    private String reservationCustomerName;
+    private String reservationCustomerEmail;
     private Integer startDay;
     private Integer startMonth;
     private Integer year;
@@ -37,28 +42,58 @@ public class Reservation {
     private Integer numberAdults;
     private Integer numberKids;
 
-    private Double pricePerNight;
-    private String reservationStatus;
+    @Enumerated(EnumType.STRING)
+    private ReservationStatus reservationStatus;
 
-    @Transient
     private Integer totalNumberOfDays;
-
-    @Transient
     private Double totalPrice;
 
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "shipping_container_id", referencedColumnName = "id")
+    @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
+    private ShippingContainer container;
 
-    public Integer getTotalNumberOfDays() {
+
+    public int getTotalNumberOfDays() {
         LocalDate fromDate = LocalDate.of(year, startMonth, startDay);
         LocalDate toDate = LocalDate.of(year, finishMonth, finishDay);
         return Math.toIntExact(ChronoUnit.DAYS.between(fromDate, toDate));
     }
 
+//    public int getTotalPrice() {
+//        return getTotalNumberOfDays() * container.getPricePerNight();
+//    }
 
-    public Double getTotalPrice() {
-        return getTotalNumberOfDays() * pricePerNight;
-    }
+//    public String transformTotalPriceStrCurrency(double sum) {
+//        return NumberFormat.getCurrencyInstance().format(sum);
+//    }
 
-    public String transformTotalPriceStrCurrency(double sum) {
-        return NumberFormat.getCurrencyInstance().format(sum);
+    public Reservation(
+            String reservationCustomerName
+            , String reservationCustomerEmail
+            , Integer startDay
+            , Integer startMonth
+            , Integer year
+            , Integer finishDay
+            , Integer finishMonth
+            , Integer numberAdults
+            , Integer numberKids
+            , Integer totalNumberOfDays
+            , ReservationStatus reservationStatus
+            , Double totalPrice
+            , ShippingContainer container) {
+        this.reservationCustomerName = reservationCustomerName;
+        this.reservationCustomerEmail = reservationCustomerEmail;
+        this.startDay = startDay;
+        this.startMonth = startMonth;
+        this.year = year;
+        this.finishDay = finishDay;
+        this.finishMonth = finishMonth;
+        this.numberAdults = numberAdults;
+        this.numberKids = numberKids;
+        this.totalNumberOfDays = totalNumberOfDays;
+        this.reservationStatus = reservationStatus;
+        this.totalPrice = totalPrice;
+        this.container = container;
     }
 }

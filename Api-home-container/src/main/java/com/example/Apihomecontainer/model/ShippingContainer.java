@@ -4,6 +4,8 @@ import lombok.*;
 
 import javax.persistence.*;
 
+import java.util.List;
+
 import static javax.persistence.GenerationType.SEQUENCE;
 
 @Entity(name = "shipping_container")
@@ -29,17 +31,26 @@ public class ShippingContainer {
 
     private String name;
     private String description;
+    private Integer pricePerNight;
 
     private String imageUrl;
 
-    @Transient
-    private Reservation reservation;
+    @OneToMany(cascade = CascadeType.ALL
+            ,mappedBy = "container")
+    private List<Reservation> reservationList;
 
     public ShippingContainer(String name
             , String description
-            , String imageUrl) {
+            , String imageUrl
+            ,Integer pricePerNight) {
         this.name = name;
         this.description = description;
         this.imageUrl = imageUrl;
+        this.pricePerNight=pricePerNight;
+    }
+
+    public void addReservations(Reservation reservation){
+        reservationList.add(reservation);
+        reservation.setContainer(this);
     }
 }

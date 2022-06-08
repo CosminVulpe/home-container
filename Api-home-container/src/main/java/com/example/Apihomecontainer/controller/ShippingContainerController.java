@@ -6,7 +6,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-import java.util.Map;
 
 @RestController
 @CrossOrigin(origins = "http://localhost:3000/")
@@ -26,7 +25,7 @@ public class ShippingContainerController {
     }
 
     @GetMapping(path = "/{containerId}")
-    public ShippingContainer getFirstContainers(@PathVariable("containerId") Long containerId) {
+    public ShippingContainer getContainerById(@PathVariable("containerId") Long containerId) {
         return service.getContainerById(containerId);
     }
 }

@@ -4,23 +4,48 @@ import format from 'date-fns/format';
 import './calendarStyle.css';
 import 'react-date-range/dist/styles.css';
 import 'react-date-range/dist/theme/default.css';
-import {addDays} from "date-fns";
+import {addDays, differenceInDays} from "date-fns";
+import {atom, useAtom} from 'jotai';
+
+export const TOTAL_NUMBER_OF_DAY = atom(0);
+export const RESERVATION_DETAILS = atom({});
 
 function CalendarReservation() {
-
     const [calendarRange, setCalendarRange] = useState([
         {
             startDate: new Date(),
             endDate: addDays(new Date(), 1),
             key: "selection"
         }
-
     ]);
     const [openCalendar, setOpenCalendar] = useState(false);
     const ref = useRef(null);
     const [startDate, setStartDate] = useState("");
     const [endDate, setEndDate] = useState("");
+    const [totalNumberOfDays, setTotalNumberOfDays] = useAtom(TOTAL_NUMBER_OF_DAY);
+    const [reservationDetails, setReservationDetails] = useAtom(RESERVATION_DETAILS);
 
+
+    // console.log(endDate.substring(6, endDate.length))
+    // console.log(endDate.substring(3, 5));
+    // console.log(endDate.substring(0, 2));
+
+    const numberOfDaysReservation = differenceInDays(
+        new Date(
+            endDate.substring(6, endDate.length)
+            + "/"
+            + endDate.substring(3, 5)
+            + "/"
+            + endDate.substring(0, 2)
+        ),
+        new Date(
+            startDate.substring(6, startDate.length)
+            + "/"
+            + startDate.substring(3, 5)
+            + "/"
+            + startDate.substring(0, 2)
+        )
+    );
 
     useEffect(() => {
         document.addEventListener("keydown", hideOnEscape, true);
@@ -28,12 +53,27 @@ function CalendarReservation() {
 
         setStartDate(format(calendarRange[0].startDate, "dd/MM/yyyy"));
         setEndDate(format(calendarRange[0].endDate, "dd/MM/yyyy"));
-
+        setTotalNumberOfDays(numberOfDaysReservation );
+        setReservationDetails(
+            {
+                startDay: parseInt(startDate.substring(0, 2)),
+                startMonth: parseInt(startDate.substring(3, 5)),
+                year: parseInt(startDate.substring(6, startDate.length)),
+                finishDay: parseInt(endDate.substring(0, 2)),
+                finishMonth: parseInt(endDate.substring(3, 5)),
+                totalNumberOfDays: totalNumberOfDays,
+                totalPrice: 0
+            }
+        );
         return () => {
             document.removeEventListener("keydown", hideOnEscape);
             document.removeEventListener("click", hideOnClick);
         }
-    }, [calendarRange]);
+    }, [calendarRange
+        , endDate
+        , numberOfDaysReservation
+        , startDate
+        , totalNumberOfDays]);
 
 
     function hideOnEscape(event) {

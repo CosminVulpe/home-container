@@ -21,6 +21,7 @@ import React from "react";
 function ContainerSection() {
     window.scroll(0, 0);
     const [oneContainerDetails, setOneContainerDetails] = useState([]);
+
     let {id} = useParams();
 
     useEffect(() => {

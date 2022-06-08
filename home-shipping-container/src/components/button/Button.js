@@ -26,4 +26,8 @@ export const Button = styled(Link)`
     &:visited{
         color: white;
     }
+    
+    &:link {
+        color: white;
+    }
 `;

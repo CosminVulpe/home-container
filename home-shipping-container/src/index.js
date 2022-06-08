@@ -7,6 +7,7 @@ import {BrowserRouter as Router, Route, Routes} from "react-router-dom";
 import SupportAdmin from "./components/live-support-chat/support-admin/SupportAdmin";
 import ContainerSection from "./components/pages/container/Container";
 import 'bootstrap/dist/css/bootstrap.css';
+import Checkout from "./components/pages/checkout-page/Checkout";
 
 const path = window.location.pathname;
 
@@ -17,6 +18,8 @@ root.render(
             <Routes>
                 <Route path="/" element={<App/>}/>
                 <Route path="/container/:id" element={<ContainerSection/>}/>
+                <Route path="/checkout" element={<Checkout/>}/>
+
             </Routes>
         </Router>
     </React.StrictMode>

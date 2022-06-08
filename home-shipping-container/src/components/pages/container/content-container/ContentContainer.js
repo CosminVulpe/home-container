@@ -1,14 +1,19 @@
 import styled from "styled-components/macro";
-import React, {useContext} from "react";
-import CalendarReservation from "../../../calendar/Calendar";
+import React, {useContext,  useState} from "react";
+import CalendarReservation, {RESERVATION_DETAILS, TOTAL_NUMBER_OF_DAY} from "../../../calendar/Calendar";
 import {ContainerDetails} from "../../../userContext/UserContext";
 import {Link} from "react-router-dom";
+import {atom, useAtom} from "jotai";
+
+export const CONTAINER_DETAILS_CHECKOUT = atom({});
+export const RESERVATION_DETAILS_CHECKOUT = atom({});
 
 const Section = styled.section`
      margin-top: 1rem;
      margin-bottom: 3rem;
 `;
-const Button = styled(Link)`
+
+export const Button = styled(Link)`
     width: 100%;
     text-decoration: none;
     height: 100%;
@@ -35,10 +40,23 @@ const Button = styled(Link)`
 
 function ContentContainer() {
     const details = useContext(ContainerDetails);
+    const [numberOfAdults, setNumberOfAdults] = useState(() => 1);
+    const [numberOfKids, setNumberOfKids] = useState(() => 1);
+    const [totalNumberOfDays, setTotalNumberOfDays] = useAtom(TOTAL_NUMBER_OF_DAY);
+    const [containerDetailsCheckout, setContainerDetailsCheckout] = useAtom(CONTAINER_DETAILS_CHECKOUT);
+    const [reservationDetails, setReservationDetails] = useAtom(RESERVATION_DETAILS);
+    const [reservationDetailsCheckout, setReservationDetailsCheckout] = useAtom(RESERVATION_DETAILS_CHECKOUT);
 
 
     function handleClickEvent() {
-        console.log(details);
+        setContainerDetailsCheckout(details);
+        setReservationDetailsCheckout({
+            ...reservationDetails,
+            numberKids: parseInt(numberOfKids),
+            numberAdults: parseInt(numberOfAdults),
+            totalPrice: totalNumberOfDays * details.pricePerNight,
+            totalNumberOfDays:totalNumberOfDays
+        });
     }
 
 
@@ -83,17 +101,21 @@ function ContentContainer() {
                                 <div className="d-flex justify-content-between">
                                     <div className="p-2">
                                         <p>Number Adults</p>
-                                        <input type="number" min="1" max="5" defaultValue="1"/>
+                                        <input type="number" min="0" max="5" defaultValue="1"
+                                               onChange={(e) => setNumberOfAdults(e.target.value)}/>
                                     </div>
                                     <div className="p-2">
                                         <p>Number Kids</p>
-                                        <input type="number" min="1" max="3" defaultValue="1"/>
+                                        <input type="number" min="0" max="3" defaultValue="1"
+                                               onChange={(e) => setNumberOfKids(e.target.value)}/>
                                     </div>
                                 </div>
                                 <br/>
-                                <p className="d-flex justify-content-center">Total Price : 0 Lei</p>
-                                <div className="d-flex justify-content-center" onClick={handleClickEvent}>
-                                    <Button to="/payment">Book</Button>
+                                <p className="d-flex justify-content-center">Total Price
+                                    : {totalNumberOfDays * details.pricePerNight} Lei</p>
+                                <div className="d-flex justify-content-center"
+                                     onClick={handleClickEvent}>
+                                    <Button to="/checkout">Book</Button>
                                 </div>
                             </div>
                         </div>
@@ -172,7 +194,6 @@ function ContentContainer() {
                     </div>
                 </div>
             </Section>
-
         </>
     );
 }

@@ -17,7 +17,7 @@ function Checkout() {
         reservationDetailsCheckout["reservationCustomerName"] = reservationName;
         reservationDetailsCheckout["reservationCustomerEmail"] = reservationEmail;
 
-        const response = await fetch(process.env.REACT_APP_BACKEND_API_RESERVATION + containerDetailsCheckout.id.toString(), {
+        const response = await fetch(process.env.REACT_APP_BACKEND_API_RESERVATION + containerDetailsCheckout.id, {
             method: "POST",
             headers: {
                 'Content-Type': 'application/json',
@@ -42,23 +42,22 @@ function Checkout() {
                 <h4 className="mt-5">Your Reservation</h4>
 
                 <div className="d-flex justify-content-between">
-
                     <div className="d-flex flex-column mb-3">
                         <div className="p-4">
                             <h5>Date</h5>
                             <p>
                                 {
-                                    reservationDetailsCheckout.startDay
+                                    reservationDetailsCheckout.startDate.getDate()
                                     + "/"
-                                    + reservationDetailsCheckout.startMonth
+                                    + (reservationDetailsCheckout.startDate.getMonth()+1)
                                     + "/"
-                                    + reservationDetailsCheckout.year
+                                    + reservationDetailsCheckout.startDate.getFullYear()
                                     + " - "
-                                    + reservationDetailsCheckout.finishDay
+                                    + reservationDetailsCheckout.finishDate.getDate()
                                     + "/"
-                                    + reservationDetailsCheckout.finishMonth
+                                    + (reservationDetailsCheckout.finishDate.getMonth()+1)
                                     + "/"
-                                    + reservationDetailsCheckout.year
+                                    + reservationDetailsCheckout.finishDate.getFullYear()
                                 }
                             </p>
                         </div>

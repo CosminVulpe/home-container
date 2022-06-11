@@ -13,8 +13,8 @@ function CalendarReservation() {
 
     const [openCalendar, setOpenCalendar] = useState(false);
     const ref = useRef(null);
-    const [startDate, setStartDate] = useState("");
-    const [endDate, setEndDate] = useState("");
+    const [startDate, setStartDate] = useState(new Date());
+    const [endDate, setEndDate] = useState(new Date());
     const [totalNumberOfDays, setTotalNumberOfDays] = useAtom(TOTAL_NUMBER_OF_DAY);
     const [reservationDetails, setReservationDetails] = useAtom(RESERVATION_DETAILS);
 
@@ -22,30 +22,24 @@ function CalendarReservation() {
         {
             startDate: new Date(),
             endDate: addDays(new Date(), 1),
-            isInvalidDate: function (date) {
-                let dateArray = ["2022/06/07", "2022/06/10"];
-                return dateArray.indexOf(startDate) < false;
-
-            },
             key: "selection"
         }
     ]);
 
-
     const numberOfDaysReservation = differenceInDays(
         new Date(
-            endDate.substring(6, endDate.length)
+            endDate.getFullYear()
             + "/"
-            + endDate.substring(3, 5)
+            + (endDate.getMonth()+1)
             + "/"
-            + endDate.substring(0, 2)
+            + endDate.getDate()
         ),
         new Date(
-            startDate.substring(6, startDate.length)
+            startDate.getFullYear()
             + "/"
-            + startDate.substring(3, 5)
+            + (startDate.getMonth()+1)
             + "/"
-            + startDate.substring(0, 2)
+            + startDate.getDate()
         )
     );
 
@@ -53,16 +47,13 @@ function CalendarReservation() {
         document.addEventListener("keydown", hideOnEscape, true);
         document.addEventListener("click", hideOnClick, true);
 
-        setStartDate(format(calendarRange[0].startDate, "dd/MM/yyyy"));
-        setEndDate(format(calendarRange[0].endDate, "dd/MM/yyyy"));
+        setStartDate(calendarRange[0].startDate);
+        setEndDate(calendarRange[0].endDate);
         setTotalNumberOfDays(numberOfDaysReservation);
         setReservationDetails(
             {
-                startDay: parseInt(startDate.substring(0, 2)),
-                startMonth: parseInt(startDate.substring(3, 5)),
-                year: parseInt(startDate.substring(6, startDate.length)),
-                finishDay: parseInt(endDate.substring(0, 2)),
-                finishMonth: parseInt(endDate.substring(3, 5)),
+                startDate: startDate,
+                finishDate: endDate,
                 totalNumberOfDays: totalNumberOfDays,
                 totalPrice: 0
             }

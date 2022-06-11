@@ -28,4 +28,6 @@ public class ShippingContainerController {
     public ShippingContainer getContainerById(@PathVariable("containerId") Long containerId) {
         return service.getContainerById(containerId);
     }
+
+
 }

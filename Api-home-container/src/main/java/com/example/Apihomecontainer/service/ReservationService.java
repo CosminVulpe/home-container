@@ -37,7 +37,8 @@ public class ReservationService {
     }
 
 
-    public void checkReservationDates(Reservation reservation, Long containerId) {
+    public ReservationStatus checkReservationDates(Reservation reservation
+            , Long containerId) {
         Optional<ShippingContainer> shippingContainerOptional = shippingContainerRepository.
                 findById(containerId);
 
@@ -65,16 +66,16 @@ public class ReservationService {
                     if (Objects.equals(element.getStartDay(), reservation.getStartDay())
                             && Objects.equals(element.getStartMonth(), reservation.getStartMonth())) {
                         LOG.warn("The dates are equal, container occupied");
+                        return ReservationStatus.OCCUPY;
                     } else {
                         addNewReservation(newReservation);
+                        return ReservationStatus.NOT_OCCUPY;
+
                     }
                 }
             }
         }
+        return ReservationStatus.NOT_OCCUPY;
     }
-
-//    public ReservationStatus getReservationStatus(Reservation reservation, Long id) {
-//        return (checkReservationDates(reservation, id)) ? ReservationStatus.NOT_OCCUPY : ReservationStatus.OCCUPY;
-//    }
 
 }

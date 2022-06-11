@@ -28,9 +28,9 @@ public class ReservationController {
     }
 
     @PostMapping(path = "/{containerId}")
-    public void getReservationData(@RequestBody Reservation reservation
+    public ReservationStatus getReservationData(@RequestBody Reservation reservation
             , @PathVariable("containerId") Long containerId) {
-        reservationService.checkReservationDates(reservation, containerId);
+        return reservationService.checkReservationDates(reservation, containerId);
     }
 
 }

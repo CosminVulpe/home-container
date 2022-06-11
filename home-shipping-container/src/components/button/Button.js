@@ -9,7 +9,7 @@ export const Button = styled(Link)`
     min-width: 100px;
     max-width: 200px;
     cursor: pointer;
-    text-declaration: none;
+    text-decoration: none;
     transition: 0.3s;
     display: flex;
     justify-content: center;

@@ -7,16 +7,6 @@ import {useEffect} from "react";
 import AOS from "aos";
 import ReviewSection from "../review-section/ReviewSection";
 
-const Box = styled.div`
-    border: thin solid black;
-    width: 2000px;
-    height: 100px;
-    text-align: justify;
-    background-color: black;
-    margin: -42px -10px auto;
-    padding: 10px 20px 30p;
-    float: left;
-`;
 
 const Header = styled.h1`
     margin-left: 37px;
@@ -58,7 +48,7 @@ function InfoInteriorContainer() {
                         </div>
                     </ColumnLeft>
                     <ColumnRight data-aos="fade-left">
-                        <img src={Container8} alt="homes"/>
+                        <img src={Container8} alt="container"/>
                     </ColumnRight>
                 </Container>
             </Section>

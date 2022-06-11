@@ -10,28 +10,25 @@ import Interior6 from '../../images/interior-container/interior6.png';
 import Interior7 from '../../images/interior-container/interior7.png';
 import Interior8 from '../../images/interior-container/interior8.png';
 import ContentContainer from "./content-container/ContentContainer";
-import {useEffect, useState} from "react";
+import React, {useEffect, useState} from "react";
 import {useParams} from "react-router-dom";
 import axios from "axios";
 import {ContainerDetails} from "../../userContext/UserContext";
 import Footer from "../../footer/Footer";
-import React from "react";
 
 
 function ContainerSection() {
     window.scroll(0, 0);
     const [oneContainerDetails, setOneContainerDetails] = useState([]);
-
     let {id} = useParams();
 
     useEffect(() => {
-        axios.get("http://localhost:8080/container/" + id)
+        axios.get(process.env.REACT_APP_BACKEND_API_CONTAINER + id)
             .then(data => setOneContainerDetails(data.data))
             .catch(error => {
                 console.log(error);
             });
     }, [id]);
-
 
     return (
         <>

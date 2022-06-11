@@ -15,7 +15,7 @@ function ReviewSection() {
     const [reviewData, setReviewData] = useState([]);
 
     useEffect(() => {
-        axios.get("http://localhost:8080/review")
+        axios.get(process.env.REACT_APP_BACKEND_API_REVIEW)
             .then(data => setReviewData(data.data))
             .catch(error => {
                 console.log(error);

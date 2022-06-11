@@ -1,14 +1,10 @@
 import GlobalStyles from "../../global-style/GlobalStyles";
 import NavBar from "../../navBar/NavBar";
 import {useAtom} from "jotai";
-import {
-    Button,
-    CONTAINER_DETAILS_CHECKOUT,
-    RESERVATION_DETAILS_CHECKOUT
-} from "../container/content-container/ContentContainer";
+import {Button} from "../container/content-container/ContentContainer";
 import React, {useState} from "react";
 import Footer from "../../footer/Footer";
-
+import {CONTAINER_DETAILS_CHECKOUT, RESERVATION_DETAILS_CHECKOUT} from "../../jotai-atom/useAtom";
 
 function Checkout() {
     window.scroll(0, 0);
@@ -17,23 +13,21 @@ function Checkout() {
     const [reservationName, setReservationName] = useState("");
     const [reservationEmail, setReservationEmail] = useState("");
 
-    function handleClickEvent() {
+    async function handleClickEvent() {
         reservationDetailsCheckout["reservationCustomerName"] = reservationName;
         reservationDetailsCheckout["reservationCustomerEmail"] = reservationEmail;
 
-        fetch("http://localhost:8080/reservation/" + containerDetailsCheckout.id.toString(), {
+        const response = await fetch(process.env.REACT_APP_BACKEND_API_RESERVATION + containerDetailsCheckout.id.toString(), {
             method: "POST",
             headers: {
                 'Content-Type': 'application/json',
                 'accept': 'application/json'
             },
             body: JSON.stringify(reservationDetailsCheckout)
-        }).then(data => {
-            data.json().then();
-        }).catch(error => {
-            console.log(error)
         });
+        const data = await response.json();
     }
+
 
     return (
         <>

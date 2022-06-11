@@ -5,19 +5,12 @@ import './calendarStyle.css';
 import 'react-date-range/dist/styles.css';
 import 'react-date-range/dist/theme/default.css';
 import {addDays, differenceInDays} from "date-fns";
-import {atom, useAtom} from 'jotai';
+import {useAtom} from 'jotai';
+import {RESERVATION_DETAILS, TOTAL_NUMBER_OF_DAY} from "../jotai-atom/useAtom";
 
-export const TOTAL_NUMBER_OF_DAY = atom(0);
-export const RESERVATION_DETAILS = atom({});
 
 function CalendarReservation() {
-    const [calendarRange, setCalendarRange] = useState([
-        {
-            startDate: new Date(),
-            endDate: addDays(new Date(), 1),
-            key: "selection"
-        }
-    ]);
+
     const [openCalendar, setOpenCalendar] = useState(false);
     const ref = useRef(null);
     const [startDate, setStartDate] = useState("");
@@ -25,10 +18,19 @@ function CalendarReservation() {
     const [totalNumberOfDays, setTotalNumberOfDays] = useAtom(TOTAL_NUMBER_OF_DAY);
     const [reservationDetails, setReservationDetails] = useAtom(RESERVATION_DETAILS);
 
+    const [calendarRange, setCalendarRange] = useState([
+        {
+            startDate: new Date(),
+            endDate: addDays(new Date(), 1),
+            isInvalidDate: function (date) {
+                let dateArray = ["2022/06/07", "2022/06/10"];
+                return dateArray.indexOf(startDate) < false;
 
-    // console.log(endDate.substring(6, endDate.length))
-    // console.log(endDate.substring(3, 5));
-    // console.log(endDate.substring(0, 2));
+            },
+            key: "selection"
+        }
+    ]);
+
 
     const numberOfDaysReservation = differenceInDays(
         new Date(
@@ -53,7 +55,7 @@ function CalendarReservation() {
 
         setStartDate(format(calendarRange[0].startDate, "dd/MM/yyyy"));
         setEndDate(format(calendarRange[0].endDate, "dd/MM/yyyy"));
-        setTotalNumberOfDays(numberOfDaysReservation );
+        setTotalNumberOfDays(numberOfDaysReservation);
         setReservationDetails(
             {
                 startDay: parseInt(startDate.substring(0, 2)),

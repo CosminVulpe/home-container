@@ -42,40 +42,55 @@ public class ReservationService {
         Optional<ShippingContainer> shippingContainerOptional = shippingContainerRepository.
                 findById(containerId);
 
-        if (shippingContainerOptional.isPresent()) {
+        if (checkIfShippingContainerExists(shippingContainerOptional)) {
             Reservation newReservation = new Reservation(
                     reservation.getReservationCustomerName()
                     , reservation.getReservationCustomerEmail()
-                    , reservation.getStartDay()
-                    , reservation.getStartMonth()
-                    , reservation.getYear()
-                    , reservation.getFinishDay()
-                    , reservation.getFinishMonth()
+                    , reservation.getStartDate()
+                    , reservation.getFinishDate()
                     , reservation.getNumberAdults()
                     , reservation.getNumberKids()
-                    , reservation.getTotalNumberOfDays()
                     , ReservationStatus.OCCUPY
+                    , reservation.getTotalNumberOfDays()
                     , reservation.getTotalPrice()
                     , shippingContainerOptional.get()
             );
-            if (shippingContainerOptional.get().getReservationList().size() == 0) {
+            if (checkReservations(shippingContainerOptional.get().getReservationList())) {
                 shippingContainerOptional.get().addReservations(newReservation);
                 addNewReservation(newReservation);
             } else {
                 for (Reservation element : shippingContainerOptional.get().getReservationList()) {
-                    if (Objects.equals(element.getStartDay(), reservation.getStartDay())
-                            && Objects.equals(element.getStartMonth(), reservation.getStartMonth())) {
+                    if (checkSimilarReservationDates(element.getStartDate().getDayOfMonth()
+                            , reservation.getStartDate().getDayOfMonth()
+                            , element.getStartDate().getMonthValue()
+                            , reservation.getStartDate().getMonthValue())) {
                         LOG.warn("The dates are equal, container occupied");
                         return ReservationStatus.OCCUPY;
-                    } else {
-                        addNewReservation(newReservation);
-                        return ReservationStatus.NOT_OCCUPY;
-
                     }
+                    LOG.info("The reservation was made!");
+                    addNewReservation(newReservation);
+                    return ReservationStatus.NOT_OCCUPY;
                 }
             }
         }
         return ReservationStatus.NOT_OCCUPY;
+    }
+
+
+    private boolean checkIfShippingContainerExists(Optional<ShippingContainer> optionalShippingContainer) {
+        return optionalShippingContainer.isPresent();
+    }
+
+    private boolean checkReservations(List<Reservation> reservations) {
+        return reservations.isEmpty();
+    }
+
+    private boolean checkSimilarReservationDates(int startDay
+            , int startDayUser
+            , int startMonth
+            , int startMonthUser) {
+        return (startDay == startDayUser) && (startMonth == startMonthUser);
+
     }
 
 }

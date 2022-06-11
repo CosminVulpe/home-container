@@ -14,6 +14,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
 
 import java.text.NumberFormat;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Currency;
 import java.util.List;
@@ -99,16 +100,6 @@ public class ApiHomeContainerApplication {
                             review1, review2, review3, review4
                     )
             );
-
-            List<List<String>> occupiedDates = List.of(
-                    List.of(
-                            "12-12-2022", "14-12-2022"
-                    ),
-                    List.of(
-                            "20-12-2022", "25-12-2022"
-                    )
-            );
-
         };
     }
 }

@@ -1,10 +1,8 @@
 import styled from 'styled-components/macro';
-import {menuData} from "../data/NavBarData";
 import {Button} from "../button/Button";
 import {Link} from 'react-router-dom';
 import {FaTimes} from 'react-icons/fa';
-import {useEffect, useState} from "react";
-import axios from "axios";
+
 
 const DropDownContainer = styled.div`
     position: fixed;
@@ -14,7 +12,6 @@ const DropDownContainer = styled.div`
     background: #cd853f;
     display: grid;
     align-items: center;
-    top: 0;
     left: 0;
     transition: 0.3s ease-in-out;
     opacity: ${({isOpen}) => (isOpen ? '1' : '0')};
@@ -40,7 +37,7 @@ const DropDownWrapper = styled.div``;
 
 const DropDownMenuList = styled.div`
     display: grid;
-    grid-template-column: 1fr;
+    grid-template-columns: 1fr;
     grid-template-rows: repeat(4, 80px);
     text-align: center;
     margin-bottom: 4rem;
@@ -59,7 +56,6 @@ const DropDownLink = styled(Link)`
     font-size: 1.5rem;
     text-decoration: none;
     list-style: none;
-    color: #fff;
     cursor: pointer;
     transition: 0.2s ease-in-out;
     
@@ -74,15 +70,6 @@ const BtnWrapper = styled.div`
 
 
 function DropDownMenu({isOpen, toggle}) {
-    const [navBarData, setNavBarData] = useState([]);
-
-    useEffect(() => {
-        axios.get("http://localhost:8080/navBarData")
-            .then(data => setNavBarData(data.data))
-            .catch(error => {
-                console.log(error);
-            })
-    }, []);
 
     return (
         <DropDownContainer isOpen={isOpen} onClick={toggle}>
@@ -91,14 +78,14 @@ function DropDownMenu({isOpen, toggle}) {
             </Icon>
             <DropDownWrapper>
                 <DropDownMenuList>
-                    {navBarData.map((item, index) =>
-                        <DropDownLink to={item.link} key={index}>
-                            {item.title}
-                        </DropDownLink>
-                    )}
+                    <DropDownLink to="/about">About 📰</DropDownLink>
+                    <DropDownLink to="/container">Containers 🏠</DropDownLink>
+                    <DropDownLink to="/gallery">Gallery 📸</DropDownLink>
+                    <DropDownLink to="/location">Location 📍</DropDownLink>
                 </DropDownMenuList>
                 <BtnWrapper>
-                    <Button primary="true" round="true" sizeBig="true" to="/contact">Contact Us</Button>
+                    <Button primary="true" round="true" size="true" to="/contact">Contact Us</Button>
+                    <Button primary="true" round="true" size="true" to="/contact">Login</Button>
                 </BtnWrapper>
             </DropDownWrapper>
         </DropDownContainer>

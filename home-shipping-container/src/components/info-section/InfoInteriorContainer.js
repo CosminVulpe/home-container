@@ -7,16 +7,6 @@ import {useEffect} from "react";
 import AOS from "aos";
 import ReviewSection from "../review-section/ReviewSection";
 
-const Box = styled.div`
-    border: thin solid black;
-    width: 2000px;
-    height: 100px;
-    text-align: justify;
-    background-color: black;
-    margin: -42px -10px auto;
-    padding: 10px 20px 30p;
-    float: left;
-`;
 
 const Header = styled.h1`
     margin-left: 37px;
@@ -35,9 +25,9 @@ function InfoInteriorContainer() {
         });
         AOS.refresh();
     }, []);
+
     return (
         <>
-            {/*<Box/>*/}
             <Delimiter/>
             <Section>
                 <Container>
@@ -52,18 +42,17 @@ function InfoInteriorContainer() {
                                 remaining essentially unchanged.It was popularised in the 1960s with the release of
                                 Letraset sheets containing Lorem Ipsum passages, and more recently with desktop
                                 publishing software like Aldus PageMaker including versions of Lorem Ipsum.</p>
-                            <Button to="/homes" primary="true">
+                            <Button to="/info-container" primary="true">
                                 View Details
                             </Button>
                         </div>
                     </ColumnLeft>
                     <ColumnRight data-aos="fade-left">
-                        <img src={Container8} alt="homes"/>
+                        <img src={Container8} alt="container"/>
                     </ColumnRight>
                 </Container>
             </Section>
             <Delimiter/>
-            {/*<Box/>*/}
             <Section>
                 <Header data-aos="zoom-in">Reviews</Header>
                 <ReviewSection/>

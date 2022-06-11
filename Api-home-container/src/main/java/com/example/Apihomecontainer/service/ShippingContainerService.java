@@ -1,35 +1,30 @@
 package com.example.Apihomecontainer.service;
 
-import com.example.Apihomecontainer.service.DAO.ShippingContainerMemory;
+import com.example.Apihomecontainer.model.ShippingContainer;
+import com.example.Apihomecontainer.service.DAO.ShippingContainerRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.Map;
+import java.util.Optional;
 
 @Service
 public class ShippingContainerService {
 
-    private final ShippingContainerMemory shippingContainerMemory;
+    private final ShippingContainerRepository shippingContainerRepository;
 
     @Autowired
-    public ShippingContainerService(ShippingContainerMemory shippingContainerMemory) {
-        this.shippingContainerMemory = shippingContainerMemory;
+    public ShippingContainerService(ShippingContainerRepository shippingContainerRepository) {
+        this.shippingContainerRepository = shippingContainerRepository;
     }
 
-    public List<Map<String, String>> dataNavBar() {
-        return shippingContainerMemory.getNavBarData();
+
+    public List<ShippingContainer> getAll() {
+        return shippingContainerRepository.findAll();
     }
 
-    public List<Map<String, String>> reviews() {
-        return shippingContainerMemory.getDataReview();
-    }
-
-    public List<Map<String, String>> imageCarousel() {
-        return shippingContainerMemory.getImageCarouselData();
-    }
-
-    public List<Map<String, String>> contentData() {
-        return shippingContainerMemory.getContentData();
+    public ShippingContainer getContainerById(Long id) {
+        Optional<ShippingContainer> optionalShippingContainer = shippingContainerRepository.findById(id);
+        return optionalShippingContainer.orElse(null);
     }
 }

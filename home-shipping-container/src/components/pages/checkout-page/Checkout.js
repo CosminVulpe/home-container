@@ -5,6 +5,7 @@ import {Button} from "../container/content-container/ContentContainer";
 import React, {useState} from "react";
 import Footer from "../../footer/Footer";
 import {CONTAINER_DETAILS_CHECKOUT, RESERVATION_DETAILS_CHECKOUT} from "../../jotai-atom/useAtom";
+import {Heading} from "@chakra-ui/react";
 
 function Checkout() {
     window.scroll(0, 0);
@@ -38,13 +39,13 @@ function Checkout() {
                 padding: "7rem 0rem",
                 height: "100%"
             }} className="container">
-                <h3>Checkout page</h3>
-                <h4 className="mt-5">Your Reservation</h4>
+                <Heading as='h3' size='lg' > Checkout page</Heading>
+                <Heading as='h3' size='md' className="mt-5">Your Reservation</Heading>
 
                 <div className="d-flex justify-content-between">
                     <div className="d-flex flex-column mb-3">
                         <div className="p-4">
-                            <h5>Date</h5>
+                            <Heading as='h5' size='sm'>Date</Heading>
                             <p>
                                 {
                                     reservationDetailsCheckout.startDate.getDate()
@@ -62,7 +63,7 @@ function Checkout() {
                             </p>
                         </div>
                         <div className="p-4">
-                            <h5>Guests</h5>
+                            <Heading as='h5' size='sm'>Guests</Heading>
                             <p>
                                 Number of kids: {reservationDetailsCheckout.numberKids}
                             </p>
@@ -75,7 +76,7 @@ function Checkout() {
                     <div className="p-2">
                         <div className="d-flex flex-column mb-3">
                             <div className="p-2">
-                                <h5> Important Info</h5>
+                                <Heading as='h5' size='sm'> Important Info</Heading>
                             </div>
                             <div className="p-2">
                                 <div className="input-group flex-nowrap">
@@ -103,17 +104,16 @@ function Checkout() {
                             width: "18rem",
                             boxShadow: "10px 10px 10px 10px",
                         }}>
-                            <img src={containerDetailsCheckout.imageUrl} className="card-img-top" alt="..."/>
+                            <img src={reservationDetailsCheckout.image} className="card-img-top" alt="..."/>
                             <div className="card-body">
-                                <h5 className="card-title text-center">{containerDetailsCheckout.name}</h5>
-                                <br/>
-                                <p className="d-flex justify-content-center">
+                                <Heading as='h4' size='sm'  className="card-title text-center">{containerDetailsCheckout.name}</Heading>
+                                <p className="d-flex justify-content-center" style={{padding:"10px"}}>
                                     {"Per night " + containerDetailsCheckout.pricePerNight
                                         + " x "
                                         + reservationDetailsCheckout.totalNumberOfDays
                                         + " days "}
                                 </p>
-                                <p className="d-flex justify-content-center">Total
+                                <p className="d-flex justify-content-center" style={{padding:"10px"}}>Total
                                     Price {reservationDetailsCheckout.totalPrice} Lei</p>
                                 <div className="d-flex justify-content-center" onClick={handleClickEvent}>
                                     <Button to="/payment">Payment</Button>

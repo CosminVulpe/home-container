@@ -193,7 +193,6 @@ function ImagineSlider({slides}) {
                         <Slide key={index}>
                             {index === current && (
                                 <Slider>
-                                    {/*<Image src={item.imageUrl} alt="shipping-container"/>*/}
                                     <Image src={ImageCarouselData[index].image}
                                            alt={"shipping-container-" + ImageCarouselData[index].id}/>
                                     <Content>

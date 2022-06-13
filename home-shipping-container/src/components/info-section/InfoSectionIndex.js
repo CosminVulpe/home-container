@@ -4,17 +4,19 @@ import {Button} from "../button/Button";
 import AOS from 'aos';
 import "aos/dist/aos.css";
 import Container8 from '../images/container8.jpg';
-import Container7 from '../images/container7.png';
 import Container10 from '../images/container10.png';
 import Container2db from './../images/image-carousel-data/container2db.png';
 import InfoInteriorContainer from "./InfoInteriorContainer";
 import axios from "axios";
+import {Heading} from "@chakra-ui/react";
+
 
 export const Section = styled.section`
   width: 100%;
   height: 100%;
   padding: 3rem 0rem;
 `;
+
 
 export const Container = styled.div`
   padding: 3rem calc((100vw - 1300px) / 2);
@@ -107,7 +109,7 @@ function InfoSectionIndex() {
                 <Container>
                     <ColumnLeft>
                         <div data-aos="zoom-out">
-                            <h1>Explore our cozy shipping-containers</h1>
+                            <Heading as='h1'>Explore our cozy shipping-containers</Heading>
                             <p>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem
                                 Ipsum
                                 has been the industry's standard dummy text ever since the 1500s, when an unknown
@@ -134,7 +136,7 @@ function InfoSectionIndex() {
                 <Container>
                     <ColumnLeft>
                         <div>
-                            <h1 data-aos="fade-right">View our containers</h1>
+                            <Heading as='h1' data-aos="fade-right">View our containers</Heading>
                             <ColumnRight data-aos="zoom-in">
                                 <div css={`display: flex;
                                   flex-direction: column`}>

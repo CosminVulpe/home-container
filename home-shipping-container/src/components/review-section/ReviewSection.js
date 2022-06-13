@@ -9,6 +9,7 @@ import './reviews.css';
 import StarRatingEffect from "./StarRatingEffect";
 import axios from "axios";
 import {ImageReviewData} from "../images/image-review-data/ImageReviewData";
+import {Heading} from "@chakra-ui/react";
 
 SwiperCore.use([EffectCoverflow, Pagination]);
 
@@ -41,7 +42,7 @@ function ReviewSection() {
                     {reviewData.map((item, index) => (
                         <SwiperSlide key={index}>
                             <img src={ImageReviewData[index].image} alt={item.userName}/>
-                            <h4>{item.userName}</h4>
+                            <Heading as='h6' size='md'> {item.userName}</Heading>
                             <StarRatingEffect/>
                             <p>{item.description}</p>
                         </SwiperSlide>

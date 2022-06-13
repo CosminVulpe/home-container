@@ -34,7 +34,7 @@ const FooterCol = styled.div`
 
 const Title = styled.h4`
   font-size: 18px;
-  margin-left: 2rem;
+  margin-left: 5px;
   color: #ffffff;
   text-transform: capitalize;
   margin-bottom: 35px;

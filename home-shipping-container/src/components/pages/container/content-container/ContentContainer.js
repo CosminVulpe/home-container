@@ -11,8 +11,17 @@ import {
     TOTAL_NUMBER_OF_DAY
 } from "../../../jotai-atom/useAtom";
 import {ImageCarouselData} from "../../../images/image-carousel-data/ImageCarouselData";
+import {
+    Heading,
+    NumberDecrementStepper,
+    NumberIncrementStepper,
+    NumberInput,
+    NumberInputField,
+    NumberInputStepper
+} from "@chakra-ui/react";
+import './ContentContainerStyle.css';
 
-const Section = styled.section`
+export const Section = styled.section`
   margin-top: 1rem;
   margin-bottom: 3rem;
 `;
@@ -44,8 +53,9 @@ export const Button = styled(Link)`
 
 function ContentContainer() {
     const details = useContext(ContainerDetails);
-    const [numberOfAdults, setNumberOfAdults] = useState(() => 1);
-    const [numberOfKids, setNumberOfKids] = useState(() => 1);
+
+    const [numberOfAdults, setNumberOfAdults] = useState(() => 0);
+    const [numberOfKids, setNumberOfKids] = useState(() => 0);
     const [totalNumberOfDays, setTotalNumberOfDays] = useAtom(TOTAL_NUMBER_OF_DAY);
     const [containerDetailsCheckout, setContainerDetailsCheckout] = useAtom(CONTAINER_DETAILS_CHECKOUT);
     const [reservationDetails, setReservationDetails] = useAtom(RESERVATION_DETAILS);
@@ -59,7 +69,8 @@ function ContentContainer() {
             numberKids: parseInt(numberOfKids),
             numberAdults: parseInt(numberOfAdults),
             totalPrice: totalNumberOfDays * details.pricePerNight,
-            totalNumberOfDays: totalNumberOfDays
+            totalNumberOfDays: totalNumberOfDays,
+            image: ImageCarouselData[id - 1].image
         });
     }
 
@@ -68,7 +79,8 @@ function ContentContainer() {
             <Section>
                 <div className="d-flex justify-content-between">
                     <div className="p-2 text-lg-start">
-                        <h3 className="d-flex flex-column">Description</h3>
+                        <Heading as='h3' size='md'
+                                 className="d-flex flex-column title">Description</Heading>
                         <p>Lorem Ipsum is simply dummy text of the printing and typesetting industry.
                             Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an
                             unknown
@@ -89,7 +101,10 @@ function ContentContainer() {
                             publishing software like Aldus PageMaker including versions of Lorem Ipsum.
                         </p>
                         <div className="p-2 text-lg-start">
-                            <h4 className="d-flex flex-column">Calendar</h4>
+                            <Heading as='h3' size='md' className="d-flex flex-column" style={{
+                                marginBottom: "10px",
+                                marginTop: "10px"
+                            }}>Calendar</Heading>
                             <CalendarReservation/>
                         </div>
                     </div>
@@ -99,23 +114,34 @@ function ContentContainer() {
                             boxShadow: "10px 10px 10px 10px"
                         }}>
                             <img src={ImageCarouselData[id - 1].image} className="card-img-top"
-                                 alt={"shipping-container-"+id.toString()}/>
+                                 alt={"shipping-container-" + id.toString()}/>
                             <div className="card-body">
-                                <h5 className="card-title text-center">{details.name}</h5>
+                                <Heading as='h4' size='sm' className="card-title text-center">{details.name}</Heading>
                                 <div className="d-flex justify-content-between">
                                     <div className="p-2">
                                         <p>Number Adults</p>
-                                        <input type="number" min="0" max="5" defaultValue="1"
-                                               onChange={(e) => setNumberOfAdults(e.target.value)}/>
+                                        <NumberInput size='md' maxW={24} defaultValue={0} min={0} max={3}
+                                                     onChange={(number) => setNumberOfAdults(parseInt(number))}>
+                                            <NumberInputField/>
+                                            <NumberInputStepper>
+                                                <NumberIncrementStepper/>
+                                                <NumberDecrementStepper/>
+                                            </NumberInputStepper>
+                                        </NumberInput>
                                     </div>
                                     <div className="p-2">
                                         <p>Number Kids</p>
-                                        <input type="number" min="0" max="3" defaultValue="1"
-                                               onChange={(e) => setNumberOfKids(e.target.value)}/>
+                                        <NumberInput size='md' maxW={24} defaultValue={0} min={0} max={3}
+                                                     onChange={(number) => setNumberOfKids(parseInt(number))}>
+                                            <NumberInputField/>
+                                            <NumberInputStepper>
+                                                <NumberIncrementStepper/>
+                                                <NumberDecrementStepper/>
+                                            </NumberInputStepper>
+                                        </NumberInput>
                                     </div>
                                 </div>
-                                <br/>
-                                <p className="d-flex justify-content-center">Total Price
+                                <p className="d-flex justify-content-center" style={{padding: "15px"}}>Total Price
                                     : {totalNumberOfDays * details.pricePerNight} Lei</p>
                                 <div className="d-flex justify-content-center"
                                      onClick={handleClickEvent}>
@@ -127,7 +153,7 @@ function ContentContainer() {
                 </div>
             </Section>
             <Section>
-                <h3>Safety Precautions </h3>
+                <Heading as='h3' size='md' className='title'>Safety Precautions </Heading>
                 <p>Mattis lectus ultricies cubilia, conubia id facilisis, tempor purus vitae volutpat habitant
                     pretium lobortis. Commodo consectetur ipsum, taciti quisque mattis nisi. Eu vulputate phasellus
                     maecenas, donec senectus torquent, turpis urna sed dolor dapibus aptent velit tincidunt. Hac per
@@ -143,7 +169,7 @@ function ContentContainer() {
                     imperdiet. Convallis fermentum consectetur, dictum venenatis faucibus urna.</p>
             </Section>
             <Section>
-                <h3>Cancellation Policy</h3>
+                <Heading as='h3' size='md' className='title'>Cancellation Policy</Heading>
                 <p>Mattis lectus ultricies cubilia, conubia id facilisis, tempor purus vitae volutpat habitant
                     pretium lobortis. Commodo consectetur ipsum, taciti quisque mattis nisi. Eu vulputate phasellus
                     maecenas, donec senectus torquent, turpis urna sed dolor dapibus aptent velit tincidunt. Hac per
@@ -159,12 +185,12 @@ function ContentContainer() {
                     imperdiet. Convallis fermentum consectetur, dictum venenatis faucibus urna.</p>
             </Section>
             <Section>
-                <h3>Summary</h3>
+                <Heading as='h3' size='md' className='title'>Summary</Heading>
                 <div className="d-flex justify-content-evenly">
 
                     <div className="p-2">
                         <ul className="list-group">
-                            <h5>House rules</h5>
+                            <Heading as='h5' size='sm' className='summary'>House rules</Heading>
 
                             <li className="list-group-item">⏲ Check-in: 11:00 AM</li>
                             <li className="list-group-item">⏲ Check-in: 14:00 PM</li>
@@ -176,7 +202,7 @@ function ContentContainer() {
 
                     <div className="p-2">
                         <ul className="list-group">
-                            <h5>Safety Info</h5>
+                            <Heading as='h5' size='sm' className='summary'>Safety Info</Heading>
 
                             <li className="list-group-item">✅ No Smoke Alarms</li>
                             <li className="list-group-item">✅ No Carbon Monoxide Alarms</li>
@@ -188,7 +214,7 @@ function ContentContainer() {
 
                     <div className="p-2">
                         <ul className="list-group">
-                            <h5>Cancellation Policy</h5>
+                            <Heading as='h5' size='sm' className='summary'>Cancellation Policy</Heading>
 
                             <li className="list-group-item">💸 Money Guarantee</li>
                             <li className="list-group-item">📆 48h Cancellation Free of Charge</li>

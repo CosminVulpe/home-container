@@ -70,7 +70,8 @@ const MenuBars = styled.i`
 const NavMenu = styled.div`
   display: flex;
   align-items: center;
-  margin-right: -48px;
+  margin-right: 185px;
+  
 
   @media screen and (max-width: 768px) {
     display: none;
@@ -96,7 +97,7 @@ function NavBar({toggle}) {
         <Nav>
             <Logo to="/">
                 <img src={ImgLogo2} alt="business-shipping-container-logo" style={{
-                    width: "18rem"
+                    width: "16.5rem"
                 }}/>
             </Logo>
             <MenuBars onClick={toggle}/>

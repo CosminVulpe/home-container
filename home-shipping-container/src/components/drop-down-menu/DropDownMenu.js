@@ -79,8 +79,7 @@ function DropDownMenu({isOpen, toggle}) {
             <DropDownWrapper>
                 <DropDownMenuList>
                     <DropDownLink to="/about">About 📰</DropDownLink>
-                    <DropDownLink to="/container">Containers 🏠</DropDownLink>
-                    <DropDownLink to="/gallery">Gallery 📸</DropDownLink>
+                    <DropDownLink to="/all-containers">Containers 🏠</DropDownLink>
                     <DropDownLink to="/location">Location 📍</DropDownLink>
                 </DropDownMenuList>
                 <BtnWrapper>

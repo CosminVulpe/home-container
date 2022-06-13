@@ -32,21 +32,14 @@ public class ShippingContainer {
     private String name;
     private String description;
     private Integer pricePerNight;
-
-    private String imageUrl;
-
     @OneToMany(cascade = CascadeType.ALL
             ,mappedBy = "container")
     private List<Reservation> reservationList;
 
-    public ShippingContainer(String name
-            , String description
-            , String imageUrl
-            ,Integer pricePerNight) {
+    public ShippingContainer(String name, String description, Integer pricePerNight) {
         this.name = name;
         this.description = description;
-        this.imageUrl = imageUrl;
-        this.pricePerNight=pricePerNight;
+        this.pricePerNight = pricePerNight;
     }
 
     public void addReservations(Reservation reservation){

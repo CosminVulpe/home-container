@@ -1,54 +1,72 @@
-import {useEffect, useRef, useState} from "react";
-import {DateRangePicker} from 'react-date-range';
-import format from 'date-fns/format';
+import {useEffect, useState} from "react";
 import './calendarStyle.css';
 import 'react-date-range/dist/styles.css';
 import 'react-date-range/dist/theme/default.css';
-import {addDays, differenceInDays} from "date-fns";
+import {differenceInDays, isWithinInterval} from "date-fns";
 import {useAtom} from 'jotai';
 import {RESERVATION_DETAILS, TOTAL_NUMBER_OF_DAY} from "../jotai-atom/useAtom";
+import DateRangePicker from '@wojtekmaj/react-daterange-picker';
+import 'react-calendar/dist/Calendar.css';
+import axios from "axios";
 
 
 function CalendarReservation() {
-
-    const [openCalendar, setOpenCalendar] = useState(false);
-    const ref = useRef(null);
+    const [datesRange, setDateRange] = useState([new Date(), new Date()]);
     const [startDate, setStartDate] = useState(new Date());
     const [endDate, setEndDate] = useState(new Date());
     const [totalNumberOfDays, setTotalNumberOfDays] = useAtom(TOTAL_NUMBER_OF_DAY);
     const [reservationDetails, setReservationDetails] = useAtom(RESERVATION_DETAILS);
 
-    const [calendarRange, setCalendarRange] = useState([
-        {
-            startDate: new Date(),
-            endDate: addDays(new Date(), 1),
-            key: "selection"
+    const containerReservedDates = [];
+    const [datesContainerReserved, setDatesContainerReserved] = useState([]);
+    const apiDates = [];
+
+    function tileDisable({date, view}) {
+        if (view === 'month') {
+            return isWithinRanges(date, containerReservedDates);
         }
-    ]);
+    }
+
+    function isWithinRange(date, range) {
+        return isWithinInterval(date, {
+            start: range[0],
+            end: range[1]
+        });
+    }
+
+    function isWithinRanges(date, ranges) {
+        return ranges.some(range => isWithinRange(date, range));
+    }
+
+    function addReservedDates(dates) {
+        for (let i = 0; i < dates.length; i++) {
+            apiDates.push(
+                new Date(dates[i])
+            );
+        }
+        containerReservedDates.push(apiDates);
+    }
 
     const numberOfDaysReservation = differenceInDays(
         new Date(
             endDate.getFullYear()
             + "/"
-            + (endDate.getMonth()+1)
+            + (endDate.getMonth() + 1)
             + "/"
             + endDate.getDate()
         ),
         new Date(
             startDate.getFullYear()
             + "/"
-            + (startDate.getMonth()+1)
+            + (startDate.getMonth() + 1)
             + "/"
             + startDate.getDate()
         )
     );
 
     useEffect(() => {
-        document.addEventListener("keydown", hideOnEscape, true);
-        document.addEventListener("click", hideOnClick, true);
-
-        setStartDate(calendarRange[0].startDate);
-        setEndDate(calendarRange[0].endDate);
+        setStartDate(datesRange[0]);
+        setEndDate(datesRange[1]);
         setTotalNumberOfDays(numberOfDaysReservation);
         setReservationDetails(
             {
@@ -58,51 +76,42 @@ function CalendarReservation() {
                 totalPrice: 0
             }
         );
-        return () => {
-            document.removeEventListener("keydown", hideOnEscape);
-            document.removeEventListener("click", hideOnClick);
-        }
-    }, [calendarRange
+    }, [datesRange
         , endDate
         , numberOfDaysReservation
         , startDate
         , totalNumberOfDays]);
 
 
-    function hideOnEscape(event) {
-        if (event.key === "Escape") {
-            setOpenCalendar(false);
-        }
-    }
+    useEffect(() => {
+        axios.get(process.env.REACT_APP_BACKEND_API_CONTAINERS + "/dates")
+            .then(data => setDatesContainerReserved(data.data))
+            .catch(error => console.log(error));
 
-    function hideOnClick(event) {
-        if (ref.current && !ref.current.contains(event.target)) {
-            setOpenCalendar(false);
-        }
-    }
+        addReservedDates(datesContainerReserved);
+    }, [datesRange]);
+
 
     return (
         <div>
-            <input
-                value={`${format(calendarRange[0].startDate, "dd/MM/yyyy")} to ${format(calendarRange[0].endDate, "dd/MM/yyyy")}`}
-                readOnly
-                className="inputBox"
-                onClick={() => setOpenCalendar(openCalendar => !openCalendar)}
+            <DateRangePicker
+                onChange={setDateRange}
+                value={datesRange}
+                tileDisabled={tileDisable}
+                format="dd-MM-yyyy"
+                required={true}
+                calendarAriaLabel={"Toggle calendar"}
+                clearIcon={null}
+                rangeDivider={"to"}
             />
-            <div ref={ref}>
-                {openCalendar &&
-                    <DateRangePicker
-                        onChange={item => setCalendarRange([item.selection])}
-                        editableDateInputs={true}
-                        moveRangeOnFirstSelection={true}
-                        ranges={calendarRange}
-                        months={2}
-                        direction="horizontal"
-                    />
-                }
-            </div>
         </div>
     );
 }
 
 export default CalendarReservation;
+
+// const ContainerReservedDates = [
+//     [new Date("2022/06/13"), new Date("2022/06/18")],
+//     [new Date("2022/06/25"), new Date("2022/06/29")],
+//     [new Date("2022/07/02"), new Date("2022/07/06")],
+// ];

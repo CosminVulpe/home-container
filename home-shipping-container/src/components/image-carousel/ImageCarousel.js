@@ -5,6 +5,7 @@ import {IoArrowBack, IoArrowForward} from "react-icons/io5";
 import AOS from 'aos';
 import "aos/dist/aos.css";
 import {Button} from "../button/Button";
+import {ImageCarouselData} from "../images/image-carousel-data/ImageCarouselData";
 
 
 const ImageSection = styled.section`
@@ -192,14 +193,16 @@ function ImagineSlider({slides}) {
                         <Slide key={index}>
                             {index === current && (
                                 <Slider>
-                                    <Image src={item.imageUrl} alt="shipping-container"/>
+                                    {/*<Image src={item.imageUrl} alt="shipping-container"/>*/}
+                                    <Image src={ImageCarouselData[index].image}
+                                           alt={"shipping-container-" + ImageCarouselData[index].id}/>
                                     <Content>
                                         <h1 data-aos="fade-down">{item.name}</h1>
                                         <p data-aos="fade-down"><em>{item.pricePerNight} Lei / night</em></p>
-                                        <Button to={"/container/"+ item.id}
+                                        <Button to={"/container/" + item.id}
                                                 primary='true'
-                                                css={`max-width:160px`} data-aos="zoom-in-up"
-                                                >
+                                                css={`max-width: 160px`} data-aos="zoom-in-up"
+                                        >
                                             View Container
                                             <Arrow/>
                                         </Button>

@@ -13,6 +13,7 @@ function Checkout() {
     const [reservationName, setReservationName] = useState("");
     const [reservationEmail, setReservationEmail] = useState("");
 
+
     async function handleClickEvent() {
         reservationDetailsCheckout["reservationCustomerName"] = reservationName;
         reservationDetailsCheckout["reservationCustomerEmail"] = reservationEmail;
@@ -27,7 +28,6 @@ function Checkout() {
         });
         const data = await response.json();
     }
-
 
     return (
         <>
@@ -49,13 +49,13 @@ function Checkout() {
                                 {
                                     reservationDetailsCheckout.startDate.getDate()
                                     + "/"
-                                    + (reservationDetailsCheckout.startDate.getMonth()+1)
+                                    + (reservationDetailsCheckout.startDate.getMonth() + 1)
                                     + "/"
                                     + reservationDetailsCheckout.startDate.getFullYear()
                                     + " - "
                                     + reservationDetailsCheckout.finishDate.getDate()
                                     + "/"
-                                    + (reservationDetailsCheckout.finishDate.getMonth()+1)
+                                    + (reservationDetailsCheckout.finishDate.getMonth() + 1)
                                     + "/"
                                     + reservationDetailsCheckout.finishDate.getFullYear()
                                 }

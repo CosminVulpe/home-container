@@ -2,7 +2,7 @@ import styled from "styled-components/macro";
 import React, {useContext, useState} from "react";
 import CalendarReservation from "../../../calendar/Calendar";
 import {ContainerDetails} from "../../../userContext/UserContext";
-import {Link} from "react-router-dom";
+import {Link, useParams} from "react-router-dom";
 import {useAtom} from "jotai";
 import {
     CONTAINER_DETAILS_CHECKOUT,
@@ -10,6 +10,7 @@ import {
     RESERVATION_DETAILS_CHECKOUT,
     TOTAL_NUMBER_OF_DAY
 } from "../../../jotai-atom/useAtom";
+import {ImageCarouselData} from "../../../images/image-carousel-data/ImageCarouselData";
 
 const Section = styled.section`
   margin-top: 1rem;
@@ -49,7 +50,7 @@ function ContentContainer() {
     const [containerDetailsCheckout, setContainerDetailsCheckout] = useAtom(CONTAINER_DETAILS_CHECKOUT);
     const [reservationDetails, setReservationDetails] = useAtom(RESERVATION_DETAILS);
     const [reservationDetailsCheckout, setReservationDetailsCheckout] = useAtom(RESERVATION_DETAILS_CHECKOUT);
-
+    let {id} = useParams();
 
     function handleClickEvent() {
         setContainerDetailsCheckout(details);
@@ -61,7 +62,6 @@ function ContentContainer() {
             totalNumberOfDays: totalNumberOfDays
         });
     }
-
 
     return (
         <>
@@ -98,7 +98,8 @@ function ContentContainer() {
                             width: "18rem",
                             boxShadow: "10px 10px 10px 10px"
                         }}>
-                            <img src={details.imageUrl} className="card-img-top" alt="..."/>
+                            <img src={ImageCarouselData[id - 1].image} className="card-img-top"
+                                 alt={"shipping-container-"+id.toString()}/>
                             <div className="card-body">
                                 <h5 className="card-title text-center">{details.name}</h5>
                                 <div className="d-flex justify-content-between">

@@ -6,6 +6,7 @@ import "aos/dist/aos.css";
 import Container8 from '../images/container8.jpg';
 import Container7 from '../images/container7.png';
 import Container10 from '../images/container10.png';
+import Container2db from './../images/image-carousel-data/container2db.png';
 import InfoInteriorContainer from "./InfoInteriorContainer";
 import axios from "axios";
 
@@ -124,7 +125,7 @@ function InfoSectionIndex() {
                     <ColumnRight>
                         <img
                             src={Container10}
-                            alt="homes" data-aos="zoom-in"/>
+                            alt="container" data-aos="zoom-in"/>
                     </ColumnRight>
                 </Container>
             </Section>
@@ -154,7 +155,7 @@ function InfoSectionIndex() {
                     </ColumnLeft>
                     <ColumnRight>
                         <div css={` object-fit: contain !important`} data-aos="zoom-in">
-                            <img src={Container7} alt="container8" css={`width: 80% !important`}/>
+                            <img src={Container2db} alt="container8" css={`width: 80% !important`}/>
                             <p css={`font-family: 'Lato', sans-serif;
                               font-size: 18px`}>
                                 {secondContainer.description}</p>

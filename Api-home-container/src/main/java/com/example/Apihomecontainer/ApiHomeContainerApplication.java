@@ -50,13 +50,18 @@ public class ApiHomeContainerApplication {
             );
             ShippingContainer shippingContainer4 = new ShippingContainer(
                     "Luxury Container 4, Romania"
-                    , "Tow Bathroom, One Bedroom with the view of Mogosoaia Lake"
+                    , "Two Bathroom, One Bedroom with the view of Mogosoaia Lake"
                     , 255
             );
             ShippingContainer shippingContainer5 = new ShippingContainer(
                     "Luxury Container 5, Romania"
                     , "One Bathroom, Two Bedroom with the view of Mogosoaia Lake"
                     , 235
+            );
+            ShippingContainer shippingContainer6 = new ShippingContainer(
+                    "Luxury Container 6, Romania"
+                    , "One Bathroom, One Bedroom with the view of Mogosoaia Lake"
+                    , 200
             );
 
             shippingContainerRepository.saveAll(
@@ -66,6 +71,7 @@ public class ApiHomeContainerApplication {
                             , shippingContainer3
                             , shippingContainer4
                             , shippingContainer5
+                            , shippingContainer6
                     )
             );
 

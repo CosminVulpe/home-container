@@ -4,8 +4,12 @@ import {useAtom} from "jotai";
 import {Button} from "../container/content-container/ContentContainer";
 import React, {useState} from "react";
 import Footer from "../../footer/Footer";
-import {CONTAINER_DETAILS_CHECKOUT, RESERVATION_DETAILS_CHECKOUT} from "../../jotai-atom/useAtom";
-import {Heading} from "@chakra-ui/react";
+import {CONTAINER_DETAILS_CHECKOUT, RESERVATION_DETAILS_CHECKOUT, RESERVATION_ID} from "../../jotai-atom/useAtom";
+import {FormControl, FormHelperText, FormLabel, Heading, Input} from "@chakra-ui/react";
+import emailjs from '@emailjs/browser';
+import axios from "axios";
+import Stripe from "react-stripe-checkout";
+import StripeCheckout from "react-stripe-checkout";
 
 function Checkout() {
     window.scroll(0, 0);
@@ -13,22 +17,57 @@ function Checkout() {
     const [reservationDetailsCheckout, setReservationDetailsCheckout] = useAtom(RESERVATION_DETAILS_CHECKOUT);
     const [reservationName, setReservationName] = useState("");
     const [reservationEmail, setReservationEmail] = useState("");
-
+    const [reservationID, setReservationID] = useAtom(RESERVATION_ID);
+    const [isLoading, setIsLoading] = useState(true);
+    const isError = (reservationEmail === "");
 
     async function handleClickEvent() {
         reservationDetailsCheckout["reservationCustomerName"] = reservationName;
         reservationDetailsCheckout["reservationCustomerEmail"] = reservationEmail;
 
-        const response = await fetch(process.env.REACT_APP_BACKEND_API_RESERVATION + containerDetailsCheckout.id, {
-            method: "POST",
-            headers: {
-                'Content-Type': 'application/json',
-                'accept': 'application/json'
-            },
-            body: JSON.stringify(reservationDetailsCheckout)
-        });
-        const data = await response.json();
+        await axios.post(process.env.REACT_APP_BACKEND_API_RESERVATION + containerDetailsCheckout.id,
+            JSON.stringify(reservationDetailsCheckout),
+            {
+                headers: {
+                    'Content-Type': 'application/json',
+                    'accept': 'application/json'
+                }
+            });
+
+        await axios.get(process.env.REACT_APP_BACKEND_API_RESERVATION + containerDetailsCheckout.id)
+            .then(data => setReservationID(data.data))
+            .catch(error => console.log(error));
     }
+
+    async function handleToken(token) {
+        await axios.post("http://localhost:8080/api/payment/charge"
+            , ""
+            , {
+                headers: {
+                    token: token.id,
+                    amount: reservationDetailsCheckout.totalPrice
+                },
+            }).then(() => {
+            alert("Payment Success");
+        }).catch(err => {
+            alert(err);
+        })
+    }
+
+    function sendEmail(e) {
+        e.preventDefault();
+        console.log("send email");
+
+        emailjs.sendForm("service_8ad3g9q"
+            , "template_kbbhldg"
+            , e.target
+            , "BmkZHoPM4owIfU5Zy")
+            .then(res => {
+                console.log(res)
+            })
+            .catch(error => console.log(error));
+    }
+
 
     return (
         <>
@@ -39,7 +78,7 @@ function Checkout() {
                 padding: "7rem 0rem",
                 height: "100%"
             }} className="container">
-                <Heading as='h3' size='lg' > Checkout page</Heading>
+                <Heading as='h3' size='lg'> Checkout page</Heading>
                 <Heading as='h3' size='md' className="mt-5">Your Reservation</Heading>
 
                 <div className="d-flex justify-content-between">
@@ -78,23 +117,34 @@ function Checkout() {
                             <div className="p-2">
                                 <Heading as='h5' size='sm'> Important Info</Heading>
                             </div>
+
                             <div className="p-2">
-                                <div className="input-group flex-nowrap">
-                                    <input type="text" className="form-control" placeholder="Reservation name"
-                                           aria-label="Reservation name"
-                                           aria-describedby="addon-wrapping"
-                                           onInput={(e) => setReservationName(e.target.value)}
-                                           required/>
-                                </div>
-                            </div>
-                            <div className="p-2">
-                                <div className="input-group flex-nowrap">
-                                    <input type="email" className="form-control" placeholder="Reservation email"
-                                           aria-label="Reservation email"
-                                           aria-describedby="addon-wrapping"
-                                           onInput={(e) => setReservationEmail(e.target.value)}
-                                           required/>
-                                </div>
+                                <FormControl isRequired onSubmit={() => console.log("email send!")}>
+
+                                    <FormLabel htmlFor='name'>Full name</FormLabel>
+                                    <Input id='name' placeholder='name'
+                                           onChange={(e) => setReservationName(e.target.value)}
+                                           style={{marginBottom: "10px"}}/>
+
+                                    <FormLabel htmlFor="user_email">Email</FormLabel>
+                                    <Input
+                                        id='user_email'
+                                        type='user_email'
+                                        name='email'
+                                        value={reservationEmail}
+                                        onChange={(e) => setReservationEmail(e.target.value)}
+
+                                    />
+                                    {!isError ? (
+                                        <FormHelperText style={{marginBottom: "10px"}}>Enter your email to receive
+                                            reservation details</FormHelperText>
+                                    ) : (
+                                        <FormHelperText style={{marginBottom: "10px"}}>Email is
+                                            required</FormHelperText>
+                                    )
+                                    }
+                                </FormControl>
+
                             </div>
                         </div>
                     </div>
@@ -106,17 +156,28 @@ function Checkout() {
                         }}>
                             <img src={reservationDetailsCheckout.image} className="card-img-top" alt="..."/>
                             <div className="card-body">
-                                <Heading as='h4' size='sm'  className="card-title text-center">{containerDetailsCheckout.name}</Heading>
-                                <p className="d-flex justify-content-center" style={{padding:"10px"}}>
+                                <Heading as='h4' size='sm'
+                                         className="card-title text-center">{containerDetailsCheckout.name}</Heading>
+                                <p className="d-flex justify-content-center" style={{padding: "10px"}}>
                                     {"Per night " + containerDetailsCheckout.pricePerNight
                                         + " x "
                                         + reservationDetailsCheckout.totalNumberOfDays
                                         + " days "}
                                 </p>
-                                <p className="d-flex justify-content-center" style={{padding:"10px"}}>Total
+                                <p className="d-flex justify-content-center" style={{padding: "10px"}}>Total
                                     Price {reservationDetailsCheckout.totalPrice} Lei</p>
                                 <div className="d-flex justify-content-center" onClick={handleClickEvent}>
-                                    <Button to="/payment">Payment</Button>
+                                    <StripeCheckout
+                                        name="Payment"
+                                        description="Enter Details"
+                                        stripeKey={process.env.REACT_APP_STRIPE_PUBLISHABLE_KEY}
+                                        token={handleToken}
+                                        amount={reservationDetailsCheckout.totalPrice * 100}
+                                        currency="RON"
+                                    >
+                                        <Button to="#">Payment</Button>
+
+                                    </StripeCheckout>
                                 </div>
                             </div>
                         </div>

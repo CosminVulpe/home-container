@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDate;
+import java.util.UUID;
 
 @RestController
 @CrossOrigin(origins = "http://localhost:3000/")
@@ -33,6 +34,11 @@ public class ReservationController {
     public ReservationStatus getReservationData(@RequestBody Reservation reservation
             , @PathVariable("containerId") Long containerId) {
         return reservationService.checkReservationDates(reservation, containerId);
+    }
+
+    @GetMapping(path="/{containerId}")
+    public UUID getReservationId(@PathVariable("containerId") Long containerId){
+        return reservationService.getReservationId(containerId);
     }
 
 }

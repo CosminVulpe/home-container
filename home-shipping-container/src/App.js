@@ -6,7 +6,7 @@ import DropDownMenu from "./components/drop-down-menu/DropDownMenu";
 import InfoSectionIndex from "./components/info-section/InfoSectionIndex";
 import Footer from "./components/footer/Footer";
 import axios from "axios";
-
+import "@stripe/stripe-js";
 function App() {
     const [isOpen, setIsOpen] = useState(false);
     const [detailsCarousel, setDetailsCarousel] = useState([]);

@@ -32,6 +32,7 @@ public class ShippingContainerController {
 
     @GetMapping(path="/dates")
     public List<LocalDate> getDatesContainerOccupy(){
+
         return service.getDatesContainerOccupy();
     }
 

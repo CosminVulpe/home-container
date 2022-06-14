@@ -29,20 +29,25 @@ public class ShippingContainer {
     )
     private Long id;
 
+
+
     private String name;
     private String description;
     private Integer pricePerNight;
     @OneToMany(cascade = CascadeType.ALL
-            ,mappedBy = "container")
+            , mappedBy = "container")
     private List<Reservation> reservationList;
 
-    public ShippingContainer(String name, String description, Integer pricePerNight) {
+    public ShippingContainer(String name
+            , String description
+            , Integer pricePerNight) {
+
         this.name = name;
         this.description = description;
         this.pricePerNight = pricePerNight;
     }
 
-    public void addReservations(Reservation reservation){
+    public void addReservations(Reservation reservation) {
         reservationList.add(reservation);
         reservation.setContainer(this);
     }

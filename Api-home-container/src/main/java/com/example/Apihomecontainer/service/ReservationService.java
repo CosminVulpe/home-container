@@ -10,9 +10,10 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
-import java.util.Objects;
 import java.util.Optional;
+import java.util.UUID;
 
 @Service
 public class ReservationService {
@@ -91,6 +92,20 @@ public class ReservationService {
             , int startMonthUser) {
         return (startDay == startDayUser) && (startMonth == startMonthUser);
 
+    }
+
+    public UUID getReservationId(Long containerId){
+        Optional<ShippingContainer> shippingContainerOption = shippingContainerRepository.findById(containerId);
+
+        List<UUID> allReservationIds = new ArrayList<>();
+
+        if(shippingContainerOption.isPresent()){
+            for(Reservation reservation : shippingContainerOption.get().getReservationList()){
+                allReservationIds.add(reservation.getReservationId());
+            }
+        }
+
+        return allReservationIds.get(allReservationIds.size()-1);
     }
 
 }

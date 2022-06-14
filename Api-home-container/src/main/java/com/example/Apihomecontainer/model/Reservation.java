@@ -10,6 +10,7 @@ import java.text.NumberFormat;
 import java.time.LocalDate;
 import java.time.temporal.ChronoUnit;
 import java.util.Locale;
+import java.util.UUID;
 
 import static javax.persistence.GenerationType.SEQUENCE;
 
@@ -33,6 +34,7 @@ public class Reservation {
             generator = "reservation_sequence"
     )
     private Long id;
+    private UUID reservationId;
     private String reservationCustomerName;
     private String reservationCustomerEmail;
     private LocalDate startDate;
@@ -70,7 +72,16 @@ public class Reservation {
 
 
 
-    public Reservation(String reservationCustomerName, String reservationCustomerEmail, LocalDate startDate, LocalDate finishDate, Integer numberAdults, Integer numberKids, ReservationStatus reservationStatus, Integer totalNumberOfDays, Double totalPrice, ShippingContainer container) {
+    public Reservation(String reservationCustomerName
+            , String reservationCustomerEmail
+            , LocalDate startDate
+            , LocalDate finishDate
+            , Integer numberAdults
+            , Integer numberKids
+            , ReservationStatus reservationStatus
+            , Integer totalNumberOfDays
+            , Double totalPrice
+            , ShippingContainer container) {
         this.reservationCustomerName = reservationCustomerName;
         this.reservationCustomerEmail = reservationCustomerEmail;
         this.startDate = startDate;
@@ -81,5 +92,6 @@ public class Reservation {
         this.totalNumberOfDays = totalNumberOfDays;
         this.totalPrice = totalPrice;
         this.container = container;
+        this.reservationId = UUID.randomUUID();
     }
 }

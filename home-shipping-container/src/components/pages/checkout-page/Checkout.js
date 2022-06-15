@@ -11,7 +11,6 @@ import axios from "axios";
 import {toast, ToastContainer} from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import StripeCheckout from "react-stripe-checkout";
-import {useNavigate} from 'react-router-dom';
 
 
 function Checkout() {
@@ -22,7 +21,6 @@ function Checkout() {
     const [reservationEmail, setReservationEmail] = useState("");
     const [reservationID, setReservationID] = useAtom(RESERVATION_ID);
     const isError = (reservationEmail === "");
-    const navigate = useNavigate();
 
     async function handleClickEvent() {
         reservationDetailsCheckout["reservationCustomerName"] = reservationName;
@@ -179,6 +177,12 @@ function Checkout() {
                             <div className="card-body">
                                 <Heading as='h4' size='sm'
                                          className="card-title text-center">{containerDetailsCheckout.name}</Heading>
+                                <p className="d-flex justify-content-center" style={{padding: "10px"}}>
+                                    {"Kids Number: " + reservationDetailsCheckout.numberKids
+                                        + " x "
+                                        + containerDetailsCheckout.pricePerKid
+                                        + " lei "}
+                                </p>
                                 <p className="d-flex justify-content-center" style={{padding: "10px"}}>
                                     {"Per night " + containerDetailsCheckout.pricePerNight
                                         + " x "

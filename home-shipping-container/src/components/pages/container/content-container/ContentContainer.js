@@ -60,6 +60,7 @@ function ContentContainer() {
     const [containerDetailsCheckout, setContainerDetailsCheckout] = useAtom(CONTAINER_DETAILS_CHECKOUT);
     const [reservationDetails, setReservationDetails] = useAtom(RESERVATION_DETAILS);
     const [reservationDetailsCheckout, setReservationDetailsCheckout] = useAtom(RESERVATION_DETAILS_CHECKOUT);
+    const [totalPrice, setTotalPrice] = useState(() => 0);
     let {id} = useParams();
 
     function handleClickEvent() {
@@ -68,10 +69,21 @@ function ContentContainer() {
             ...reservationDetails,
             numberKids: parseInt(numberOfKids),
             numberAdults: parseInt(numberOfAdults),
-            totalPrice: totalNumberOfDays * details.pricePerNight,
+            totalPrice: getTotalPrice(),
             totalNumberOfDays: totalNumberOfDays,
             image: ImageCarouselData[id - 1].image
         });
+    }
+
+    function getTotalPrice() {
+        let price = document.querySelectorAll('.justify-content-center')[1].innerText;
+        let totalPrice = "";
+        for (let i = 0; i < price.length; i++) {
+            if (!isNaN(price[i])) {
+                totalPrice += price[i];
+            }
+        }
+        return parseInt(totalPrice);
     }
 
     return (
@@ -129,7 +141,7 @@ function ContentContainer() {
                                             </NumberInputStepper>
                                         </NumberInput>
                                     </div>
-                                    <div className="p-2">
+                                    <div className="p-2" onClick={getTotalPrice}>
                                         <p>Number Kids</p>
                                         <NumberInput size='md' maxW={24} defaultValue={0} min={0} max={3}
                                                      onChange={(number) => setNumberOfKids(parseInt(number))}>
@@ -141,8 +153,24 @@ function ContentContainer() {
                                         </NumberInput>
                                     </div>
                                 </div>
-                                <p className="d-flex justify-content-center" style={{padding: "15px"}}>Total Price
-                                    : {totalNumberOfDays * details.pricePerNight} Lei</p>
+                                {
+                                    (numberOfKids !== 0 &&
+                                        <p className="d-flex justify-content-center" style={{padding: "5px"}}>
+                                            Number Kids: {
+                                            numberOfKids
+                                            + " + "
+                                            + details.pricePerKid
+                                            + " / kid "
+                                            + " = "
+                                            + (numberOfKids * details.pricePerKid)
+                                        }
+                                        </p>)
+                                }
+
+                                <p className="d-flex justify-content-center" style={{padding: "15px"}}>
+                                    Total Price : { (totalNumberOfDays
+                                    * details.pricePerNight) + (numberOfKids * details.pricePerKid)} Lei
+                                </p>
                                 <div className="d-flex justify-content-center"
                                      onClick={handleClickEvent}>
                                     <Button to="/checkout">Book</Button>

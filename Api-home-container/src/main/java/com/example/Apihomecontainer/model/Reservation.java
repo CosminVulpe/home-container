@@ -3,13 +3,9 @@ package com.example.Apihomecontainer.model;
 import com.example.Apihomecontainer.model.enums.ReservationStatus;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.*;
-import org.apache.tomcat.jni.Local;
 
 import javax.persistence.*;
-import java.text.NumberFormat;
 import java.time.LocalDate;
-import java.time.temporal.ChronoUnit;
-import java.util.Locale;
 import java.util.UUID;
 
 import static javax.persistence.GenerationType.SEQUENCE;
@@ -41,8 +37,6 @@ public class Reservation {
     private LocalDate finishDate;
     private Integer numberAdults;
     private Integer numberKids;
-
-
     @Enumerated(EnumType.STRING)
     private ReservationStatus reservationStatus;
 
@@ -55,21 +49,10 @@ public class Reservation {
     private ShippingContainer container;
 
 
-//    public int getTotalNumberOfDays() {
-//        LocalDate fromDate = LocalDate.of(year, startMonth, startDay);
-//        LocalDate toDate = LocalDate.of(year, finishMonth, finishDay);
-//        return Math.toIntExact(ChronoUnit.DAYS.between(fromDate, toDate));
-//    }
-
-//    public int getTotalPrice() {
-//        return getTotalNumberOfDays() * container.getPricePerNight();
-//    }
 
 //    public String transformTotalPriceStrCurrency(double sum) {
 //        return NumberFormat.getCurrencyInstance().format(sum);
 //    }
-
-
 
 
     public Reservation(String reservationCustomerName

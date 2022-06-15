@@ -94,18 +94,16 @@ public class ReservationService {
 
     }
 
-    public UUID getReservationId(Long containerId){
+    public UUID getReservationId(Long containerId) {
         Optional<ShippingContainer> shippingContainerOption = shippingContainerRepository.findById(containerId);
 
         List<UUID> allReservationIds = new ArrayList<>();
-
-        if(shippingContainerOption.isPresent()){
-            for(Reservation reservation : shippingContainerOption.get().getReservationList()){
+        if (shippingContainerOption.isPresent()) {
+            for (Reservation reservation : shippingContainerOption.get().getReservationList()) {
                 allReservationIds.add(reservation.getReservationId());
             }
         }
-
-        return allReservationIds.get(allReservationIds.size()-1);
+        return allReservationIds.get(allReservationIds.size() - 1);
     }
 
 }

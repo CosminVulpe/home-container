@@ -22,9 +22,11 @@ function Checkout() {
     const [reservationID, setReservationID] = useAtom(RESERVATION_ID);
     const isError = (reservationEmail === "");
 
+
     async function handleClickEvent() {
         reservationDetailsCheckout["reservationCustomerName"] = reservationName;
         reservationDetailsCheckout["reservationCustomerEmail"] = reservationEmail;
+
 
         await axios.post(process.env.REACT_APP_BACKEND_API_RESERVATION + containerDetailsCheckout.id,
             JSON.stringify(reservationDetailsCheckout),
@@ -193,16 +195,18 @@ function Checkout() {
                                     Price {reservationDetailsCheckout.totalPrice} Lei</p>
                                 <div className="d-flex justify-content-center" onClick={handleClickEvent}>
                                     <ToastContainer/>
-                                    <StripeCheckout
-                                        name="Payment"
-                                        description="Enter Details"
-                                        stripeKey={process.env.REACT_APP_STRIPE_PUBLISHABLE_KEY}
-                                        token={handleToken}
-                                        amount={reservationDetailsCheckout.totalPrice * 100}
-                                        currency="RON"
-                                    >
-                                        <Button to="#">Payment</Button>
-                                    </StripeCheckout>
+                                    {/*<StripeCheckout*/}
+                                    {/*    name="Payment"*/}
+                                    {/*    description="Enter Details"*/}
+                                    {/*    stripeKey={process.env.REACT_APP_STRIPE_PUBLISHABLE_KEY}*/}
+                                    {/*    token={handleToken}*/}
+                                    {/*    amount={reservationDetailsCheckout.totalPrice * 100}*/}
+                                    {/*    currency="RON"*/}
+                                    {/*>*/}
+                                    {/*    <Button to="#">Payment</Button>*/}
+
+                                    {/*</StripeCheckout>*/}
+                                    <Button to="#">Payment</Button>
                                 </div>
                             </div>
                         </div>

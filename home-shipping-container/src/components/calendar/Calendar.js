@@ -1,4 +1,4 @@
-import {useEffect, useState} from "react";
+import React, {useEffect, useState} from "react";
 import './calendarStyle.css';
 import 'react-date-range/dist/styles.css';
 import 'react-date-range/dist/theme/default.css';
@@ -8,6 +8,7 @@ import {RESERVATION_DETAILS, TOTAL_NUMBER_OF_DAY} from "../jotai-atom/useAtom";
 import DateRangePicker from '@wojtekmaj/react-daterange-picker';
 import 'react-calendar/dist/Calendar.css';
 import axios from "axios";
+import {useParams} from "react-router-dom";
 
 
 function CalendarReservation() {
@@ -19,7 +20,8 @@ function CalendarReservation() {
 
     const containerReservedDates = [];
     const [datesContainerReserved, setDatesContainerReserved] = useState([]);
-    const apiDates = [];
+    const [isLoading, setIsLoading] = useState(true);
+    let {id} = useParams();
 
     function tileDisable({date, view}) {
         if (view === 'month') {
@@ -39,12 +41,20 @@ function CalendarReservation() {
     }
 
     function addReservedDates(dates) {
+        let apiDates = [];
+        let counter = 0;
+
         for (let i = 0; i < dates.length; i++) {
             apiDates.push(
                 new Date(dates[i])
             );
+            counter++;
+            if (counter === 2) {
+                containerReservedDates.push(apiDates);
+                counter = 0;
+                apiDates = [];
+            }
         }
-        containerReservedDates.push(apiDates);
     }
 
     const numberOfDaysReservation = differenceInDays(
@@ -84,12 +94,18 @@ function CalendarReservation() {
 
 
     useEffect(() => {
-        axios.get(process.env.REACT_APP_BACKEND_API_CONTAINERS + "/dates")
-            .then(data => setDatesContainerReserved(data.data))
+        axios.get(process.env.REACT_APP_BACKEND_API_CONTAINERS + "/dates/" + id)
+            .then(data => {
+                setIsLoading(false);
+                setDatesContainerReserved(data.data)
+            })
             .catch(error => console.log(error));
-
-        addReservedDates(datesContainerReserved);
     }, [datesRange]);
+
+
+    if (datesContainerReserved.length !== 0) {
+        addReservedDates(datesContainerReserved);
+    }
 
 
     return (

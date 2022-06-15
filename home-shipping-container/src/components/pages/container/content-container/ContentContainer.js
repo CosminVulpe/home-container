@@ -73,6 +73,7 @@ function ContentContainer() {
             totalNumberOfDays: totalNumberOfDays,
             image: ImageCarouselData[id - 1].image
         });
+
     }
 
     function getTotalPrice() {
@@ -158,7 +159,7 @@ function ContentContainer() {
                                         <p className="d-flex justify-content-center" style={{padding: "5px"}}>
                                             Number Kids: {
                                             numberOfKids
-                                            + " + "
+                                            + " x "
                                             + details.pricePerKid
                                             + " / kid "
                                             + " = "

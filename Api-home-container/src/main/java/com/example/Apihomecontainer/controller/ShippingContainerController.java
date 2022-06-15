@@ -21,7 +21,7 @@ public class ShippingContainerController {
     }
 
     @GetMapping
-    public List<ShippingContainer> getAll(){
+    public List<ShippingContainer> getAll() {
         return service.getAll();
     }
 
@@ -30,11 +30,9 @@ public class ShippingContainerController {
         return service.getContainerById(containerId);
     }
 
-    @GetMapping(path="/dates")
-    public List<LocalDate> getDatesContainerOccupy(){
-
-        return service.getDatesContainerOccupy();
+    @GetMapping(path = "/dates/{containerId}")
+    public List<LocalDate> getDatesContainerOccupy(@PathVariable("containerId") Long containerId) {
+        return service.getDatesContainerOccupy(containerId);
     }
-
 
 }

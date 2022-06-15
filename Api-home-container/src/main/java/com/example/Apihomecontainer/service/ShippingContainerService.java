@@ -33,20 +33,18 @@ public class ShippingContainerService {
         return optionalShippingContainer.orElse(null);
     }
 
-    public List<LocalDate> getDatesContainerOccupy() {
+    public List<LocalDate> getDatesContainerOccupy(Long containerId) {
+
         List<LocalDate> reservationDateOccupied = new ArrayList<>();
 
-        for (ShippingContainer shippingContainer : getAll()) {
-            for (Reservation reservation : shippingContainer.getReservationList()) {
-                reservationDateOccupied.addAll(
-                        List.of(
-                                reservation.getStartDate()
-                                , reservation.getFinishDate()
-                        )
-                );
-            }
+        for (Reservation reservation : getContainerById(containerId).getReservationList()) {
+            reservationDateOccupied.addAll(
+                    List.of(
+                            reservation.getStartDate()
+                            , reservation.getFinishDate()
+                    )
+            );
         }
         return reservationDateOccupied;
     }
-
 }

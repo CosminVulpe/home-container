@@ -1,4 +1,4 @@
-package com.example.Apihomecontainer.service;
+package com.example.Apihomecontainer.controller;
 
 import com.example.Apihomecontainer.model.Reservation;
 import com.example.Apihomecontainer.model.ShippingContainer;

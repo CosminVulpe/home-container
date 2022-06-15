@@ -8,8 +8,11 @@ import {CONTAINER_DETAILS_CHECKOUT, RESERVATION_DETAILS_CHECKOUT, RESERVATION_ID
 import {FormControl, FormHelperText, FormLabel, Heading, Input} from "@chakra-ui/react";
 import emailjs from '@emailjs/browser';
 import axios from "axios";
-import Stripe from "react-stripe-checkout";
+import {toast, ToastContainer} from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 import StripeCheckout from "react-stripe-checkout";
+import {useNavigate} from 'react-router-dom';
+
 
 function Checkout() {
     window.scroll(0, 0);
@@ -18,8 +21,8 @@ function Checkout() {
     const [reservationName, setReservationName] = useState("");
     const [reservationEmail, setReservationEmail] = useState("");
     const [reservationID, setReservationID] = useAtom(RESERVATION_ID);
-    const [isLoading, setIsLoading] = useState(true);
     const isError = (reservationEmail === "");
+    const navigate = useNavigate();
 
     async function handleClickEvent() {
         reservationDetailsCheckout["reservationCustomerName"] = reservationName;
@@ -40,7 +43,7 @@ function Checkout() {
     }
 
     async function handleToken(token) {
-        await axios.post("http://localhost:8080/api/payment/charge"
+        await axios.post(process.env.REACT_APP_BACKEND_STRIPE_API
             , ""
             , {
                 headers: {
@@ -48,10 +51,27 @@ function Checkout() {
                     amount: reservationDetailsCheckout.totalPrice
                 },
             }).then(() => {
-            alert("Payment Success");
+            toast.success('💸 Payment successful!', {
+                position: "top-right",
+                autoClose: 2500,
+                hideProgressBar: false,
+                closeOnClick: true,
+                pauseOnHover: true,
+                draggable: true,
+                progress: undefined,
+            });
+
         }).catch(err => {
-            alert(err);
-        })
+            toast.error('🔴 Payment failed!', {
+                position: "top-right",
+                autoClose: 2500,
+                hideProgressBar: false,
+                closeOnClick: true,
+                pauseOnHover: true,
+                draggable: true,
+                progress: undefined,
+            });
+        });
     }
 
     function sendEmail(e) {
@@ -120,11 +140,12 @@ function Checkout() {
 
                             <div className="p-2">
                                 <FormControl isRequired onSubmit={() => console.log("email send!")}>
-
-                                    <FormLabel htmlFor='name'>Full name</FormLabel>
-                                    <Input id='name' placeholder='name'
-                                           onChange={(e) => setReservationName(e.target.value)}
-                                           style={{marginBottom: "10px"}}/>
+                                    <div style={{marginBottom: "10px"}}>
+                                        <FormLabel htmlFor='name'>Full name</FormLabel>
+                                        <Input id='name' placeholder='name'
+                                               onChange={(e) => setReservationName(e.target.value)}
+                                               style={{marginBottom: "10px"}}/>
+                                    </div>
 
                                     <FormLabel htmlFor="user_email">Email</FormLabel>
                                     <Input
@@ -167,6 +188,7 @@ function Checkout() {
                                 <p className="d-flex justify-content-center" style={{padding: "10px"}}>Total
                                     Price {reservationDetailsCheckout.totalPrice} Lei</p>
                                 <div className="d-flex justify-content-center" onClick={handleClickEvent}>
+                                    <ToastContainer/>
                                     <StripeCheckout
                                         name="Payment"
                                         description="Enter Details"
@@ -176,7 +198,6 @@ function Checkout() {
                                         currency="RON"
                                     >
                                         <Button to="#">Payment</Button>
-
                                     </StripeCheckout>
                                 </div>
                             </div>

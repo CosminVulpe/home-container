@@ -107,7 +107,7 @@ function NavBar({toggle}) {
                 <NavMenuLinks to="/location">Location </NavMenuLinks>
             </NavMenu>
             <NavBtn>
-                <Button to="/login" primary='true'>Login</Button>
+                <Button to="/register" primary='true'>Login</Button>
                 <Button to="/contact" primary='true'>Contact Us</Button>
             </NavBtn>
         </Nav>

@@ -195,18 +195,17 @@ function Checkout() {
                                     Price {reservationDetailsCheckout.totalPrice} Lei</p>
                                 <div className="d-flex justify-content-center" onClick={handleClickEvent}>
                                     <ToastContainer/>
-                                    {/*<StripeCheckout*/}
-                                    {/*    name="Payment"*/}
-                                    {/*    description="Enter Details"*/}
-                                    {/*    stripeKey={process.env.REACT_APP_STRIPE_PUBLISHABLE_KEY}*/}
-                                    {/*    token={handleToken}*/}
-                                    {/*    amount={reservationDetailsCheckout.totalPrice * 100}*/}
-                                    {/*    currency="RON"*/}
-                                    {/*>*/}
-                                    {/*    <Button to="#">Payment</Button>*/}
-
-                                    {/*</StripeCheckout>*/}
-                                    <Button to="#">Payment</Button>
+                                    <StripeCheckout
+                                        name="Payment"
+                                        description="Enter Details"
+                                        stripeKey={process.env.REACT_APP_STRIPE_PUBLISHABLE_KEY}
+                                        token={handleToken}
+                                        amount={reservationDetailsCheckout.totalPrice * 100}
+                                        currency="RON"
+                                    >
+                                        <Button to="#">Payment</Button>
+                                    </StripeCheckout>
+                                    {/*<Button to="#">Payment</Button>*/}
                                 </div>
                             </div>
                         </div>

@@ -8,6 +8,7 @@ import 'bootstrap/dist/css/bootstrap.css';
 import Checkout from "./components/pages/checkout-page/Checkout";
 import Containers from "./components/pages/all-containers/Containers";
 import {ChakraProvider} from "@chakra-ui/react";
+import Register from "./components/pages/register/Register";
 
 const path = window.location.pathname;
 
@@ -21,6 +22,7 @@ root.render(
                     <Route path="/container/:id" element={<ContainerSection/>}/>
                     <Route path="/checkout" element={<Checkout/>}/>
                     <Route path="/all-containers" element={<Containers/>}/>
+                    <Route path="/register" element={<Register/>}/>
                 </Routes>
             </ChakraProvider>
         </Router>

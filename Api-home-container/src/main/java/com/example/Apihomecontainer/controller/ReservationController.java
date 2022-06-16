@@ -2,13 +2,11 @@ package com.example.Apihomecontainer.controller;
 
 import com.example.Apihomecontainer.model.Reservation;
 import com.example.Apihomecontainer.model.ShippingContainer;
-import com.example.Apihomecontainer.model.enums.ReservationStatus;
 import com.example.Apihomecontainer.service.ReservationService;
 import com.example.Apihomecontainer.service.ShippingContainerService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
-import java.time.LocalDate;
 import java.util.UUID;
 
 @RestController
@@ -31,9 +29,9 @@ public class ReservationController {
     }
 
     @PostMapping(path = "/{containerId}")
-    public ReservationStatus getReservationData(@RequestBody Reservation reservation
+    public void addReservation(@RequestBody Reservation reservation
             , @PathVariable("containerId") Long containerId) {
-        return reservationService.checkReservationDates(reservation, containerId);
+        reservationService.addReservation(reservation, containerId);
     }
 
     @GetMapping(path="/{containerId}")

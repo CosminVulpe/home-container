@@ -2,9 +2,7 @@ package com.example.Apihomecontainer.service;
 
 import com.example.Apihomecontainer.model.Reservation;
 import com.example.Apihomecontainer.model.ShippingContainer;
-import com.example.Apihomecontainer.model.enums.ReservationStatus;
 import com.example.Apihomecontainer.service.DAO.ShippingContainerRepository;
-import org.apache.tomcat.jni.Local;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -22,7 +20,6 @@ public class ShippingContainerService {
     public ShippingContainerService(ShippingContainerRepository shippingContainerRepository) {
         this.shippingContainerRepository = shippingContainerRepository;
     }
-
 
     public List<ShippingContainer> getAll() {
         return shippingContainerRepository.findAll();

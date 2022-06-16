@@ -38,7 +38,7 @@ public class ReservationService {
     }
 
 
-    public ReservationStatus checkReservationDates(Reservation reservation
+    public void addReservation(Reservation reservation
             , Long containerId) {
         Optional<ShippingContainer> shippingContainerOptional = shippingContainerRepository.
                 findById(containerId);
@@ -56,42 +56,14 @@ public class ReservationService {
                     , reservation.getTotalPrice()
                     , shippingContainerOptional.get()
             );
-            if (checkReservations(shippingContainerOptional.get().getReservationList())) {
-                shippingContainerOptional.get().addReservations(newReservation);
-                addNewReservation(newReservation);
-            } else {
-                for (Reservation element : shippingContainerOptional.get().getReservationList()) {
-                    if (checkSimilarReservationDates(element.getStartDate().getDayOfMonth()
-                            , reservation.getStartDate().getDayOfMonth()
-                            , element.getStartDate().getMonthValue()
-                            , reservation.getStartDate().getMonthValue())) {
-                        LOG.warn("The dates are equal, container occupied");
-                        return ReservationStatus.OCCUPY;
-                    }
-                    LOG.info("The reservation was made!");
-                    addNewReservation(newReservation);
-                    return ReservationStatus.NOT_OCCUPY;
-                }
-            }
+            shippingContainerOptional.get().addReservations(newReservation);
+            addNewReservation(newReservation);
+            LOG.info("The reservation was made!");
         }
-        return ReservationStatus.NOT_OCCUPY;
     }
-
 
     private boolean checkIfShippingContainerExists(Optional<ShippingContainer> optionalShippingContainer) {
         return optionalShippingContainer.isPresent();
-    }
-
-    private boolean checkReservations(List<Reservation> reservations) {
-        return reservations.isEmpty();
-    }
-
-    private boolean checkSimilarReservationDates(int startDay
-            , int startDayUser
-            , int startMonth
-            , int startMonthUser) {
-        return (startDay == startDayUser) && (startMonth == startMonthUser);
-
     }
 
     public UUID getReservationId(Long containerId) {

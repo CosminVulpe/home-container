@@ -9,6 +9,7 @@ import Checkout from "./components/pages/checkout-page/Checkout";
 import Containers from "./components/pages/all-containers/Containers";
 import {ChakraProvider} from "@chakra-ui/react";
 import Register from "./components/pages/register/Register";
+import Login from "./components/pages/login/Login";
 
 const path = window.location.pathname;
 
@@ -23,6 +24,7 @@ root.render(
                     <Route path="/checkout" element={<Checkout/>}/>
                     <Route path="/all-containers" element={<Containers/>}/>
                     <Route path="/register" element={<Register/>}/>
+                    <Route path="/login" element={<Login/>}/>
                 </Routes>
             </ChakraProvider>
         </Router>

@@ -1,25 +1,26 @@
-import React from "react";
+import React, {useState} from "react";
 import {
-    Flex,
     Box,
+    Button,
+    Flex,
     FormControl,
     FormLabel,
+    Heading,
+    HStack,
     Input,
     InputGroup,
-    HStack,
     InputRightElement,
+    Link,
     Stack,
-    Button,
-    Heading,
     Text,
     useColorModeValue,
-    Link,
 } from '@chakra-ui/react';
-import { useState } from 'react';
-import { ViewIcon, ViewOffIcon } from '@chakra-ui/icons';
+import {ViewIcon, ViewOffIcon} from '@chakra-ui/icons';
+import {useNavigate} from "react-router-dom";
 
 function Register() {
     const [showPassword, setShowPassword] = useState(false);
+    let navigate = useNavigate();
 
     return (
         <Flex
@@ -46,31 +47,31 @@ function Register() {
                             <Box>
                                 <FormControl id="firstName" isRequired>
                                     <FormLabel>First Name</FormLabel>
-                                    <Input type="text" />
+                                    <Input type="text"/>
                                 </FormControl>
                             </Box>
                             <Box>
                                 <FormControl id="lastName">
                                     <FormLabel>Last Name</FormLabel>
-                                    <Input type="text" />
+                                    <Input type="text"/>
                                 </FormControl>
                             </Box>
                         </HStack>
                         <FormControl id="email" isRequired>
                             <FormLabel>Email address</FormLabel>
-                            <Input type="email" />
+                            <Input type="email"/>
                         </FormControl>
                         <FormControl id="password" isRequired>
                             <FormLabel>Password</FormLabel>
                             <InputGroup>
-                                <Input type={showPassword ? 'text' : 'password'} />
+                                <Input type={showPassword ? 'text' : 'password'}/>
                                 <InputRightElement h={'full'}>
                                     <Button
                                         variant={'ghost'}
                                         onClick={() =>
                                             setShowPassword((showPassword) => !showPassword)
                                         }>
-                                        {showPassword ? <ViewIcon /> : <ViewOffIcon />}
+                                        {showPassword ? <ViewIcon/> : <ViewOffIcon/>}
                                     </Button>
                                 </InputRightElement>
                             </InputGroup>
@@ -89,7 +90,8 @@ function Register() {
                         </Stack>
                         <Stack pt={6}>
                             <Text align={'center'}>
-                                Already a user? <Link color={'blue.400'} href="/login">Login</Link>
+                                Already a user?
+                                <Link color={'blue.400'} onClick={() => navigate("/login")}>Login</Link>
                             </Text>
                         </Stack>
                     </Stack>

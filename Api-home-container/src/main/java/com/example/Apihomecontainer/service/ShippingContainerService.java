@@ -1,10 +1,13 @@
 package com.example.Apihomecontainer.service;
 
+import com.example.Apihomecontainer.model.Reservation;
 import com.example.Apihomecontainer.model.ShippingContainer;
 import com.example.Apihomecontainer.service.DAO.ShippingContainerRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -18,7 +21,6 @@ public class ShippingContainerService {
         this.shippingContainerRepository = shippingContainerRepository;
     }
 
-
     public List<ShippingContainer> getAll() {
         return shippingContainerRepository.findAll();
     }
@@ -26,5 +28,20 @@ public class ShippingContainerService {
     public ShippingContainer getContainerById(Long id) {
         Optional<ShippingContainer> optionalShippingContainer = shippingContainerRepository.findById(id);
         return optionalShippingContainer.orElse(null);
+    }
+
+    public List<LocalDate> getDatesContainerOccupy(Long containerId) {
+
+        List<LocalDate> reservationDateOccupied = new ArrayList<>();
+
+        for (Reservation reservation : getContainerById(containerId).getReservationList()) {
+            reservationDateOccupied.addAll(
+                    List.of(
+                            reservation.getStartDate()
+                            , reservation.getFinishDate()
+                    )
+            );
+        }
+        return reservationDateOccupied;
     }
 }

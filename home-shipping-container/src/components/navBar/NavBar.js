@@ -70,7 +70,8 @@ const MenuBars = styled.i`
 const NavMenu = styled.div`
   display: flex;
   align-items: center;
-  margin-right: -48px;
+  margin-right: 185px;
+  
 
   @media screen and (max-width: 768px) {
     display: none;
@@ -96,7 +97,7 @@ function NavBar({toggle}) {
         <Nav>
             <Logo to="/">
                 <img src={ImgLogo2} alt="business-shipping-container-logo" style={{
-                    width: "18rem"
+                    width: "16.5rem"
                 }}/>
             </Logo>
             <MenuBars onClick={toggle}/>
@@ -106,7 +107,7 @@ function NavBar({toggle}) {
                 <NavMenuLinks to="/location">Location </NavMenuLinks>
             </NavMenu>
             <NavBtn>
-                <Button to="/login" primary='true'>Login</Button>
+                <Button to="/register" primary='true'>Login</Button>
                 <Button to="/contact" primary='true'>Contact Us</Button>
             </NavBtn>
         </Nav>

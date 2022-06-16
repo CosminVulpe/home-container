@@ -15,6 +15,7 @@ import {useParams} from "react-router-dom";
 import axios from "axios";
 import {ContainerDetails} from "../../userContext/UserContext";
 import Footer from "../../footer/Footer";
+import {Heading} from "@chakra-ui/react";
 
 
 function ContainerSection() {
@@ -36,7 +37,7 @@ function ContainerSection() {
             <NavBar/>
             <Section css={css`padding: 7rem 0rem`}>
                 <div className="container">
-                    <h2>{oneContainerDetails.name}</h2>
+                    <Heading as='h3' size='lg' style={{marginBottom:"10px"}}>{oneContainerDetails.name}</Heading>
                     <div className="gallery-container">
 
                         <figure className="gallery__item gallery__item--1">

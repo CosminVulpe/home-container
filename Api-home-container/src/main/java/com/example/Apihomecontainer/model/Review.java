@@ -27,13 +27,10 @@ public class Review {
     private Long id;
     private String userName;
     private String description;
-    private String avatarImageUrl;
 
-    public Review(String userName
-            , String avatarImageUrl
-            , String description) {
+
+    public Review(String userName, String description) {
         this.userName = userName;
-        this.avatarImageUrl = avatarImageUrl;
         this.description = description;
     }
 }

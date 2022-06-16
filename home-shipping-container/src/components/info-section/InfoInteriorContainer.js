@@ -1,20 +1,19 @@
 import styled from 'styled-components/macro';
 import {ColumnLeft, ColumnRight, Container, Delimiter, Section} from "./InfoSectionIndex";
-import React from "react";
+import React, {useEffect} from "react";
 import Container8 from '../images/container8.jpg';
 import {Button} from "../button/Button";
-import {useEffect} from "react";
 import AOS from "aos";
 import ReviewSection from "../review-section/ReviewSection";
+import {Heading} from "@chakra-ui/react";
 
 
 const Header = styled.h1`
-    margin-left: 37px;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    margin: 2rem;
-    font-size: clamp(1.5rem, 6vw, 2rem);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin: 2rem;
+  font-size: clamp(1.5rem, 6vw, 2rem);
 `;
 
 
@@ -33,7 +32,7 @@ function InfoInteriorContainer() {
                 <Container>
                     <ColumnLeft>
                         <div data-aos="fade-right">
-                            <h1>Interior</h1>
+                            <Heading as='h1'>Interior</Heading>
                             <p>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum
                                 has been the industry's standard dummy text ever since the 1500s, when an unknown
                                 printer took a galley of type and scrambled it to make a type specimen book.
@@ -54,7 +53,9 @@ function InfoInteriorContainer() {
             </Section>
             <Delimiter/>
             <Section>
-                <Header data-aos="zoom-in">Reviews</Header>
+                <Header data-aos="zoom-in">
+                    <Heading as='h2'>Reviews</Heading>
+                </Header>
                 <ReviewSection/>
             </Section>
         </>

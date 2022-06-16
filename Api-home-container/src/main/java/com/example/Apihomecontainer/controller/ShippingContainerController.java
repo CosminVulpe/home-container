@@ -5,6 +5,7 @@ import com.example.Apihomecontainer.service.ShippingContainerService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import java.time.LocalDate;
 import java.util.List;
 
 @RestController
@@ -12,7 +13,7 @@ import java.util.List;
 @RequestMapping(path = "/container")
 public class ShippingContainerController {
 
-    private ShippingContainerService service;
+    private final ShippingContainerService service;
 
     @Autowired
     public ShippingContainerController(ShippingContainerService service) {
@@ -20,7 +21,7 @@ public class ShippingContainerController {
     }
 
     @GetMapping
-    public List<ShippingContainer> getAll(){
+    public List<ShippingContainer> getAll() {
         return service.getAll();
     }
 
@@ -29,5 +30,9 @@ public class ShippingContainerController {
         return service.getContainerById(containerId);
     }
 
+    @GetMapping(path = "/dates/{containerId}")
+    public List<LocalDate> getDatesContainerOccupy(@PathVariable("containerId") Long containerId) {
+        return service.getDatesContainerOccupy(containerId);
+    }
 
 }

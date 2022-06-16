@@ -15,10 +15,7 @@ import org.springframework.context.annotation.Bean;
 
 import java.text.NumberFormat;
 import java.time.LocalDate;
-import java.util.ArrayList;
-import java.util.Currency;
-import java.util.List;
-import java.util.Locale;
+import java.util.*;
 
 @SpringBootApplication
 public class ApiHomeContainerApplication {
@@ -35,33 +32,33 @@ public class ApiHomeContainerApplication {
             ShippingContainer shippingContainer1 = new ShippingContainer(
                     "Luxury Container 1, Romania"
                     , "One Bathroom, One Bedroom with the view of Mogosoaia Lake"
-                    , "https://external-content.duckduckgo.com/iu/?u=http%3A%2F%2Fliveincontainer.com%2Fwp-content%2Fuploads%2F2015%2F01%2F1-simple-and-suave.jpg&f=1&nofb=1"
                     , 220
 
             );
             ShippingContainer shippingContainer2 = new ShippingContainer(
                     "Luxury Container 2, Romania"
                     , "Two Bathroom, Two Bedroom with the view of Mogosoaia Lake"
-                    , "https://cdn.wowowhome.com/photos/2019/01/shipping-container-house-prototype-by-cocoon-modules-coco-mat-11.jpg"
                     , 245
             );
             ShippingContainer shippingContainer3 = new ShippingContainer(
                     "Luxury Container 3, Romania"
                     , "One Bathroom, Two Bedroom with the view of Mogosoaia Lake"
-                    , "https://d3df8ea8ea59eq.cloudfront.net/photos/6324749997659123712/6333871065753460736/large.jpg"
                     , 250
             );
             ShippingContainer shippingContainer4 = new ShippingContainer(
                     "Luxury Container 4, Romania"
-                    , "Tow Bathroom, One Bedroom with the view of Mogosoaia Lake"
-                    , "https://external-content.duckduckgo.com/iu/?u=https%3A%2F%2Fi.ytimg.com%2Fvi%2F51S_o7yK7R4%2Fmaxresdefault.jpg&f=1&nofb=1"
+                    , "Two Bathroom, One Bedroom with the view of Mogosoaia Lake"
                     , 255
             );
             ShippingContainer shippingContainer5 = new ShippingContainer(
                     "Luxury Container 5, Romania"
                     , "One Bathroom, Two Bedroom with the view of Mogosoaia Lake"
-                    , "https://inhabitat.com/wp-content/blogs.dir/1/files/2017/11/Shippingcontainerhome6.jpg"
                     , 235
+            );
+            ShippingContainer shippingContainer6 = new ShippingContainer(
+                    "Luxury Container 6, Romania"
+                    , "One Bathroom, One Bedroom with the view of Mogosoaia Lake"
+                    , 200
             );
 
             shippingContainerRepository.saveAll(
@@ -71,27 +68,24 @@ public class ApiHomeContainerApplication {
                             , shippingContainer3
                             , shippingContainer4
                             , shippingContainer5
+                            , shippingContainer6
                     )
             );
 
             Review review1 = new Review(
                     "Cosmin"
-                    , "https://external-content.duckduckgo.com/iu/?u=https%3A%2F%2Fthumbs.dreamstime.com%2Fb%2Fbusinessman-icon-vector-male-avatar-profile-image-profile-businessman-icon-vector-male-avatar-profile-image-182095609.jpg&f=1&nofb=1"
                     , "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua."
             );
             Review review2 = new Review(
                     "Shadrack"
-                    , "https://external-content.duckduckgo.com/iu/?u=https%3A%2F%2Fmedia-hearth.cursecdn.com%2Favatars%2F288%2F47%2F635971242216224326.jpeg&f=1&nofb=1"
                     , "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua."
             );
             Review review3 = new Review(
                     "Alex"
-                    , "https://external-content.duckduckgo.com/iu/?u=https%3A%2F%2Fi.pinimg.com%2Foriginals%2F68%2Fa5%2Faa%2F68a5aa104457ecac4d4136285a830e3e.jpg&f=1&nofb=1"
                     , "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua."
             );
             Review review4 = new Review(
                     "Tudor"
-                    , "https://external-content.duckduckgo.com/iu/?u=https%3A%2F%2Fcdn2.vectorstock.com%2Fi%2F1000x1000%2F20%2F76%2Fman-avatar-profile-vector-21372076.jpg&f=1&nofb=1"
                     , "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua."
             );
 
@@ -100,6 +94,8 @@ public class ApiHomeContainerApplication {
                             review1, review2, review3, review4
                     )
             );
+
+
         };
     }
 }

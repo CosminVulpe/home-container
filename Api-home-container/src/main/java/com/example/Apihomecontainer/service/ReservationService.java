@@ -10,9 +10,10 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
-import java.util.Objects;
 import java.util.Optional;
+import java.util.UUID;
 
 @Service
 public class ReservationService {
@@ -37,7 +38,7 @@ public class ReservationService {
     }
 
 
-    public ReservationStatus checkReservationDates(Reservation reservation
+    public void addReservation(Reservation reservation
             , Long containerId) {
         Optional<ShippingContainer> shippingContainerOptional = shippingContainerRepository.
                 findById(containerId);
@@ -55,42 +56,26 @@ public class ReservationService {
                     , reservation.getTotalPrice()
                     , shippingContainerOptional.get()
             );
-            if (checkReservations(shippingContainerOptional.get().getReservationList())) {
-                shippingContainerOptional.get().addReservations(newReservation);
-                addNewReservation(newReservation);
-            } else {
-                for (Reservation element : shippingContainerOptional.get().getReservationList()) {
-                    if (checkSimilarReservationDates(element.getStartDate().getDayOfMonth()
-                            , reservation.getStartDate().getDayOfMonth()
-                            , element.getStartDate().getMonthValue()
-                            , reservation.getStartDate().getMonthValue())) {
-                        LOG.warn("The dates are equal, container occupied");
-                        return ReservationStatus.OCCUPY;
-                    }
-                    LOG.info("The reservation was made!");
-                    addNewReservation(newReservation);
-                    return ReservationStatus.NOT_OCCUPY;
-                }
-            }
+            shippingContainerOptional.get().addReservations(newReservation);
+            addNewReservation(newReservation);
+            LOG.info("The reservation was made!");
         }
-        return ReservationStatus.NOT_OCCUPY;
     }
-
 
     private boolean checkIfShippingContainerExists(Optional<ShippingContainer> optionalShippingContainer) {
         return optionalShippingContainer.isPresent();
     }
 
-    private boolean checkReservations(List<Reservation> reservations) {
-        return reservations.isEmpty();
-    }
+    public UUID getReservationId(Long containerId) {
+        Optional<ShippingContainer> shippingContainerOption = shippingContainerRepository.findById(containerId);
 
-    private boolean checkSimilarReservationDates(int startDay
-            , int startDayUser
-            , int startMonth
-            , int startMonthUser) {
-        return (startDay == startDayUser) && (startMonth == startMonthUser);
-
+        List<UUID> allReservationIds = new ArrayList<>();
+        if (shippingContainerOption.isPresent()) {
+            for (Reservation reservation : shippingContainerOption.get().getReservationList()) {
+                allReservationIds.add(reservation.getReservationId());
+            }
+        }
+        return allReservationIds.get(allReservationIds.size() - 1);
     }
 
 }

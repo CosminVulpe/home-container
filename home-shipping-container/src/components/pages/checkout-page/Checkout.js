@@ -23,7 +23,7 @@ function Checkout() {
     const isError = (reservationEmail === "");
 
 
-    async function handleClickEvent() {
+    async function sendInfoBackend() {
         reservationDetailsCheckout["reservationCustomerName"] = reservationName;
         reservationDetailsCheckout["reservationCustomerEmail"] = reservationEmail;
 
@@ -60,6 +60,7 @@ function Checkout() {
                 draggable: true,
                 progress: undefined,
             });
+            sendInfoBackend();
 
         }).catch(err => {
             toast.error('🔴 Payment failed!', {
@@ -193,7 +194,7 @@ function Checkout() {
                                 </p>
                                 <p className="d-flex justify-content-center" style={{padding: "10px"}}>Total
                                     Price {reservationDetailsCheckout.totalPrice} Lei</p>
-                                <div className="d-flex justify-content-center" onClick={handleClickEvent}>
+                                <div className="d-flex justify-content-center">
                                     <ToastContainer/>
                                     <StripeCheckout
                                         name="Payment"

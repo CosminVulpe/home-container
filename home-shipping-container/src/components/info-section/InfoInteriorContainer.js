@@ -33,11 +33,11 @@ function InfoInteriorContainer() {
                     <ColumnLeft>
                         <div data-aos="fade-right">
                             <Heading as='h1'>Interior</Heading>
-                            <p>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum
+                            <p style={{fontFamily:"'Arimo', sans-serif" }}>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum
                                 has been the industry's standard dummy text ever since the 1500s, when an unknown
                                 printer took a galley of type and scrambled it to make a type specimen book.
                             </p>
-                            <p>It has survived not only five centuries, but also the leap into electronic typesetting,
+                            <p style={{fontFamily:"'Arimo', sans-serif" }}>It has survived not only five centuries, but also the leap into electronic typesetting,
                                 remaining essentially unchanged.It was popularised in the 1960s with the release of
                                 Letraset sheets containing Lorem Ipsum passages, and more recently with desktop
                                 publishing software like Aldus PageMaker including versions of Lorem Ipsum.</p>

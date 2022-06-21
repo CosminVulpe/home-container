@@ -10,6 +10,7 @@ import Containers from "./components/pages/all-containers/Containers";
 import {ChakraProvider} from "@chakra-ui/react";
 import Register from "./components/pages/register/Register";
 import Login from "./components/pages/login/Login";
+import GoogleMaps from "./components/pages/google-maps/GoogleMaps";
 
 const path = window.location.pathname;
 
@@ -25,6 +26,7 @@ root.render(
                     <Route path="/all-containers" element={<Containers/>}/>
                     <Route path="/register" element={<Register/>}/>
                     <Route path="/login" element={<Login/>}/>
+                    <Route path="/location" element={<GoogleMaps/>}/>
                 </Routes>
             </ChakraProvider>
         </Router>

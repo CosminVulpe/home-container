@@ -7,7 +7,7 @@ export const authentication =()=>{
 }
 
 export const authenticationSuccess = (content) => {
-    localStorage.setItem("USER_KEY", content.token);
+    localStorage.setItem("USER_KEY", content);
     return{
         type:AUTH_SUCCESS,
         payload:content

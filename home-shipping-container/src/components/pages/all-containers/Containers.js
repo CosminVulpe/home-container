@@ -42,7 +42,7 @@ function Containers() {
                         /> :
                         <Wrap spacing='75px'>
                             {allContainers.map((container, index) =>
-                                <WrapItem>
+                                <WrapItem key={index}>
                                     <Box>
                                         <Flex>
                                             <Box maxW="lg"

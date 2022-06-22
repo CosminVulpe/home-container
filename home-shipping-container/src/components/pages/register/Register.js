@@ -6,7 +6,7 @@ import {
     FormControl,
     FormLabel,
     Heading,
-    HStack, Image,
+    HStack,
     Input,
     InputGroup,
     InputRightElement,
@@ -28,6 +28,7 @@ import {useNavigate} from "react-router-dom";
 import {registerUser} from "../api/AuthenticationService";
 import {toast, ToastContainer} from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import {authentication, authenticationFailure, authenticationSuccess} from "../redux/Authentication";
 
 
 function Register() {
@@ -53,11 +54,13 @@ function Register() {
     }
 
     function onClickHandleEvent() {
+        authentication();
+
         registerUser(loginCredentials)
             .then(response => {
                 if (response.status === 200) {
                     setIsUseRegister(true);
-                    toast('✅ Account register successful', {
+                    toast.success('Account register successful', {
                         position: "top-right",
                         autoClose: 2500,
                         hideProgressBar: false,
@@ -66,8 +69,14 @@ function Register() {
                         draggable: true,
                         progress: undefined,
                     });
+                } else {
+                    authenticationFailure("Something Wrong!Please Try Again");
                 }
-            }).catch(error => console.log(error));
+            }).catch(error => {
+
+            authenticationFailure("Authentication Failed. Bad Credentials");
+
+        });
     }
 
 
@@ -96,12 +105,12 @@ function Register() {
                             <Box>
                                 <FormControl id="firstName" isRequired>
                                     <FormLabel>First Name</FormLabel>
-                                    <Input type="text" name="firstName" value={loginCredentials.firstName}
+                                    <Input type="text" name="firstName" minLength={3} value={loginCredentials.firstName}
                                            onChange={onChangeEvent}/>
                                 </FormControl>
                             </Box>
                             <Box>
-                                <FormControl id="lastName">
+                                <FormControl id="lastName" isRequired>
                                     <FormLabel>Last Name</FormLabel>
                                     <Input type="text" name="lastName" value={loginCredentials.lastName}
                                            onChange={onChangeEvent}/>
@@ -168,10 +177,12 @@ function Register() {
                     <Modal isOpen={isUserRegister} onClose={onClose}>
                         <ModalOverlay/>
                         <ModalContent>
-                            <ModalHeader>Modal Title</ModalHeader>
+                            <ModalHeader>Redirect</ModalHeader>
                             <ModalCloseButton/>
                             <ModalBody>
-                                <p>Thank you for creating an account! Please choose from the option below.</p>
+                                <p>Thank you for creating an account!<br/><br/>
+                                    Where would you like to go?<br/><br/>
+                                    Please choose from the options below.</p>
                             </ModalBody>
                             <ModalFooter>
                                 <Button colorScheme='green' mr={3} onClick={() => navigate("/login")}>

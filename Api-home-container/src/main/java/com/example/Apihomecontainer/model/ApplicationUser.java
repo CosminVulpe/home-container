@@ -13,7 +13,7 @@ import static javax.persistence.GenerationType.SEQUENCE;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class User {
+public class ApplicationUser {
     @Id
     @SequenceGenerator(
             name = "users_sequence",
@@ -25,14 +25,30 @@ public class User {
             generator = "users_sequence"
     )
     private Long id;
-    private String name;
 
-    @OneToOne(cascade =  CascadeType.ALL)
+    private String firstName;
+
+    private String lastName;
+
+    private String emailAddress;
+
+    private String password;
+
+    @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "review_id", referencedColumnName = "id")
     private Review review;
 
-    public User(String name, Review review) {
-        this.name = name;
+    public ApplicationUser( Review review) {
         this.review = review;
+    }
+
+    public ApplicationUser(String firstName
+            , String lastName
+            , String emailAddress
+            , String password ) {
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.emailAddress = emailAddress;
+        this.password = password;
     }
 }

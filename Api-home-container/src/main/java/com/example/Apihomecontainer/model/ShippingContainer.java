@@ -2,7 +2,7 @@ package com.example.Apihomecontainer.model;
 
 import lombok.*;
 import javax.persistence.*;
-import static com.example.Apihomecontainer.service.constants.ReservationConstants.ADDITIONAL_PRICE_PER_KID;
+import static com.example.Apihomecontainer.service.constants.Constants.ADDITIONAL_PRICE_PER_KID;
 import java.util.List;
 import static javax.persistence.GenerationType.SEQUENCE;
 

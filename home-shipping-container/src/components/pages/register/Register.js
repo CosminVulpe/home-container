@@ -6,18 +6,30 @@ import {
     FormControl,
     FormLabel,
     Heading,
-    HStack,
+    HStack, Image,
     Input,
     InputGroup,
     InputRightElement,
     Link,
+    Modal,
+    ModalBody,
+    ModalCloseButton,
+    ModalContent,
+    ModalFooter,
+    ModalHeader,
+    ModalOverlay,
     Stack,
     Text,
     useColorModeValue,
+    useDisclosure,
 } from '@chakra-ui/react';
 import {ViewIcon, ViewOffIcon} from '@chakra-ui/icons';
 import {useNavigate} from "react-router-dom";
 import {registerUser} from "../api/AuthenticationService";
+import {toast, ToastContainer} from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+import CoverImage from "../../images/login-image/img.png";
+
 
 function Register() {
     const [showPassword, setShowPassword] = useState(false);
@@ -27,7 +39,10 @@ function Register() {
         emailAddress: "",
         password: ""
     });
+    const [isUserRegister, setIsUseRegister] = useState(false);
+    const {onClose} = useDisclosure();
     let navigate = useNavigate();
+
 
     function onChangeEvent(e) {
         e.persist();
@@ -40,10 +55,19 @@ function Register() {
     function onClickHandleEvent() {
         registerUser(loginCredentials)
             .then(response => {
-                if(response.status === 200){
-                    console.log("status OK 200");
+                if (response.status === 200) {
+                    setIsUseRegister(true);
+                    toast('✅ Account register successful', {
+                        position: "top-right",
+                        autoClose: 2500,
+                        hideProgressBar: false,
+                        closeOnClick: true,
+                        pauseOnHover: true,
+                        draggable: true,
+                        progress: undefined,
+                    });
                 }
-            })
+            }).catch(error => console.log(error));
     }
 
 
@@ -109,10 +133,10 @@ function Register() {
                             <Button onClick={onClickHandleEvent}
                                     loadingText="Submitting"
                                     size="lg"
-                                    bg={'blue.400'}
+                                    bg={'green.400'}
                                     color={'white'}
                                     _hover={{
-                                        bg: 'blue.500',
+                                        bg: 'green.500',
                                     }}>
                                 Sign up
                             </Button>
@@ -120,12 +144,36 @@ function Register() {
                         <Stack pt={6}>
                             <Text align={'center'}>
                                 Already a user?
-                                <Link color={'blue.400'} onClick={() => navigate("/login")}>Login</Link>
+                                <br/>
+                                <Link
+                                    color={'blue.500'}
+                                    onClick={() => navigate("/login")}>Login</Link>
                             </Text>
                         </Stack>
                     </Stack>
                 </Box>
             </Stack>
+            {isUserRegister &&
+                <>
+                    <ToastContainer/>
+                    <Modal isOpen={isUserRegister} onClose={onClose}>
+                        <ModalOverlay/>
+                        <ModalContent>
+                            <ModalHeader>Modal Title</ModalHeader>
+                            <ModalCloseButton/>
+                            <ModalBody>
+                                <p>Thank you for creating an account! Please choose from the option above.</p>
+                            </ModalBody>
+                            <ModalFooter>
+                                <Button colorScheme='blue' mr={3} onClick={() => navigate("/login")}>
+                                    Login Page
+                                </Button>
+                                <Button variant='solid' onClick={() => navigate("/")}>Home Page</Button>
+                            </ModalFooter>
+                        </ModalContent>
+                    </Modal>
+                </>
+            }
         </Flex>
     );
 }

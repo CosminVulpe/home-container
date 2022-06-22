@@ -24,12 +24,12 @@ function Login() {
                             align={'start'}
                             justify={'space-between'}>
                             {/*<Checkbox>Remember me</Checkbox>*/}
-                            <Link color={'blue.500'}>Forgot password?</Link>
+                            {/*<Link color={'blue.500'}>Forgot password?</Link>*/}
                         </Stack>
-                        <Button colorScheme={'blue'} variant={'solid'}>
+                        <Button colorScheme={'green'} variant={'solid'}>
                             Sign in
                         </Button>
-                        <Button colorScheme={'blue'} variant={'solid'} onClick={() => navigate("/")}>
+                        <Button colorScheme={'green'} variant={'solid'} onClick={() => navigate("/")}>
                             Back Home
                         </Button>
                     </Stack>

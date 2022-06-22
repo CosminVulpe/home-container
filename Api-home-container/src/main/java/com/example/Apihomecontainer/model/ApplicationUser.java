@@ -1,8 +1,11 @@
 package com.example.Apihomecontainer.model;
 
 import lombok.*;
+import org.springframework.security.core.userdetails.UserDetails;
 
 import javax.persistence.*;
+
+import java.util.List;
 
 import static javax.persistence.GenerationType.SEQUENCE;
 
@@ -13,7 +16,7 @@ import static javax.persistence.GenerationType.SEQUENCE;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class ApplicationUser {
+public class ApplicationUser implements UserDetails {
     @Id
     @SequenceGenerator(
             name = "users_sequence",
@@ -30,25 +33,57 @@ public class ApplicationUser {
 
     private String lastName;
 
+    private String username;
     private String emailAddress;
 
     private String password;
+
+    @ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    @JoinTable(name = "AUTH_USER_AUTHORITY"
+            , joinColumns = @JoinColumn(referencedColumnName = "id")
+            , inverseJoinColumns = @JoinColumn(referencedColumnName = "id"))
+    private List<Authority> authorities;
 
     @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "review_id", referencedColumnName = "id")
     private Review review;
 
-    public ApplicationUser( Review review) {
-        this.review = review;
-    }
+    private boolean enabled = true;
 
     public ApplicationUser(String firstName
             , String lastName
+            , String username
             , String emailAddress
-            , String password ) {
+            , String password) {
         this.firstName = firstName;
         this.lastName = lastName;
+        this.username = username;
         this.emailAddress = emailAddress;
         this.password = password;
+    }
+
+    @Override
+    public String getUsername() {
+        return this.username;
+    }
+
+    @Override
+    public boolean isAccountNonExpired() {
+        return this.enabled;
+    }
+
+    @Override
+    public boolean isAccountNonLocked() {
+        return this.enabled;
+    }
+
+    @Override
+    public boolean isCredentialsNonExpired() {
+        return this.enabled;
+    }
+
+    @Override
+    public boolean isEnabled() {
+        return this.enabled;
     }
 }

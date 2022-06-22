@@ -1,10 +1,17 @@
 package com.example.Apihomecontainer.service;
 
+import com.example.Apihomecontainer.jwt.AuthenticationManagerHelper;
+import com.example.Apihomecontainer.jwt.JWTTokenHelper;
 import com.example.Apihomecontainer.model.ApplicationUser;
+import com.example.Apihomecontainer.model.AuthenticationRequest;
 import com.example.Apihomecontainer.model.Authority;
 import com.example.Apihomecontainer.service.DAO.ApplicationUserRepository;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -22,13 +29,19 @@ import static com.example.Apihomecontainer.service.constants.Constants.*;
 @Slf4j
 public class ApplicationUserService implements UserDetailsService {
 
-    ApplicationUserRepository applicationUserRepository;
-    PasswordEncoder passwordEncoder;
+    private final ApplicationUserRepository applicationUserRepository;
+    private final PasswordEncoder passwordEncoder;
+    private final AuthenticationManagerHelper authenticationManagerHelper;
+    private final JWTTokenHelper jwtTokenHelper;
 
     @Autowired
-    public ApplicationUserService(ApplicationUserRepository applicationUserRepository) {
+    public ApplicationUserService(ApplicationUserRepository applicationUserRepository
+            , AuthenticationManagerHelper  authenticationManagerHelper
+            , JWTTokenHelper jwtTokenHelper) {
         this.applicationUserRepository = applicationUserRepository;
         this.passwordEncoder = new BCryptPasswordEncoder(LEVEL_PASSWORD_ENCODER);
+        this.authenticationManagerHelper = authenticationManagerHelper;
+        this.jwtTokenHelper = jwtTokenHelper;
     }
 
     @Override
@@ -36,7 +49,7 @@ public class ApplicationUserService implements UserDetailsService {
         ApplicationUser user = applicationUserRepository.findUserByUsername(username);
         if (user == null)
             throw new UsernameNotFoundException(String.format("Username %s was not found", username));
-        return (UserDetails) user;
+        return user;
     }
 
     public void register(ApplicationUser applicationUser) {
@@ -44,8 +57,8 @@ public class ApplicationUserService implements UserDetailsService {
 
         ApplicationUser user = new ApplicationUser(applicationUser.getFirstName()
                 , applicationUser.getLastName()
-                , applicationUser.getEmailAddress()
                 , applicationUser.getUsername()
+                , applicationUser.getEmailAddress()
                 , passwordEncoder.encode(applicationUser.getPassword()));
 
         authorityList.add(createAuthority(DEFAULT_ROLE, DEFAULT_ROLE_DESCRIPTION));
@@ -64,5 +77,18 @@ public class ApplicationUserService implements UserDetailsService {
                 .role(role)
                 .roleDescription(roleDescription)
                 .build();
+    }
+
+    public ResponseEntity<?> login(AuthenticationRequest authenticationRequest) {
+        final Authentication authentication =
+                authenticationManagerHelper.authenticate(
+                        new UsernamePasswordAuthenticationToken(
+                                authenticationRequest.getUserName()
+                                , authenticationRequest.getPassword()
+                        )
+                );
+        SecurityContextHolder.getContext().setAuthentication(authentication);
+        String jwtToken = jwtTokenHelper.generateToken(authentication.getPrincipal().toString());
+        return ResponseEntity.ok(jwtToken);
     }
 }

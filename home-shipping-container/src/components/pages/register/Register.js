@@ -28,7 +28,6 @@ import {useNavigate} from "react-router-dom";
 import {registerUser} from "../api/AuthenticationService";
 import {toast, ToastContainer} from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
-import CoverImage from "../../images/login-image/img.png";
 
 
 function Register() {
@@ -36,6 +35,7 @@ function Register() {
     const [loginCredentials, setLoginCredentials] = useState({
         firstName: "",
         lastName: "",
+        username: "",
         emailAddress: "",
         password: ""
     });
@@ -108,6 +108,13 @@ function Register() {
                                 </FormControl>
                             </Box>
                         </HStack>
+
+                        <FormControl id="username" isRequired>
+                            <FormLabel>Username</FormLabel>
+                            <Input type="text" name="username" value={loginCredentials.username}
+                                   onChange={onChangeEvent}/>
+                        </FormControl>
+
                         <FormControl id="email" isRequired>
                             <FormLabel>Email address</FormLabel>
                             <Input type="email" name="emailAddress" value={loginCredentials.emailAddress}
@@ -116,7 +123,9 @@ function Register() {
                         <FormControl id="password" isRequired>
                             <FormLabel>Password</FormLabel>
                             <InputGroup>
-                                <Input type={showPassword ? 'text' : 'password'} name="password"
+                                <Input type={showPassword ? 'text' : 'password'}
+                                       name="password"
+                                       minLength={5}
                                        onChange={onChangeEvent}/>
                                 <InputRightElement h={'full'}>
                                     <Button
@@ -162,10 +171,10 @@ function Register() {
                             <ModalHeader>Modal Title</ModalHeader>
                             <ModalCloseButton/>
                             <ModalBody>
-                                <p>Thank you for creating an account! Please choose from the option above.</p>
+                                <p>Thank you for creating an account! Please choose from the option below.</p>
                             </ModalBody>
                             <ModalFooter>
-                                <Button colorScheme='blue' mr={3} onClick={() => navigate("/login")}>
+                                <Button colorScheme='green' mr={3} onClick={() => navigate("/login")}>
                                     Login Page
                                 </Button>
                                 <Button variant='solid' onClick={() => navigate("/")}>Home Page</Button>

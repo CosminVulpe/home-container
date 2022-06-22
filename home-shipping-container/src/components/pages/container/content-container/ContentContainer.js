@@ -73,7 +73,6 @@ function ContentContainer() {
             totalNumberOfDays: totalNumberOfDays,
             image: ImageCarouselData[id - 1].image
         });
-
     }
 
     function getTotalPrice() {

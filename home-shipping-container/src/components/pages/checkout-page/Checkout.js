@@ -74,20 +74,20 @@ function Checkout() {
             });
         });
     }
-
-    function sendEmail(e) {
-        e.preventDefault();
-        console.log("send email");
-
-        emailjs.sendForm("service_8ad3g9q"
-            , "template_kbbhldg"
-            , e.target
-            , "BmkZHoPM4owIfU5Zy")
-            .then(res => {
-                console.log(res)
-            })
-            .catch(error => console.log(error));
-    }
+    //
+    // function sendEmail(e) {
+    //     e.preventDefault();
+    //     console.log("send email");
+    //
+    //     emailjs.sendForm("service_8ad3g9q"
+    //         , "template_kbbhldg"
+    //         , e.target
+    //         , "BmkZHoPM4owIfU5Zy")
+    //         .then(res => {
+    //             console.log(res)
+    //         })
+    //         .catch(error => console.log(error));
+    // }
 
 
     return (
@@ -163,8 +163,7 @@ function Checkout() {
                                     ) : (
                                         <FormHelperText style={{marginBottom: "10px"}}>Email is
                                             required</FormHelperText>
-                                    )
-                                    }
+                                    )}
                                 </FormControl>
 
                             </div>

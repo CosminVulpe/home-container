@@ -17,10 +17,35 @@ import {
 } from '@chakra-ui/react';
 import {ViewIcon, ViewOffIcon} from '@chakra-ui/icons';
 import {useNavigate} from "react-router-dom";
+import {registerUser} from "../api/AuthenticationService";
 
 function Register() {
     const [showPassword, setShowPassword] = useState(false);
+    const [loginCredentials, setLoginCredentials] = useState({
+        firstName: "",
+        lastName: "",
+        emailAddress: "",
+        password: ""
+    });
     let navigate = useNavigate();
+
+    function onChangeEvent(e) {
+        e.persist();
+        setLoginCredentials(prevState => ({
+            ...prevState,
+            [e.target.name]: e.target.value
+        }));
+    }
+
+    function onClickHandleEvent() {
+        registerUser(loginCredentials)
+            .then(response => {
+                if(response.status === 200){
+                    console.log("status OK 200");
+                }
+            })
+    }
+
 
     return (
         <Flex
@@ -47,24 +72,28 @@ function Register() {
                             <Box>
                                 <FormControl id="firstName" isRequired>
                                     <FormLabel>First Name</FormLabel>
-                                    <Input type="text"/>
+                                    <Input type="text" name="firstName" value={loginCredentials.firstName}
+                                           onChange={onChangeEvent}/>
                                 </FormControl>
                             </Box>
                             <Box>
                                 <FormControl id="lastName">
                                     <FormLabel>Last Name</FormLabel>
-                                    <Input type="text"/>
+                                    <Input type="text" name="lastName" value={loginCredentials.lastName}
+                                           onChange={onChangeEvent}/>
                                 </FormControl>
                             </Box>
                         </HStack>
                         <FormControl id="email" isRequired>
                             <FormLabel>Email address</FormLabel>
-                            <Input type="email"/>
+                            <Input type="email" name="emailAddress" value={loginCredentials.emailAddress}
+                                   onChange={onChangeEvent}/>
                         </FormControl>
                         <FormControl id="password" isRequired>
                             <FormLabel>Password</FormLabel>
                             <InputGroup>
-                                <Input type={showPassword ? 'text' : 'password'}/>
+                                <Input type={showPassword ? 'text' : 'password'} name="password"
+                                       onChange={onChangeEvent}/>
                                 <InputRightElement h={'full'}>
                                     <Button
                                         variant={'ghost'}
@@ -77,14 +106,14 @@ function Register() {
                             </InputGroup>
                         </FormControl>
                         <Stack spacing={10} pt={2}>
-                            <Button
-                                loadingText="Submitting"
-                                size="lg"
-                                bg={'blue.400'}
-                                color={'white'}
-                                _hover={{
-                                    bg: 'blue.500',
-                                }}>
+                            <Button onClick={onClickHandleEvent}
+                                    loadingText="Submitting"
+                                    size="lg"
+                                    bg={'blue.400'}
+                                    color={'white'}
+                                    _hover={{
+                                        bg: 'blue.500',
+                                    }}>
                                 Sign up
                             </Button>
                         </Stack>

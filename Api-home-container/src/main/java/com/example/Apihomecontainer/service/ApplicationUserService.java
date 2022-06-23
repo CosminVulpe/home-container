@@ -1,6 +1,5 @@
 package com.example.Apihomecontainer.service;
 
-import com.example.Apihomecontainer.jwt.AuthenticationManagerHelper;
 import com.example.Apihomecontainer.jwt.JWTTokenHelper;
 import com.example.Apihomecontainer.model.ApplicationUser;
 import com.example.Apihomecontainer.model.AuthenticationRequest;
@@ -9,38 +8,36 @@ import com.example.Apihomecontainer.service.DAO.ApplicationUserRepository;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.security.core.userdetails.UserDetailsService;
 
+import java.security.NoSuchAlgorithmException;
+import java.security.spec.InvalidKeySpecException;
 import java.util.ArrayList;
 import java.util.List;
 
+import static com.example.Apihomecontainer.security.SecurityConfig.passwordEncoder;
 import static com.example.Apihomecontainer.service.constants.Constants.*;
 
 
 @Service
 @Slf4j
 public class ApplicationUserService implements UserDetailsService {
-
     private final ApplicationUserRepository applicationUserRepository;
-    private final PasswordEncoder passwordEncoder;
-    private final AuthenticationManagerHelper authenticationManagerHelper;
+    @Autowired
+    private  AuthenticationManager authenticationManager;
     private final JWTTokenHelper jwtTokenHelper;
 
     @Autowired
     public ApplicationUserService(ApplicationUserRepository applicationUserRepository
-            , AuthenticationManagerHelper  authenticationManagerHelper
-            , JWTTokenHelper jwtTokenHelper) {
+            ,JWTTokenHelper jwtTokenHelper) {
         this.applicationUserRepository = applicationUserRepository;
-        this.passwordEncoder = new BCryptPasswordEncoder(LEVEL_PASSWORD_ENCODER);
-        this.authenticationManagerHelper = authenticationManagerHelper;
         this.jwtTokenHelper = jwtTokenHelper;
     }
 
@@ -59,7 +56,7 @@ public class ApplicationUserService implements UserDetailsService {
                 , applicationUser.getLastName()
                 , applicationUser.getUsername()
                 , applicationUser.getEmailAddress()
-                , passwordEncoder.encode(applicationUser.getPassword()));
+                , passwordEncoder().encode(applicationUser.getPassword()));
 
         authorityList.add(createAuthority(DEFAULT_ROLE, DEFAULT_ROLE_DESCRIPTION));
         user.setAuthorities(authorityList);
@@ -79,16 +76,20 @@ public class ApplicationUserService implements UserDetailsService {
                 .build();
     }
 
-    public ResponseEntity<?> login(AuthenticationRequest authenticationRequest) {
+    public ResponseEntity<?> login(AuthenticationRequest authenticationRequest) throws InvalidKeySpecException, NoSuchAlgorithmException {
         final Authentication authentication =
-                authenticationManagerHelper.authenticate(
+                authenticationManager.authenticate(
                         new UsernamePasswordAuthenticationToken(
-                                authenticationRequest.getUserName()
-                                , authenticationRequest.getPassword()
-                        )
-                );
+                        authenticationRequest.getUserName()
+                        , authenticationRequest.getPassword()));
+
+
         SecurityContextHolder.getContext().setAuthentication(authentication);
-        String jwtToken = jwtTokenHelper.generateToken(authentication.getPrincipal().toString());
+
+        ApplicationUser user = (ApplicationUser) authentication.getPrincipal();
+
+        String jwtToken = jwtTokenHelper.generateToken(user.getUsername());
+
         return ResponseEntity.ok(jwtToken);
     }
 }

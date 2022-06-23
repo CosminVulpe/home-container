@@ -9,6 +9,8 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Component;
 
 import javax.servlet.http.HttpServletRequest;
+import java.security.NoSuchAlgorithmException;
+import java.security.spec.InvalidKeySpecException;
 import java.util.Date;
 
 @Component
@@ -27,21 +29,6 @@ public class JWTTokenHelper {
     private final SignatureAlgorithm SIGNATURE_ALGORITHM = SignatureAlgorithm.HS256;
 
 
-    private Claims getAllClaimsFromToken(String token) {
-        Claims claims;
-        try {
-            claims = Jwts.parser()
-                    .setSigningKey(secretKey)
-                    .parseClaimsJws(token)
-                    .getBody();
-            log.info("Claim successful");
-        } catch (Exception e) {
-            claims = null;
-            log.error("Claim failed");
-        }
-        return claims;
-    }
-
     public String getUsernameFomToken(String token) {
         String username;
         try {
@@ -54,7 +41,7 @@ public class JWTTokenHelper {
         return username;
     }
 
-    public String generateToken(String username) {
+    public String generateToken(String username) throws InvalidKeySpecException, NoSuchAlgorithmException {
         return Jwts.builder()
                 .setIssuer(appName)
                 .setSubject(username)
@@ -64,11 +51,7 @@ public class JWTTokenHelper {
                 .compact();
     }
 
-    private Date generateExpirationDate() {
-        return new Date(new Date().getTime() + expiresIn * 1000L);
-    }
-
-    public Boolean validateToken(String token, UserDetails userDetails) {
+    public boolean validateToken(String token, UserDetails userDetails) {
         final String username = getUsernameFomToken(token);
         return (
                 username != null &&
@@ -80,18 +63,6 @@ public class JWTTokenHelper {
     public boolean isTokenExpired(String token) {
         Date expireDate = this.getExpirationDate(token);
         return expireDate.before(new Date());
-    }
-
-    private Date getExpirationDate(String token) {
-        Date expireDate;
-        try {
-            expireDate = this.getAllClaimsFromToken(token).getExpiration();
-            log.info("Date successful");
-        } catch (Exception e) {
-            expireDate = null;
-            log.error("Date failed");
-        }
-        return expireDate;
     }
 
     public Date getIssuedAtDateFromToken(String token) {
@@ -106,7 +77,6 @@ public class JWTTokenHelper {
         return issueAt;
     }
 
-
     public String getToken(HttpServletRequest request) {
 
         String authHeader = getAuthHeader(request);
@@ -116,5 +86,36 @@ public class JWTTokenHelper {
 
     public String getAuthHeader(HttpServletRequest request) {
         return request.getHeader("Authorization");
+    }
+
+    private Date getExpirationDate(String token) {
+        Date expireDate;
+        try {
+            expireDate = this.getAllClaimsFromToken(token).getExpiration();
+            log.info("Date successful");
+        } catch (Exception e) {
+            expireDate = null;
+            log.error("Date failed");
+        }
+        return expireDate;
+    }
+
+    private Date generateExpirationDate() {
+        return new Date(new Date().getTime() + expiresIn * 1000L);
+    }
+
+    private Claims getAllClaimsFromToken(String token) {
+        Claims claims;
+        try {
+            claims = Jwts.parser()
+                    .setSigningKey(secretKey)
+                    .parseClaimsJws(token)
+                    .getBody();
+            log.info("Claim successful");
+        } catch (Exception e) {
+            claims = null;
+            log.error("Claim failed");
+        }
+        return claims;
     }
 }

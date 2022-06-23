@@ -7,7 +7,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.security.NoSuchAlgorithmException;
 import java.security.Principal;
+import java.security.spec.InvalidKeySpecException;
 
 @RestController
 @CrossOrigin(origins = "http://localhost:3000/")
@@ -27,7 +29,7 @@ public class ApplicationUserController {
     }
 
     @PostMapping(path="/login")
-    public ResponseEntity<?> login(@RequestBody AuthenticationRequest authenticationRequest){
+    public ResponseEntity<?> login(@RequestBody AuthenticationRequest authenticationRequest) throws InvalidKeySpecException, NoSuchAlgorithmException {
             return applicationUserService.login(authenticationRequest);
     }
 

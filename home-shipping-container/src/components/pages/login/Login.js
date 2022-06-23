@@ -5,7 +5,10 @@ import {useNavigate} from "react-router-dom";
 import {userLogin} from "../api/AuthenticationService";
 import {authenticationFailure, authenticationSuccess} from "../redux/Authentication";
 
-function Login(props) {
+import {toast, ToastContainer} from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+
+function Login() {
     let navigate = useNavigate();
     const [values, setValues] = useState({
         userName: '',
@@ -20,25 +23,36 @@ function Login(props) {
         }));
     }
 
+    function showError() {
+        toast.error('Authentication Failed. Bad Credentials', {
+            position: "top-right",
+            autoClose: 2500,
+            hideProgressBar: false,
+            closeOnClick: true,
+            pauseOnHover: true,
+            draggable: true,
+            progress: undefined,
+        });
+    }
+
     function handleClickEvent() {
-        console.log("click");
         userLogin(values)
             .then((response) => {
                 if (response.status === 200) {
                     authenticationSuccess(response.data);
-                   navigate("/");
+                    navigate("/");
                 }
             }).catch(error => {
             if (error && error.response) {
                 switch (error.response.status) {
                     case 401:
                         authenticationFailure('Something Wrong!Please Try Again')
+                        showError();
                         break;
                     default:
                         authenticationFailure("Something Wrong!Please Try Again");
+                        showError();
                 }
-            } else {
-                authenticationFailure('Something Wrong!Please Try Again');
             }
         });
     }
@@ -46,6 +60,7 @@ function Login(props) {
 
     return (
         <Stack minH={'100vh'} direction={{base: 'column', md: 'row'}}>
+            <ToastContainer/>
             <Flex p={8} flex={1} align={'center'} justify={'center'}>
                 <Stack spacing={4} w={'full'} maxW={'md'}>
                     <Heading fontSize={'2xl'}>Sign in to your account</Heading>

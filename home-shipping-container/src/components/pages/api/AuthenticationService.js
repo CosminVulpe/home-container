@@ -7,11 +7,10 @@ export const getToken =()=> {
 
 export const logOut =()=> {
    localStorage.clear();
+    window.location.reload();
 }
 
-const refreshPage = ()=>{
 
-}
 
 export const registerUser = (authRequest) => {
     return axios({

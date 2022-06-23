@@ -94,11 +94,6 @@ const NavBtn = styled.div`
 
 
 function NavBar({toggle}) {
-    function userLogOut(){
-        logOut();
-        window.location.reload();
-    }
-
 
     return (
         <Nav>
@@ -116,7 +111,7 @@ function NavBar({toggle}) {
             <NavBtn>
                 {getToken() == null ?
                     <Button to="/register" primary='true'>Login</Button> :
-                    <Button to="#" primary='true' onClick={userLogOut}>Logout</Button>
+                    <Button to="#" primary='true' onClick={logOut}>Logout</Button>
                 }
                 <Button to="/contact" primary='true'>Contact Us</Button>
             </NavBtn>

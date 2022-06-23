@@ -2,15 +2,16 @@ import GlobalStyles from "../../global-style/GlobalStyles";
 import NavBar from "../../navBar/NavBar";
 import {useAtom} from "jotai";
 import {Button} from "../container/content-container/ContentContainer";
-import React, {useState} from "react";
+import React, {useEffect, useState} from "react";
 import Footer from "../../footer/Footer";
 import {CONTAINER_DETAILS_CHECKOUT, RESERVATION_DETAILS_CHECKOUT, RESERVATION_ID} from "../../jotai-atom/useAtom";
 import {FormControl, FormHelperText, FormLabel, Heading, Input} from "@chakra-ui/react";
-import emailjs from '@emailjs/browser';
+// import emailjs from '@emailjs/browser';
 import axios from "axios";
 import {toast, ToastContainer} from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import StripeCheckout from "react-stripe-checkout";
+import {fetchUserData} from "../api/AuthenticationService";
 
 
 function Checkout() {
@@ -20,13 +21,33 @@ function Checkout() {
     const [reservationName, setReservationName] = useState("");
     const [reservationEmail, setReservationEmail] = useState("");
     const [reservationID, setReservationID] = useAtom(RESERVATION_ID);
+    const [userInfo, setUserInfo] = useState({});
     const isError = (reservationEmail === "");
 
 
-    async function sendInfoBackend() {
-        reservationDetailsCheckout["reservationCustomerName"] = reservationName;
-        reservationDetailsCheckout["reservationCustomerEmail"] = reservationEmail;
+    useEffect(() => {
+        fetchUserData()
+            .then((response) => {
+                if (response.status === 200) {
+                    setUserInfo(response.data)
+                }
+            })
+            .catch((error) => {
+                if ( error.response && error.response.status === 500 ) {
+                    setUserInfo(null);
+                }
+            });
+    }, []);
 
+
+    async function sendInfoBackend() {
+        if(userInfo !== null){
+            reservationDetailsCheckout["reservationCustomerName"] = userInfo.firstName + " " + userInfo.lastName;
+            reservationDetailsCheckout["reservationCustomerEmail"] = userInfo.emailAddress;
+        }else{
+            reservationDetailsCheckout["reservationCustomerName"] = reservationName;
+            reservationDetailsCheckout["reservationCustomerEmail"] = reservationEmail;
+        }
 
         await axios.post(process.env.REACT_APP_BACKEND_API_RESERVATION + containerDetailsCheckout.id,
             JSON.stringify(reservationDetailsCheckout),
@@ -74,7 +95,8 @@ function Checkout() {
             });
         });
     }
-    //
+
+
     // function sendEmail(e) {
     //     e.preventDefault();
     //     console.log("send email");
@@ -88,6 +110,7 @@ function Checkout() {
     //         })
     //         .catch(error => console.log(error));
     // }
+    //
 
 
     return (
@@ -140,32 +163,52 @@ function Checkout() {
                             </div>
 
                             <div className="p-2">
-                                <FormControl isRequired onSubmit={() => console.log("email send!")}>
-                                    <div style={{marginBottom: "10px"}}>
-                                        <FormLabel htmlFor='name'>Full name</FormLabel>
-                                        <Input id='name' placeholder='name'
-                                               onChange={(e) => setReservationName(e.target.value)}
-                                               style={{marginBottom: "10px"}}/>
-                                    </div>
+                                { userInfo !== null ?
+                                    <FormControl isRequired>
+                                        <div style={{marginBottom: "10px"}}>
+                                            <FormLabel htmlFor='name'>Full name</FormLabel>
+                                            <Input id='name'
+                                                   placeholder={userInfo.firstName + " " + userInfo.lastName}
+                                                   style={{marginBottom: "10px"}}
+                                                   isDisabled={true}
+                                            />
+                                        </div>
 
-                                    <FormLabel htmlFor="user_email">Email</FormLabel>
-                                    <Input
-                                        id='user_email'
-                                        type='user_email'
-                                        name='email'
-                                        value={reservationEmail}
-                                        onChange={(e) => setReservationEmail(e.target.value)}
+                                        <FormLabel htmlFor="user_email">Email</FormLabel>
+                                        <Input
+                                            id='user_email'
+                                            type='user_email'
+                                            name='email'
+                                            placeholder={userInfo.emailAddress}
+                                            isDisabled={true}
+                                        />
+                                    </FormControl>
+                                    :
+                                    <FormControl isRequired>
+                                        <div style={{marginBottom: "10px"}}>
+                                            <FormLabel htmlFor='name'>Full name</FormLabel>
+                                            <Input id='name' placeholder='name'
+                                                   onChange={(e) => setReservationName(e.target.value)}
+                                                   style={{marginBottom: "10px"}}/>
+                                        </div>
 
-                                    />
-                                    {!isError ? (
-                                        <FormHelperText style={{marginBottom: "10px"}}>Enter your email to receive
-                                            reservation details</FormHelperText>
-                                    ) : (
-                                        <FormHelperText style={{marginBottom: "10px"}}>Email is
-                                            required</FormHelperText>
-                                    )}
-                                </FormControl>
-
+                                        <FormLabel htmlFor="user_email">Email</FormLabel>
+                                        <Input
+                                            id='user_email'
+                                            type='user_email'
+                                            name='email'
+                                            value={reservationEmail}
+                                            onChange={(e) => setReservationEmail(e.target.value)}
+                                        />
+                                        {!isError ? (
+                                            <FormHelperText style={{marginBottom: "10px"}}>Enter your email to receive
+                                                reservation details</FormHelperText>
+                                        ) : (
+                                            <FormHelperText style={{marginBottom: "10px"}}>Email is
+                                                required</FormHelperText>
+                                        )}
+                                    </FormControl>
+                                }
                             </div>
                         </div>
                     </div>
@@ -205,7 +248,7 @@ function Checkout() {
                                     >
                                         <Button to="#">Payment</Button>
                                     </StripeCheckout>
-                                    {/*<Button to="#">Payment</Button>*/}
+                                    {/*<Button to="#" onClick={sendInfoBackend}>Payment</Button>*/}
                                 </div>
                             </div>
                         </div>

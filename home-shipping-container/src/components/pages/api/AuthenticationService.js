@@ -28,9 +28,12 @@ export const userLogin = (authRequest) => {
     });
 }
 
-export const fetchUserData = (authRequest) => {
+export const fetchUserData = () => {
     return axios({
         method : 'GET',
-        url:`${process.env.REACT_APP_BACKEND_AUTH_REGISTER}`
+        url:`${process.env.REACT_APP_BACKEND_AUTH_FETCH_USER_DATA}`,
+        headers:{
+            'Authorization': 'Bearer '+ getToken()
+        }
     })
 }

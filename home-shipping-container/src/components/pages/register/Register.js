@@ -73,9 +73,7 @@ function Register() {
                     authenticationFailure("Something Wrong!Please Try Again");
                 }
             }).catch(error => {
-
             authenticationFailure("Authentication Failed. Bad Credentials");
-
         });
     }
 

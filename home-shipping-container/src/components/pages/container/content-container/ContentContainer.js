@@ -1,5 +1,5 @@
 import styled from "styled-components/macro";
-import React, {useContext, useState} from "react";
+import React, {useContext, useEffect, useState} from "react";
 import CalendarReservation from "../../../calendar/Calendar";
 import {ContainerDetails} from "../../../userContext/UserContext";
 import {Link, useParams} from "react-router-dom";
@@ -20,6 +20,8 @@ import {
     NumberInputStepper
 } from "@chakra-ui/react";
 import './ContentContainerStyle.css';
+import axios from "axios";
+import {fetchUserData} from "../../api/AuthenticationService";
 
 export const Section = styled.section`
   margin-top: 1rem;
@@ -60,8 +62,9 @@ function ContentContainer() {
     const [containerDetailsCheckout, setContainerDetailsCheckout] = useAtom(CONTAINER_DETAILS_CHECKOUT);
     const [reservationDetails, setReservationDetails] = useAtom(RESERVATION_DETAILS);
     const [reservationDetailsCheckout, setReservationDetailsCheckout] = useAtom(RESERVATION_DETAILS_CHECKOUT);
-    const [totalPrice, setTotalPrice] = useState(() => 0);
     let {id} = useParams();
+
+
 
     function handleClickEvent() {
         setContainerDetailsCheckout(details);

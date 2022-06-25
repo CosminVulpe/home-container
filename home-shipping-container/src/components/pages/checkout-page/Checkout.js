@@ -6,12 +6,11 @@ import React, {useEffect, useState} from "react";
 import Footer from "../../footer/Footer";
 import {CONTAINER_DETAILS_CHECKOUT, RESERVATION_DETAILS_CHECKOUT, RESERVATION_ID} from "../../jotai-atom/useAtom";
 import {FormControl, FormHelperText, FormLabel, Heading, Input} from "@chakra-ui/react";
-// import emailjs from '@emailjs/browser';
 import axios from "axios";
 import {toast, ToastContainer} from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import StripeCheckout from "react-stripe-checkout";
-import {fetchUserData} from "../api/AuthenticationService";
+import {fetchUserData, getToken} from "../api/AuthenticationService";
 
 
 function Checkout() {
@@ -33,7 +32,7 @@ function Checkout() {
                 }
             })
             .catch((error) => {
-                if ( error.response && error.response.status === 500 ) {
+                if (error.response && error.response.status === 500 ) {
                     setUserInfo(null);
                 }
             });
@@ -44,11 +43,11 @@ function Checkout() {
         if(userInfo !== null){
             reservationDetailsCheckout["reservationCustomerName"] = userInfo.firstName + " " + userInfo.lastName;
             reservationDetailsCheckout["reservationCustomerEmail"] = userInfo.emailAddress;
+            reservationDetailsCheckout["applicationUser"] = userInfo.username;
         }else{
             reservationDetailsCheckout["reservationCustomerName"] = reservationName;
             reservationDetailsCheckout["reservationCustomerEmail"] = reservationEmail;
         }
-
         await axios.post(process.env.REACT_APP_BACKEND_API_RESERVATION + containerDetailsCheckout.id,
             JSON.stringify(reservationDetailsCheckout),
             {
@@ -95,22 +94,6 @@ function Checkout() {
             });
         });
     }
-
-
-    // function sendEmail(e) {
-    //     e.preventDefault();
-    //     console.log("send email");
-    //
-    //     emailjs.sendForm("service_8ad3g9q"
-    //         , "template_kbbhldg"
-    //         , e.target
-    //         , "BmkZHoPM4owIfU5Zy")
-    //         .then(res => {
-    //             console.log(res)
-    //         })
-    //         .catch(error => console.log(error));
-    // }
-    //
 
 
     return (
@@ -223,10 +206,17 @@ function Checkout() {
                                 <Heading as='h4' size='sm'
                                          className="card-title text-center">{containerDetailsCheckout.name}</Heading>
                                 <p className="d-flex justify-content-center" style={{padding: "10px"}}>
-                                    {"Kids Number: " + reservationDetailsCheckout.numberKids
+                                    {reservationDetailsCheckout.numberKids !== 0 &&
+                                        "Kids Number: " + reservationDetailsCheckout.numberKids
                                         + " x "
                                         + containerDetailsCheckout.pricePerKid
-                                        + " lei "}
+                                        + " lei "
+                                    }
+
+                                    {/*{"Kids Number: " + reservationDetailsCheckout.numberKids*/}
+                                    {/*    + " x "*/}
+                                    {/*    + containerDetailsCheckout.pricePerKid*/}
+                                    {/*    + " lei "}*/}
                                 </p>
                                 <p className="d-flex justify-content-center" style={{padding: "10px"}}>
                                     {"Per night " + containerDetailsCheckout.pricePerNight
@@ -237,18 +227,18 @@ function Checkout() {
                                 <p className="d-flex justify-content-center" style={{padding: "10px"}}>Total
                                     Price {reservationDetailsCheckout.totalPrice} Lei</p>
                                 <div className="d-flex justify-content-center">
-                                    <ToastContainer/>
-                                    <StripeCheckout
-                                        name="Payment"
-                                        description="Enter Details"
-                                        stripeKey={process.env.REACT_APP_STRIPE_PUBLISHABLE_KEY}
-                                        token={handleToken}
-                                        amount={reservationDetailsCheckout.totalPrice * 100}
-                                        currency="RON"
-                                    >
-                                        <Button to="#">Payment</Button>
-                                    </StripeCheckout>
-                                    {/*<Button to="#" onClick={sendInfoBackend}>Payment</Button>*/}
+                                    {/*<ToastContainer/>*/}
+                                    {/*<StripeCheckout*/}
+                                    {/*    name="Payment"*/}
+                                    {/*    description="Enter Details"*/}
+                                    {/*    stripeKey={process.env.REACT_APP_STRIPE_PUBLISHABLE_KEY}*/}
+                                    {/*    token={handleToken}*/}
+                                    {/*    amount={reservationDetailsCheckout.totalPrice * 100}*/}
+                                    {/*    currency="RON"*/}
+                                    {/*>*/}
+                                    {/*    <Button to="#">Payment</Button>*/}
+                                    {/*</StripeCheckout>*/}
+                                    <Button to="#" onClick={sendInfoBackend}>Payment</Button>
                                 </div>
                             </div>
                         </div>

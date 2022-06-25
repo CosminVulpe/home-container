@@ -1,5 +1,5 @@
 import styled from "styled-components/macro";
-import React, {useContext, useEffect, useState} from "react";
+import React, {useContext, useState} from "react";
 import CalendarReservation from "../../../calendar/Calendar";
 import {ContainerDetails} from "../../../userContext/UserContext";
 import {Link, useParams} from "react-router-dom";
@@ -20,8 +20,6 @@ import {
     NumberInputStepper
 } from "@chakra-ui/react";
 import './ContentContainerStyle.css';
-import axios from "axios";
-import {fetchUserData} from "../../api/AuthenticationService";
 
 export const Section = styled.section`
   margin-top: 1rem;
@@ -33,23 +31,26 @@ export const Button = styled(Link)`
   text-decoration: none;
   height: 100%;
   border: none;
-  color: black;
+  color: ${({buttonColor}) => (buttonColor === 0) ? '#fff' : 'black'};
   display: flex !important;
   justify-content: center;
   text-align: center;
-  background-color: #CE8952;
+  background-color: ${({buttonColorBg}) => (buttonColorBg === 0) ? 'darkgrey' : '#CE8952'} ;
   border-radius: 4px;
   box-shadow: inset 0 0 0 0 #BACA70;
   transition: ease-in-out 0.5s;
   font-size: 1.2rem !important;
   font-family: 'monserrat', sans-serif !important;
   outline: none;
+  pointer-events: ${({numberOfAdults}) => (numberOfAdults === 0) ? 'none' : 'auto'};
 
   &:hover {
     box-shadow: inset 300px 0 0 0 #BACA70;
     cursor: pointer;
     color: black;
   }
+  
+  
 `;
 
 
@@ -65,7 +66,6 @@ function ContentContainer() {
     let {id} = useParams();
 
 
-
     function handleClickEvent() {
         setContainerDetailsCheckout(details);
         setReservationDetailsCheckout({
@@ -79,7 +79,14 @@ function ContentContainer() {
     }
 
     function getTotalPrice() {
-        let price = document.querySelectorAll('.justify-content-center')[1].innerText;
+        let fields = document.querySelectorAll('.justify-content-center');
+        let price;
+        if(fields.length === 2){
+            price = document.querySelectorAll('.justify-content-center')[0].innerText;
+        }else if(fields.length === 3){
+            price = document.querySelectorAll('.justify-content-center')[1].innerText;
+        }
+
         let totalPrice = "";
         for (let i = 0; i < price.length; i++) {
             if (!isNaN(price[i])) {
@@ -171,12 +178,16 @@ function ContentContainer() {
                                 }
 
                                 <p className="d-flex justify-content-center" style={{padding: "15px"}}>
-                                    Total Price : { (totalNumberOfDays
+                                    Total Price : {(totalNumberOfDays
                                     * details.pricePerNight) + (numberOfKids * details.pricePerKid)} Lei
                                 </p>
                                 <div className="d-flex justify-content-center"
                                      onClick={handleClickEvent}>
-                                    <Button to="/checkout">Book</Button>
+                                    <Button to="/checkout"
+                                            numberOfAdults={numberOfAdults}
+                                            buttonColor={numberOfAdults}
+                                            buttonColorBg={numberOfAdults}
+                                    >Book</Button>
                                 </div>
                             </div>
                         </div>

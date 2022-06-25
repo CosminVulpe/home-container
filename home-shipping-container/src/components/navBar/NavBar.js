@@ -113,7 +113,7 @@ function NavBar({toggle}) {
                     <Button to="/register" primary='true'>Login</Button> :
                     <Button to="#" primary='true' onClick={logOut}>Logout</Button>
                 }
-                <Button to="/contact" primary='true'>Contact Us</Button>
+                <Button to="/contact-us" primary='true'>Contact Us</Button>
             </NavBtn>
         </Nav>
     );

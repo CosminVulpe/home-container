@@ -51,7 +51,7 @@ function Checkout() {
         await axios.get(process.env.REACT_APP_BACKEND_API_RESERVATION + containerDetailsCheckout.id)
             .then(data => setReservationID(data.data))
             .catch(error => console.log(error));
-        handleClickEventEmail();
+        // handleClickEventEmail();
         setTimeout(()=>{
             navigate("/");
         }, 4500);

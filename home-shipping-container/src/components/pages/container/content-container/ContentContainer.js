@@ -79,22 +79,10 @@ function ContentContainer() {
     }
 
     function getTotalPrice() {
-        let fields = document.querySelectorAll('.justify-content-center');
-        let price;
-        if(fields.length === 2){
-            price = document.querySelectorAll('.justify-content-center')[0].innerText;
-        }else if(fields.length === 3){
-            price = document.querySelectorAll('.justify-content-center')[1].innerText;
-        }
-
-        let totalPrice = "";
-        for (let i = 0; i < price.length; i++) {
-            if (!isNaN(price[i])) {
-                totalPrice += price[i];
-            }
-        }
-        return parseInt(totalPrice);
+        return (totalNumberOfDays * details.pricePerNight)
+            + (numberOfKids * details.pricePerKid);
     }
+
 
     return (
         <>
@@ -178,8 +166,7 @@ function ContentContainer() {
                                 }
 
                                 <p className="d-flex justify-content-center" style={{padding: "15px"}}>
-                                    Total Price : {(totalNumberOfDays
-                                    * details.pricePerNight) + (numberOfKids * details.pricePerKid)} Lei
+                                    Total Price : {getTotalPrice()} Lei
                                 </p>
                                 <div className="d-flex justify-content-center"
                                      onClick={handleClickEvent}>

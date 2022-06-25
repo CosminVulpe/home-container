@@ -4,7 +4,12 @@ import {useAtom} from "jotai";
 import {Button} from "../container/content-container/ContentContainer";
 import React, {useEffect, useState} from "react";
 import Footer from "../../footer/Footer";
-import {CONTAINER_DETAILS_CHECKOUT, RESERVATION_DETAILS_CHECKOUT, RESERVATION_ID} from "../../jotai-atom/useAtom";
+import {
+    CONTAINER_DETAILS_CHECKOUT,
+    RESERVATION_DETAILS_CHECKOUT,
+    RESERVATION_ID,
+    USER_INFO
+} from "../../jotai-atom/useAtom";
 import {FormControl, FormHelperText, FormLabel, Heading, Input} from "@chakra-ui/react";
 import axios from "axios";
 import {toast, ToastContainer} from 'react-toastify';
@@ -20,23 +25,8 @@ function Checkout() {
     const [reservationName, setReservationName] = useState("");
     const [reservationEmail, setReservationEmail] = useState("");
     const [reservationID, setReservationID] = useAtom(RESERVATION_ID);
-    const [userInfo, setUserInfo] = useState({});
+    const [userInfo, setUserInfo] = useAtom(USER_INFO);
     const isError = (reservationEmail === "");
-
-
-    useEffect(() => {
-        fetchUserData()
-            .then((response) => {
-                if (response.status === 200) {
-                    setUserInfo(response.data)
-                }
-            })
-            .catch((error) => {
-                if (error.response && error.response.status === 500 ) {
-                    setUserInfo(null);
-                }
-            });
-    }, []);
 
 
     async function sendInfoBackend() {
@@ -213,10 +203,6 @@ function Checkout() {
                                         + " lei "
                                     }
 
-                                    {/*{"Kids Number: " + reservationDetailsCheckout.numberKids*/}
-                                    {/*    + " x "*/}
-                                    {/*    + containerDetailsCheckout.pricePerKid*/}
-                                    {/*    + " lei "}*/}
                                 </p>
                                 <p className="d-flex justify-content-center" style={{padding: "10px"}}>
                                     {"Per night " + containerDetailsCheckout.pricePerNight

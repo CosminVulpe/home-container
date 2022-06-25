@@ -113,17 +113,17 @@ function Footer() {
                         <Title>Social Media</Title>
                         <ul>
                             <li>
-                                <Link href="https://www.facebook.com/" target="_blank"><FaFacebookSquare size={30}/></Link>
-                                <Link href="https://about.instagram.com/" target="_blank"><FaInstagramSquare size={30}/></Link>
-                                <Link href="https://twitter.com/" target="_blank"><FaTwitterSquare size={30}/></Link>
-                                <Link href="https://www.tiktok.com/" target="_blank"><FaTiktok size={30}/></Link>
+                                <Link href="https://www.facebook.com/" target="_blank"><FaFacebookSquare size={25}/></Link>
+                                <Link href="https://about.instagram.com/" target="_blank"><FaInstagramSquare size={25}/></Link>
+                                <Link href="https://twitter.com/" target="_blank"><FaTwitterSquare size={25}/></Link>
+                                <Link href="https://www.tiktok.com/" target="_blank"><FaTiktok size={25}/></Link>
                             </li>
                         </ul>
                     </FooterCol>
-                    <FooterCol>
-                        <Title>Currency</Title>
-                        <DropDownCurrency/>
-                    </FooterCol>
+                    {/*<FooterCol>*/}
+                    {/*    <Title>Currency</Title>*/}
+                    {/*    <DropDownCurrency/>*/}
+                    {/*</FooterCol>*/}
                 </Row>
             </Container>
         </FooterContent>

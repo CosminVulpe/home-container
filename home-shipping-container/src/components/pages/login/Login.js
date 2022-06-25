@@ -80,10 +80,10 @@ function Login() {
                             {/*<Checkbox>Remember me</Checkbox>*/}
                             {/*<Link color={'blue.500'}>Forgot password?</Link>*/}
                         </Stack>
-                        <Button colorScheme={'green'} variant={'solid'} onClick={handleClickEvent}>
+                        <Button colorScheme={'blue'} variant={'solid'} onClick={handleClickEvent}>
                             Sign in
                         </Button>
-                        <Button colorScheme={'green'} variant={'solid'} onClick={() => navigate("/")}>
+                        <Button colorScheme={'blue'} variant={'solid'} onClick={() => navigate("/")}>
                             Back Home
                         </Button>
                     </Stack>

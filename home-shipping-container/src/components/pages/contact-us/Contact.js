@@ -24,6 +24,8 @@ import {MdEmail, MdFacebook, MdLocationOn, MdOutlineEmail, MdPhone,} from 'react
 import {BsDiscord, BsGithub, BsPerson} from 'react-icons/bs';
 import Footer from "../../footer/Footer";
 import emailjs from '@emailjs/browser';
+import {useAtom} from "jotai";
+import {USER_INFO} from "../../jotai-atom/useAtom";
 
 function Contact() {
     const form = useRef();
@@ -32,6 +34,7 @@ function Contact() {
         user_email: "",
         message: "",
     });
+    const [userInfo, setUserInfo] = useAtom(USER_INFO);
 
     function onChangeEvent(e) {
         e.persist();
@@ -41,7 +44,7 @@ function Contact() {
         }));
     }
 
-    function onClickEvent(){
+    function onClickEvent() {
         document.querySelector('#submit_email').click();
     }
 
@@ -56,7 +59,6 @@ function Contact() {
             .then((result) => console.log(result.text))
             .catch((error) => console.log(error))
     };
-
 
     return (
         <>
@@ -156,7 +158,8 @@ function Contact() {
                                                                 pointerEvents="none"
                                                                 children={<BsPerson color="gray.800"/>}
                                                             />
-                                                            <Input type="text" size="md" name="name" onChange={onChangeEvent}/>
+                                                            <Input type="text" size="md" name="name"
+                                                                   onChange={onChangeEvent}/>
                                                         </InputGroup>
                                                     </FormControl>
                                                     <FormControl id="name">
@@ -207,9 +210,19 @@ function Contact() {
             <div style={{display: "none"}}>
                 <form ref={form} onSubmit={sendEmail}>
                     <label>Name</label>
-                    <input type="text" name="name" value={contactInfo.name}/>
-                    <label>Email</label>
-                    <input type="email" name="user_email" value={contactInfo.user_email}/>
+                    {userInfo !== null ?
+                        <>
+                            <input type="text" name="name" value={userInfo.firstName + " " + userInfo.lastName}/>
+                            <label>Email</label>
+                            <input type="email" name="user_email" value={userInfo.emailAddress}/>
+                        </>
+                        :
+                        <>
+                            <input type="text" name="name" value={contactInfo.name}/>
+                            <label>Email</label>
+                            <input type="email" name="user_email" value={contactInfo.user_email}/>
+                        </>
+                    }
                     <label>Message</label>
                     <textarea name="message" value={contactInfo.message}/>
                     <input type="submit" value="Send" id="submit_email"/>

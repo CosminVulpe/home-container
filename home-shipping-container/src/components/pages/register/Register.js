@@ -149,10 +149,10 @@ function Register() {
                             <Button onClick={onClickHandleEvent}
                                     loadingText="Submitting"
                                     size="lg"
-                                    bg={'green.400'}
+                                    bg={'blue.400'}
                                     color={'white'}
                                     _hover={{
-                                        bg: 'green.500',
+                                        bg: 'blue.500',
                                     }}>
                                 Sign up
                             </Button>
@@ -183,7 +183,7 @@ function Register() {
                                     Please choose from the options below.</p>
                             </ModalBody>
                             <ModalFooter>
-                                <Button colorScheme='green' mr={3} onClick={() => navigate("/login")}>
+                                <Button colorScheme='blue' mr={3} onClick={() => navigate("/login")}>
                                     Login Page
                                 </Button>
                                 <Button variant='solid' onClick={() => navigate("/")}>Home Page</Button>

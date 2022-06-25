@@ -23,9 +23,13 @@ import {
 import {MdEmail, MdFacebook, MdLocationOn, MdOutlineEmail, MdPhone,} from 'react-icons/md';
 import {BsDiscord, BsGithub, BsPerson} from 'react-icons/bs';
 import Footer from "../../footer/Footer";
-import emailjs from '@emailjs/browser';
 import {useAtom} from "jotai";
 import {USER_INFO} from "../../jotai-atom/useAtom";
+import {
+    handleClickEventEmail,
+    sendEmail
+} from "../send-email-service/EmailService";
+import {ToastContainer} from "react-toastify";
 
 function Contact() {
     const form = useRef();
@@ -44,26 +48,11 @@ function Contact() {
         }));
     }
 
-    function onClickEvent() {
-        document.querySelector('#submit_email').click();
-    }
-
-
-    const sendEmail = (e) => {
-        e.preventDefault();
-        emailjs.sendForm(
-            process.env.REACT_APP_EMAILJS_SERVICE_ID
-            , process.env.REACT_APP_EMAILJS_TEMPLATE_ID
-            , form.current
-            , process.env.REACT_APP_EMAILJS_PUBLIC_KEY)
-            .then((result) => console.log(result.text))
-            .catch((error) => console.log(error))
-    };
-
     return (
         <>
             <GlobalStyle/>
             <NavBar/>
+            <ToastContainer/>
             <Container bg="#9DC4FB" maxW="full" mt={0} centerContent overflow="hidden">
                 <Box padding='28' color='black'>
                     <Flex>
@@ -191,7 +180,7 @@ function Contact() {
                                                             bg="#0D74FF"
                                                             color="white"
                                                             _hover={{}}
-                                                            onClick={onClickEvent}
+                                                            onClick={() => handleClickEventEmail()}
                                                         >
                                                             Send Message
                                                         </Button>
@@ -208,7 +197,7 @@ function Contact() {
             </Container>
             <Footer/>
             <div style={{display: "none"}}>
-                <form ref={form} onSubmit={sendEmail}>
+                <form ref={form} onSubmit={(e) => sendEmail(e, form, "template_kbbhldg")}>
                     <label>Name</label>
                     {userInfo !== null ?
                         <>

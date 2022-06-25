@@ -2,11 +2,11 @@ import React, {useState} from "react";
 import {Button, Flex, FormControl, FormLabel, Heading, Image, Input, Stack,} from '@chakra-ui/react';
 import CoverImage from '../../images/login-image/img.png';
 import {useNavigate} from "react-router-dom";
-import {userLogin} from "../api/AuthenticationService";
+import {userLogin} from "../authentication-service/AuthenticationService";
 import {authenticationFailure, authenticationSuccess} from "../redux/Authentication";
-
 import {toast, ToastContainer} from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import {errorNotification} from "../../toastify-notifications/ToastifyNotifications";
 
 function Login() {
     let navigate = useNavigate();
@@ -23,18 +23,6 @@ function Login() {
         }));
     }
 
-    function showError() {
-        toast.error('Authentication Failed. Bad Credentials', {
-            position: "top-right",
-            autoClose: 2500,
-            hideProgressBar: false,
-            closeOnClick: true,
-            pauseOnHover: true,
-            draggable: true,
-            progress: undefined,
-        });
-    }
-
     function handleClickEvent() {
         userLogin(values)
             .then((response) => {
@@ -47,11 +35,11 @@ function Login() {
                 switch (error.response.status) {
                     case 401:
                         authenticationFailure('Something Wrong!Please Try Again')
-                        showError();
+                        errorNotification("Authentication Failed. Bad Credentials");
                         break;
                     default:
                         authenticationFailure("Something Wrong!Please Try Again");
-                        showError();
+                        errorNotification("Authentication Failed. Bad Credentials");
                 }
             }
         });

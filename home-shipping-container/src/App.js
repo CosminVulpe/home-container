@@ -8,8 +8,9 @@ import Footer from "./components/footer/Footer";
 import axios from "axios";
 import "@stripe/stripe-js";
 import {useAtom} from "jotai";
-import {RESERVATION_ID, USER_INFO} from "./components/jotai-atom/useAtom";
-import {fetchUserData} from "./components/pages/api/AuthenticationService";
+import {USER_INFO} from "./components/jotai-atom/useAtom";
+import {fetchUserData} from "./components/pages/authentication-service/AuthenticationService";
+
 function App() {
     const [isOpen, setIsOpen] = useState(false);
     const [detailsCarousel, setDetailsCarousel] = useState([]);
@@ -26,14 +27,14 @@ function App() {
         fetchUserData()
             .then((response) => {
                 if (response.status === 200) {
-                    setUserInfo(response.data)
+                    if (response.data === "") {
+                        setUserInfo(null);
+                    } else {
+                        setUserInfo(response.data);
+                    }
                 }
             })
-            .catch((error) => {
-                if (error.response && error.response.status === 500 ) {
-                    setUserInfo(null);
-                }
-            });
+            .catch((error) => console.log(error));
     }, []);
 
 
@@ -49,7 +50,6 @@ function App() {
             <ImagineSlider slides={detailsCarousel}/>
             <InfoSectionIndex/>
             <Footer/>
-            {/*<SupportEngine/>*/}
         </>
     );
 }

@@ -2,7 +2,7 @@ import GlobalStyles from "../../global-style/GlobalStyles";
 import NavBar from "../../navBar/NavBar";
 import {useAtom} from "jotai";
 import {Button} from "../container/content-container/ContentContainer";
-import React, {useEffect, useState} from "react";
+import React, {useRef, useState} from "react";
 import Footer from "../../footer/Footer";
 import {
     CONTAINER_DETAILS_CHECKOUT,
@@ -12,11 +12,11 @@ import {
 } from "../../jotai-atom/useAtom";
 import {FormControl, FormHelperText, FormLabel, Heading, Input} from "@chakra-ui/react";
 import axios from "axios";
-import {toast, ToastContainer} from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
-import StripeCheckout from "react-stripe-checkout";
-import {fetchUserData, getToken} from "../api/AuthenticationService";
-
+import {errorNotification, successfulNotification} from "../../toastify-notifications/ToastifyNotifications";
+import {ToastContainer} from "react-toastify";
+import {handleClickEventEmail, sendEmail} from "../send-email-service/EmailService";
+import {useNavigate} from "react-router-dom";
 
 function Checkout() {
     window.scroll(0, 0);
@@ -27,14 +27,15 @@ function Checkout() {
     const [reservationID, setReservationID] = useAtom(RESERVATION_ID);
     const [userInfo, setUserInfo] = useAtom(USER_INFO);
     const isError = (reservationEmail === "");
-
+    const form = useRef();
+    const navigate = useNavigate();
 
     async function sendInfoBackend() {
-        if(userInfo !== null){
+        if (userInfo !== null) {
             reservationDetailsCheckout["reservationCustomerName"] = userInfo.firstName + " " + userInfo.lastName;
             reservationDetailsCheckout["reservationCustomerEmail"] = userInfo.emailAddress;
             reservationDetailsCheckout["applicationUser"] = userInfo.username;
-        }else{
+        } else {
             reservationDetailsCheckout["reservationCustomerName"] = reservationName;
             reservationDetailsCheckout["reservationCustomerEmail"] = reservationEmail;
         }
@@ -50,6 +51,10 @@ function Checkout() {
         await axios.get(process.env.REACT_APP_BACKEND_API_RESERVATION + containerDetailsCheckout.id)
             .then(data => setReservationID(data.data))
             .catch(error => console.log(error));
+        handleClickEventEmail();
+        setTimeout(()=>{
+            navigate("/");
+        }, 4500);
     }
 
     async function handleToken(token) {
@@ -61,35 +66,17 @@ function Checkout() {
                     amount: reservationDetailsCheckout.totalPrice
                 },
             }).then(() => {
-            toast.success('💸 Payment successful!', {
-                position: "top-right",
-                autoClose: 2500,
-                hideProgressBar: false,
-                closeOnClick: true,
-                pauseOnHover: true,
-                draggable: true,
-                progress: undefined,
-            });
+            successfulNotification("💸 Payment successful!");
             sendInfoBackend();
-
-        }).catch(err => {
-            toast.error('🔴 Payment failed!', {
-                position: "top-right",
-                autoClose: 2500,
-                hideProgressBar: false,
-                closeOnClick: true,
-                pauseOnHover: true,
-                draggable: true,
-                progress: undefined,
-            });
-        });
+            // handleClickEventEmail();
+        }).catch(err => errorNotification("🔴 Payment failed!"));
     }
-
 
     return (
         <>
             <GlobalStyles/>
             <NavBar/>
+            <ToastContainer/>
             <section style={{
                 width: "100%",
                 padding: "7rem 0rem",
@@ -136,7 +123,7 @@ function Checkout() {
                             </div>
 
                             <div className="p-2">
-                                { userInfo !== null ?
+                                {userInfo !== null ?
                                     <FormControl isRequired>
                                         <div style={{marginBottom: "10px"}}>
                                             <FormLabel htmlFor='name'>Full name</FormLabel>
@@ -202,7 +189,6 @@ function Checkout() {
                                         + containerDetailsCheckout.pricePerKid
                                         + " lei "
                                     }
-
                                 </p>
                                 <p className="d-flex justify-content-center" style={{padding: "10px"}}>
                                     {"Per night " + containerDetailsCheckout.pricePerNight
@@ -232,6 +218,42 @@ function Checkout() {
                 </div>
             </section>
             <Footer/>
+            <div style={{display: "none"}}>
+                <form ref={form} onSubmit={(e) => sendEmail(e, form, "template_ft6dwo5")}>
+                    <label>Name</label>
+                    {userInfo !== null ?
+                        <>
+                            <input type="text" name="name" value={userInfo.firstName + " " + userInfo.lastName}/>
+                            <label>Email</label>
+                            <input type="email" name="user_email" value={userInfo.emailAddress}/>
+                        </>
+                        :
+                        <>
+                            <input type="text" name="name" value={reservationName}/>
+                            <label>Email</label>
+                            <input type="email" name="user_email" value={reservationEmail}/>
+                        </>
+                    }
+                    <label>Message</label>
+                    <textarea name="message" value={reservationID}/>
+                    <textarea name="message-from-date" value={
+                        reservationDetailsCheckout.startDate.getDate()
+                        + "/"
+                        + (reservationDetailsCheckout.startDate.getMonth() + 1)
+                        + "/"
+                        + reservationDetailsCheckout.startDate.getFullYear()
+                    }/>
+                    <textarea name="message-to-date" value={
+                        reservationDetailsCheckout.finishDate.getDate()
+                        + "/"
+                        + (reservationDetailsCheckout.finishDate.getMonth() + 1)
+                        + "/"
+                        + reservationDetailsCheckout.finishDate.getFullYear()
+                    }/>
+                    <textarea name="message-price" value={reservationDetailsCheckout.totalPrice}/>
+                    <input type="submit" value="Send" id="submit_email"/>
+                </form>
+            </div>
         </>
     );
 }

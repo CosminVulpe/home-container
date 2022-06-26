@@ -1,6 +1,7 @@
 import styled from 'styled-components/macro';
 import {FaFacebookSquare, FaInstagramSquare, FaTiktok, FaTwitterSquare} from "react-icons/fa";
 import DropDownCurrency from "../drop-down-list-currency/DropDownCurrency";
+import CancellationReservation from "./CancellationReservation";
 
 const FooterContent = styled.footer`
   background: #24262b;
@@ -120,10 +121,12 @@ function Footer() {
                             </li>
                         </ul>
                     </FooterCol>
-                    {/*<FooterCol>*/}
-                    {/*    <Title>Currency</Title>*/}
-                    {/*    <DropDownCurrency/>*/}
-                    {/*</FooterCol>*/}
+                    <FooterCol>
+                        {/*<Title>Currency</Title>*/}
+                        {/*<DropDownCurrency/>*/}
+                        <Title style={{marginTop:"15px"}}>Cancellation Reservation</Title>
+                        <CancellationReservation/>
+                    </FooterCol>
                 </Row>
             </Container>
         </FooterContent>

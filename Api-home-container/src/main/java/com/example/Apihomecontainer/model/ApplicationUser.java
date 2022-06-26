@@ -48,6 +48,10 @@ public class ApplicationUser implements UserDetails {
     @JoinColumn(name = "review_id", referencedColumnName = "id")
     private Review review;
 
+    @OneToMany(cascade = CascadeType.ALL
+            , mappedBy = "applicationUser")
+    private List<Reservation>reservations;
+
     private boolean enabled = true;
 
     public ApplicationUser(String firstName
@@ -85,5 +89,10 @@ public class ApplicationUser implements UserDetails {
     @Override
     public boolean isEnabled() {
         return this.enabled;
+    }
+
+    public void addReservation(Reservation reservation){
+        reservations.add(reservation);
+        reservation.setApplicationUser(this);
     }
 }

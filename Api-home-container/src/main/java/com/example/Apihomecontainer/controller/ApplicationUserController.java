@@ -23,21 +23,20 @@ public class ApplicationUserController {
         this.applicationUserService = applicationUserService;
     }
 
-    @PostMapping(path="/register")
-    public void register(@RequestBody ApplicationUser applicationUser){
+    @PostMapping(path = "/register")
+    public void register(@RequestBody ApplicationUser applicationUser) {
         applicationUserService.register(applicationUser);
     }
 
-    @PostMapping(path="/login")
+    @PostMapping(path = "/login")
     public ResponseEntity<?> login(@RequestBody AuthenticationRequest authenticationRequest) throws InvalidKeySpecException, NoSuchAlgorithmException {
-            return applicationUserService.login(authenticationRequest);
+        return applicationUserService.login(authenticationRequest);
     }
 
-    @GetMapping(path="/user/info")
-    public ResponseEntity<?> getUserInfo(Principal user){
-        ApplicationUser user1 = (ApplicationUser) applicationUserService.loadUserByUsername(user.getName());
+    @GetMapping(path = "/user/info")
+    public ResponseEntity<?> getUserInfo(Principal user) {
 
-        return ResponseEntity.ok(user1);
+        return applicationUserService.getUserInfo(user);
     }
 
 }

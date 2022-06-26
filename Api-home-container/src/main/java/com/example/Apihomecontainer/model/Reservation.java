@@ -48,7 +48,10 @@ public class Reservation {
     @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     private ShippingContainer container;
 
-
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "user_id", referencedColumnName = "id")
+//    @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
+    private ApplicationUser applicationUser;
 
 //    public String transformTotalPriceStrCurrency(double sum) {
 //        return NumberFormat.getCurrencyInstance().format(sum);

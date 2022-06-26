@@ -18,6 +18,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.security.core.userdetails.UserDetailsService;
 
 import java.security.NoSuchAlgorithmException;
+import java.security.Principal;
 import java.security.spec.InvalidKeySpecException;
 import java.util.ArrayList;
 import java.util.List;
@@ -31,12 +32,12 @@ import static com.example.Apihomecontainer.service.constants.Constants.*;
 public class ApplicationUserService implements UserDetailsService {
     private final ApplicationUserRepository applicationUserRepository;
     @Autowired
-    private  AuthenticationManager authenticationManager;
+    private AuthenticationManager authenticationManager;
     private final JWTTokenHelper jwtTokenHelper;
 
     @Autowired
     public ApplicationUserService(ApplicationUserRepository applicationUserRepository
-            ,JWTTokenHelper jwtTokenHelper) {
+            , JWTTokenHelper jwtTokenHelper) {
         this.applicationUserRepository = applicationUserRepository;
         this.jwtTokenHelper = jwtTokenHelper;
     }
@@ -80,16 +81,23 @@ public class ApplicationUserService implements UserDetailsService {
         final Authentication authentication =
                 authenticationManager.authenticate(
                         new UsernamePasswordAuthenticationToken(
-                        authenticationRequest.getUserName()
-                        , authenticationRequest.getPassword()));
+                                authenticationRequest.getUserName()
+                                , authenticationRequest.getPassword()));
 
 
         SecurityContextHolder.getContext().setAuthentication(authentication);
-
         ApplicationUser user = (ApplicationUser) authentication.getPrincipal();
-
         String jwtToken = jwtTokenHelper.generateToken(user.getUsername());
-
         return ResponseEntity.ok(jwtToken);
     }
+
+    public ResponseEntity<?> getUserInfo(Principal user) {
+        if (user != null) {
+            ApplicationUser applicationUser = (ApplicationUser) loadUserByUsername(user.getName());
+            return ResponseEntity.ok(applicationUser);
+        }
+        return ResponseEntity.ok().build();
+
+    }
+
 }

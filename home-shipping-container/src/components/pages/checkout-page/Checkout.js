@@ -15,7 +15,7 @@ import axios from "axios";
 import 'react-toastify/dist/ReactToastify.css';
 import {errorNotification, successfulNotification} from "../../toastify-notifications/ToastifyNotifications";
 import {ToastContainer} from "react-toastify";
-import {handleClickEventEmail, sendEmail} from "../send-email-service/EmailService";
+import {sendEmail} from "../send-email-service/EmailService";
 import {useNavigate} from "react-router-dom";
 
 function Checkout() {
@@ -34,11 +34,15 @@ function Checkout() {
         if (userInfo !== null) {
             reservationDetailsCheckout["reservationCustomerName"] = userInfo.firstName + " " + userInfo.lastName;
             reservationDetailsCheckout["reservationCustomerEmail"] = userInfo.emailAddress;
-            reservationDetailsCheckout["applicationUser"] = userInfo.username;
+            reservationDetailsCheckout["applicationUser"] = {
+                "username":userInfo.username
+            };
+
         } else {
             reservationDetailsCheckout["reservationCustomerName"] = reservationName;
             reservationDetailsCheckout["reservationCustomerEmail"] = reservationEmail;
         }
+
         await axios.post(process.env.REACT_APP_BACKEND_API_RESERVATION + containerDetailsCheckout.id,
             JSON.stringify(reservationDetailsCheckout),
             {
@@ -52,10 +56,11 @@ function Checkout() {
             .then(data => setReservationID(data.data))
             .catch(error => console.log(error));
         // handleClickEventEmail();
-        setTimeout(()=>{
+        setTimeout(() => {
             navigate("/");
-        }, 4500);
+        }, 5000);
     }
+
 
     async function handleToken(token) {
         await axios.post(process.env.REACT_APP_BACKEND_STRIPE_API
@@ -68,7 +73,6 @@ function Checkout() {
             }).then(() => {
             successfulNotification("💸 Payment successful!");
             sendInfoBackend();
-            // handleClickEventEmail();
         }).catch(err => errorNotification("🔴 Payment failed!"));
     }
 
@@ -182,14 +186,16 @@ function Checkout() {
                             <div className="card-body">
                                 <Heading as='h4' size='sm'
                                          className="card-title text-center">{containerDetailsCheckout.name}</Heading>
-                                <p className="d-flex justify-content-center" style={{padding: "10px"}}>
-                                    {reservationDetailsCheckout.numberKids !== 0 &&
-                                        "Kids Number: " + reservationDetailsCheckout.numberKids
-                                        + " x "
-                                        + containerDetailsCheckout.pricePerKid
-                                        + " lei "
-                                    }
-                                </p>
+                                {reservationDetailsCheckout.numberKids !== 0 &&
+                                    <p className="d-flex justify-content-center" style={{padding: "10px"}}>
+                                        {
+                                            "Kids Number: " + reservationDetailsCheckout.numberKids
+                                            + " x "
+                                            + containerDetailsCheckout.pricePerKid
+                                            + " lei "
+                                        }
+                                    </p>
+                                }
                                 <p className="d-flex justify-content-center" style={{padding: "10px"}}>
                                     {"Per night " + containerDetailsCheckout.pricePerNight
                                         + " x "
@@ -199,7 +205,7 @@ function Checkout() {
                                 <p className="d-flex justify-content-center" style={{padding: "10px"}}>Total
                                     Price {reservationDetailsCheckout.totalPrice} Lei</p>
                                 <div className="d-flex justify-content-center">
-                                    {/*<ToastContainer/>*/}
+                                    <ToastContainer/>
                                     {/*<StripeCheckout*/}
                                     {/*    name="Payment"*/}
                                     {/*    description="Enter Details"*/}
@@ -236,21 +242,21 @@ function Checkout() {
                     }
                     <label>Message</label>
                     <textarea name="message" value={reservationID}/>
-                    <textarea name="message-from-date" value={
-                        reservationDetailsCheckout.startDate.getDate()
-                        + "/"
-                        + (reservationDetailsCheckout.startDate.getMonth() + 1)
-                        + "/"
-                        + reservationDetailsCheckout.startDate.getFullYear()
-                    }/>
-                    <textarea name="message-to-date" value={
-                        reservationDetailsCheckout.finishDate.getDate()
-                        + "/"
-                        + (reservationDetailsCheckout.finishDate.getMonth() + 1)
-                        + "/"
-                        + reservationDetailsCheckout.finishDate.getFullYear()
-                    }/>
-                    <textarea name="message-price" value={reservationDetailsCheckout.totalPrice}/>
+                    {/*<textarea name="message-from-date" value={*/}
+                    {/*    reservationDetailsCheckout.startDate.getDate()*/}
+                    {/*    + "/"*/}
+                    {/*    + (reservationDetailsCheckout.startDate.getMonth() + 1)*/}
+                    {/*    + "/"*/}
+                    {/*    + reservationDetailsCheckout.startDate.getFullYear()*/}
+                    {/*}/>*/}
+                    {/*<textarea name="message-to-date" value={*/}
+                    {/*    reservationDetailsCheckout.finishDate.getDate()*/}
+                    {/*    + "/"*/}
+                    {/*    + (reservationDetailsCheckout.finishDate.getMonth() + 1)*/}
+                    {/*    + "/"*/}
+                    {/*    + reservationDetailsCheckout.finishDate.getFullYear()*/}
+                    {/*}/>*/}
+                    {/*<textarea name="message-price" value={reservationDetailsCheckout.totalPrice}/>*/}
                     <input type="submit" value="Send" id="submit_email"/>
                 </form>
             </div>

@@ -50,7 +50,8 @@ public class ShippingContainerService {
         for(Reservation reservation :getContainerById(containerId).getReservationList()){
             if(isDateOccupied(reservation.getReservationStatus())){
                 deleteDates.addAll(
-                        List.of(reservation.getStartDate(), reservation.getFinishDate())
+                        List.of(reservation.getStartDate()
+                                , reservation.getFinishDate())
                 );
             }
         }

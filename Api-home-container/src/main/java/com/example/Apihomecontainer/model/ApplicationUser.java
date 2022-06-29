@@ -5,6 +5,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 
 import javax.persistence.*;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import static javax.persistence.GenerationType.SEQUENCE;
@@ -50,7 +51,7 @@ public class ApplicationUser implements UserDetails {
 
     @OneToMany(cascade = CascadeType.ALL
             , mappedBy = "applicationUser")
-    private List<Reservation>reservations;
+    private List<Reservation> reservations = new ArrayList<>();
 
     private boolean enabled = true;
 
@@ -91,8 +92,8 @@ public class ApplicationUser implements UserDetails {
         return this.enabled;
     }
 
-    public void addReservation(Reservation reservation){
+    public void addReservation(Reservation reservation, UserDetails userDetails){
         reservations.add(reservation);
-        reservation.setApplicationUser(this);
+        reservation.setApplicationUser((ApplicationUser) userDetails);
     }
 }

@@ -4,6 +4,7 @@ import com.example.Apihomecontainer.jwt.JWTTokenHelper;
 import com.example.Apihomecontainer.model.ApplicationUser;
 import com.example.Apihomecontainer.model.AuthenticationRequest;
 import com.example.Apihomecontainer.model.Authority;
+import com.example.Apihomecontainer.model.ShippingContainer;
 import com.example.Apihomecontainer.service.DAO.ApplicationUserRepository;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -93,11 +94,25 @@ public class ApplicationUserService implements UserDetailsService {
 
     public ResponseEntity<?> getUserInfo(Principal user) {
         if (user != null) {
-            ApplicationUser applicationUser = (ApplicationUser) loadUserByUsername(user.getName());
-            return ResponseEntity.ok(applicationUser);
+            return ResponseEntity.ok(getUser(user));
         }
         return ResponseEntity.ok().build();
+    }
 
+    public ResponseEntity<?> getUserReservations(Principal user) {
+        return ResponseEntity.ok(getUser(user).getReservations());
+    }
+
+    public ResponseEntity<?> getUserContainers(Principal user) {
+        List<String> shippingContainerList = new ArrayList<>();
+        getUser(user).getReservations().forEach(item -> shippingContainerList.add(item.getContainer().getName()));
+        shippingContainerList.forEach(System.out::println);
+        return ResponseEntity.ok(shippingContainerList);
+    }
+
+
+    private ApplicationUser getUser(Principal user){
+        return (ApplicationUser) loadUserByUsername(user.getName());
     }
 
 }

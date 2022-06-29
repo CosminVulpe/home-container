@@ -4,15 +4,13 @@ import com.example.Apihomecontainer.model.ApplicationUser;
 import com.example.Apihomecontainer.model.Reservation;
 import com.example.Apihomecontainer.model.ShippingContainer;
 import com.example.Apihomecontainer.model.enums.ReservationStatus;
-import com.example.Apihomecontainer.service.DAO.ApplicationUserRepository;
 import com.example.Apihomecontainer.service.DAO.ReservationRepository;
 import com.example.Apihomecontainer.service.DAO.ShippingContainerRepository;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
 
-import java.security.Principal;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -24,16 +22,15 @@ public class ReservationService {
 
     private final ReservationRepository reservationRepository;
     private final ShippingContainerRepository shippingContainerRepository;
-    private final ApplicationUserRepository applicationUserRepository;
+    private final ApplicationUserService applicationUserService;
 
     @Autowired
     public ReservationService(ReservationRepository reservationRepository
             , ShippingContainerRepository shippingContainerRepository
-            , ApplicationUserRepository applicationUserRepository
             , ApplicationUserService applicationUserService) {
         this.reservationRepository = reservationRepository;
         this.shippingContainerRepository = shippingContainerRepository;
-        this.applicationUserRepository = applicationUserRepository;
+        this.applicationUserService = applicationUserService;
     }
 
     public List<Reservation> getAll() {
@@ -47,25 +44,44 @@ public class ReservationService {
 
     public void addReservation(Reservation reservation
             , Long containerId) {
-
         Optional<ShippingContainer> shippingContainerOptional = shippingContainerRepository.
                 findById(containerId);
+        Reservation newReservation;
 
 
         if (checkIfShippingContainerExists(shippingContainerOptional)) {
-            Reservation newReservation = new Reservation(
-                    reservation.getReservationCustomerName()
-                    , reservation.getReservationCustomerEmail()
-                    , reservation.getStartDate()
-                    , reservation.getFinishDate()
-                    , reservation.getNumberAdults()
-                    , reservation.getNumberKids()
-                    , ReservationStatus.OCCUPY
-                    , reservation.getTotalNumberOfDays()
-                    , reservation.getTotalPrice()
-                    , shippingContainerOptional.get()
-            );
-            shippingContainerOptional.get().addReservations(newReservation);
+            if (reservation.getApplicationUser() != null) {
+                newReservation = new Reservation(
+                        reservation.getReservationCustomerName()
+                        , reservation.getReservationCustomerEmail()
+                        , reservation.getStartDate()
+                        , reservation.getFinishDate()
+                        , reservation.getNumberAdults()
+                        , reservation.getNumberKids()
+                        , ReservationStatus.OCCUPY
+                        , reservation.getTotalNumberOfDays()
+                        , reservation.getTotalPrice()
+                        , shippingContainerOptional.get()
+                        , reservation.getApplicationUser()
+                );
+                UserDetails userDetails = applicationUserService.loadUserByUsername(reservation.getApplicationUser().getUsername());
+                reservation.getApplicationUser().addReservation(newReservation, userDetails);
+            } else {
+                newReservation = new Reservation(
+                        reservation.getReservationCustomerName()
+                        , reservation.getReservationCustomerEmail()
+                        , reservation.getStartDate()
+                        , reservation.getFinishDate()
+                        , reservation.getNumberAdults()
+                        , reservation.getNumberKids()
+                        , ReservationStatus.OCCUPY
+                        , reservation.getTotalNumberOfDays()
+                        , reservation.getTotalPrice()
+                        , shippingContainerOptional.get()
+                        , null
+                );
+                shippingContainerOptional.get().addReservations(newReservation);
+            }
             addNewReservation(newReservation);
             log.info("The reservation was made!");
         }
@@ -100,6 +116,7 @@ public class ReservationService {
     }
 
     private boolean doesReservationIdExists(UUID reservationDB, UUID reservationIdUser) {
-        return reservationDB.equals( reservationIdUser);
+        return reservationDB.equals(reservationIdUser);
     }
+
 }

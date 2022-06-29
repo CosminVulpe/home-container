@@ -39,4 +39,14 @@ public class ApplicationUserController {
         return applicationUserService.getUserInfo(user);
     }
 
+    @GetMapping(path="/user/reservations")
+    public ResponseEntity<?> getUserReservations(Principal user){
+        return applicationUserService.getUserReservations(user);
+    }
+
+    @GetMapping(path="/user/reservation/containers")
+    public ResponseEntity<?> getUserContainers(Principal user){
+        return applicationUserService.getUserContainers(user);
+    }
+
 }

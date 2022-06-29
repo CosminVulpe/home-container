@@ -1,5 +1,6 @@
 package com.example.Apihomecontainer.controller;
 
+import com.example.Apihomecontainer.model.ApplicationUser;
 import com.example.Apihomecontainer.model.Reservation;
 import com.example.Apihomecontainer.model.ShippingContainer;
 import com.example.Apihomecontainer.service.ReservationService;
@@ -36,13 +37,13 @@ public class ReservationController {
     }
 
 
-    @GetMapping(path="/{containerId}")
-    public UUID getReservationId(@PathVariable("containerId") Long containerId){
+    @GetMapping(path = "/{containerId}")
+    public UUID getReservationId(@PathVariable("containerId") Long containerId) {
         return reservationService.getReservationId(containerId);
     }
 
-    @PostMapping(path="/cancel-reservation")
-    public void cancelReservation(@RequestBody Reservation reservation){
+    @PostMapping(path = "/cancel-reservation")
+    public void cancelReservation(@RequestBody Reservation reservation) {
         reservationService.cancelReservation(reservation);
     }
 

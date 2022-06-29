@@ -8,6 +8,8 @@
     height: 400px;
     transition: 0.4s ease-out;
     cursor: pointer;
+    box-shadow: 10px 10px 10px;
+    margin-bottom: 3rem;
 }
 
 .card-container:hover {

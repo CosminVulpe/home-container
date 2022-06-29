@@ -1,6 +1,6 @@
 import styled from 'styled-components/macro';
 import {FaFacebookSquare, FaInstagramSquare, FaTiktok, FaTwitterSquare} from "react-icons/fa";
-import DropDownCurrency from "../drop-down-list-currency/DropDownCurrency";
+import CancellationReservation from "./CancellationReservation";
 
 const FooterContent = styled.footer`
   background: #24262b;
@@ -113,16 +113,17 @@ function Footer() {
                         <Title>Social Media</Title>
                         <ul>
                             <li>
-                                <Link href="https://www.facebook.com/" target="_blank"><FaFacebookSquare size={30}/></Link>
-                                <Link href="https://about.instagram.com/" target="_blank"><FaInstagramSquare size={30}/></Link>
-                                <Link href="https://twitter.com/" target="_blank"><FaTwitterSquare size={30}/></Link>
-                                <Link href="https://www.tiktok.com/" target="_blank"><FaTiktok size={30}/></Link>
+                                <Link href="https://www.facebook.com/" target="_blank"><FaFacebookSquare
+                                    size={25}/></Link>
+                                <Link href="https://about.instagram.com/" target="_blank"><FaInstagramSquare size={25}/></Link>
+                                <Link href="https://twitter.com/" target="_blank"><FaTwitterSquare size={25}/></Link>
+                                <Link href="https://www.tiktok.com/" target="_blank"><FaTiktok size={25}/></Link>
                             </li>
                         </ul>
                     </FooterCol>
                     <FooterCol>
-                        <Title>Currency</Title>
-                        <DropDownCurrency/>
+                        <Title style={{marginTop: "15px"}}>Cancellation Reservation</Title>
+                        <CancellationReservation/>
                     </FooterCol>
                 </Row>
             </Container>

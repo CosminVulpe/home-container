@@ -2,6 +2,7 @@ package com.example.Apihomecontainer.service;
 
 import com.example.Apihomecontainer.model.Reservation;
 import com.example.Apihomecontainer.model.ShippingContainer;
+import com.example.Apihomecontainer.model.enums.ReservationStatus;
 import com.example.Apihomecontainer.service.DAO.ShippingContainerRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -31,10 +32,9 @@ public class ShippingContainerService {
     }
 
     public List<LocalDate> getDatesContainerOccupy(Long containerId) {
-
         List<LocalDate> reservationDateOccupied = new ArrayList<>();
-
         for (Reservation reservation : getContainerById(containerId).getReservationList()) {
+
             reservationDateOccupied.addAll(
                     List.of(
                             reservation.getStartDate()
@@ -43,5 +43,22 @@ public class ShippingContainerService {
             );
         }
         return reservationDateOccupied;
+    }
+
+    public List<LocalDate> removeDates(Long containerId) {
+        List<LocalDate> deleteDates = new ArrayList<>();
+        for(Reservation reservation :getContainerById(containerId).getReservationList()){
+            if(isDateOccupied(reservation.getReservationStatus())){
+                deleteDates.addAll(
+                        List.of(reservation.getStartDate()
+                                , reservation.getFinishDate())
+                );
+            }
+        }
+        return deleteDates;
+    }
+
+    private boolean isDateOccupied(ReservationStatus reservationStatus) {
+        return reservationStatus == ReservationStatus.NOT_OCCUPY;
     }
 }

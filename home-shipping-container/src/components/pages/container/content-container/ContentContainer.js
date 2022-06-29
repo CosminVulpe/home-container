@@ -31,23 +31,25 @@ export const Button = styled(Link)`
   text-decoration: none;
   height: 100%;
   border: none;
-  color: black;
+  color: ${({buttonColor}) => (buttonColor === 0) ? '#fff' : 'black'};
   display: flex !important;
   justify-content: center;
   text-align: center;
-  background-color: #CE8952;
+  background-color: ${({buttonColorBg}) => (buttonColorBg === 0) ? 'darkgrey' : '#CE8952'} ;
   border-radius: 4px;
   box-shadow: inset 0 0 0 0 #BACA70;
   transition: ease-in-out 0.5s;
   font-size: 1.2rem !important;
   font-family: 'monserrat', sans-serif !important;
   outline: none;
+  pointer-events: ${({numberOfAdults}) => (numberOfAdults === 0) ? 'none' : 'auto'};
 
   &:hover {
     box-shadow: inset 300px 0 0 0 #BACA70;
     cursor: pointer;
     color: black;
   }
+  
 `;
 
 
@@ -60,8 +62,8 @@ function ContentContainer() {
     const [containerDetailsCheckout, setContainerDetailsCheckout] = useAtom(CONTAINER_DETAILS_CHECKOUT);
     const [reservationDetails, setReservationDetails] = useAtom(RESERVATION_DETAILS);
     const [reservationDetailsCheckout, setReservationDetailsCheckout] = useAtom(RESERVATION_DETAILS_CHECKOUT);
-    const [totalPrice, setTotalPrice] = useState(() => 0);
     let {id} = useParams();
+
 
     function handleClickEvent() {
         setContainerDetailsCheckout(details);
@@ -73,19 +75,13 @@ function ContentContainer() {
             totalNumberOfDays: totalNumberOfDays,
             image: ImageCarouselData[id - 1].image
         });
-
     }
 
     function getTotalPrice() {
-        let price = document.querySelectorAll('.justify-content-center')[1].innerText;
-        let totalPrice = "";
-        for (let i = 0; i < price.length; i++) {
-            if (!isNaN(price[i])) {
-                totalPrice += price[i];
-            }
-        }
-        return parseInt(totalPrice);
+        return (totalNumberOfDays * details.pricePerNight)
+            + (numberOfKids * details.pricePerKid);
     }
+
 
     return (
         <>
@@ -169,12 +165,15 @@ function ContentContainer() {
                                 }
 
                                 <p className="d-flex justify-content-center" style={{padding: "15px"}}>
-                                    Total Price : { (totalNumberOfDays
-                                    * details.pricePerNight) + (numberOfKids * details.pricePerKid)} Lei
+                                    Total Price : {getTotalPrice()} Lei
                                 </p>
                                 <div className="d-flex justify-content-center"
                                      onClick={handleClickEvent}>
-                                    <Button to="/checkout">Book</Button>
+                                    <Button to="/checkout"
+                                            numberOfAdults={numberOfAdults}
+                                            buttonColor={numberOfAdults}
+                                            buttonColorBg={numberOfAdults}
+                                    >Book</Button>
                                 </div>
                             </div>
                         </div>

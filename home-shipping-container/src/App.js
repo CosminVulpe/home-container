@@ -7,17 +7,39 @@ import InfoSectionIndex from "./components/info-section/InfoSectionIndex";
 import Footer from "./components/footer/Footer";
 import axios from "axios";
 import "@stripe/stripe-js";
+import {useAtom} from "jotai";
+import {USER_INFO} from "./components/jotai-atom/useAtom";
+import {fetchUserData} from "./components/pages/authentication-service/AuthenticationService";
+
 function App() {
     const [isOpen, setIsOpen] = useState(false);
     const [detailsCarousel, setDetailsCarousel] = useState([]);
+    const [userInfo, setUserInfo] = useAtom(USER_INFO);
+
 
     useEffect(() => {
         axios.get(process.env.REACT_APP_BACKEND_API_CONTAINERS)
             .then(data => setDetailsCarousel(data.data))
             .catch(error => {
                 console.log(error);
+            });
+
+        fetchUserData("/user/info")
+            .then((response) => {
+                if (response.status === 200) {
+                    if (response.data === "") {
+                        setUserInfo(null);
+                    } else {
+                        setUserInfo(response.data);
+                    }
+                }
             })
+            .catch((error) => console.log(error));
+
+
+
     }, []);
+
 
     function toggle() {
         setIsOpen(!isOpen);
@@ -31,7 +53,6 @@ function App() {
             <ImagineSlider slides={detailsCarousel}/>
             <InfoSectionIndex/>
             <Footer/>
-            {/*<SupportEngine/>*/}
         </>
     );
 }

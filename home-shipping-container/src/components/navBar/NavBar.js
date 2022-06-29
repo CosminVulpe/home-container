@@ -4,6 +4,7 @@ import {Link} from 'react-router-dom';
 import {Button} from "../button/Button";
 import Bars from '../images/bars.svg';
 import ImgLogo2 from './../images/logo/white-logo-home-container.png';
+import {getToken, logOut} from "../pages/authentication-service/AuthenticationService";
 
 
 const Nav = styled.nav`
@@ -90,6 +91,7 @@ const NavBtn = styled.div`
   }
 `;
 
+
 function NavBar({toggle}) {
 
     return (
@@ -106,8 +108,16 @@ function NavBar({toggle}) {
                 <NavMenuLinks to="/location">Location </NavMenuLinks>
             </NavMenu>
             <NavBtn>
-                <Button to="/register" primary='true'>Login</Button>
-                <Button to="/contact" primary='true'>Contact Us</Button>
+                {getToken() === null &&
+                    <Button to="/register" primary='true'>Login</Button>
+                }
+                {getToken() !== null &&
+                    <>
+                        <Button to="#" primary='true' onClick={logOut}>Logout</Button>
+                        <Button to="/account" primary='true'>Account</Button>
+                    </>
+                }
+                <Button to="/contact-us" primary='true'>Contact Us</Button>
             </NavBtn>
         </Nav>
     );

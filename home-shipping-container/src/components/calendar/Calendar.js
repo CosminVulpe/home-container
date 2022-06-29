@@ -20,7 +20,7 @@ function CalendarReservation() {
 
     const containerReservedDates = [];
     const [datesContainerReserved, setDatesContainerReserved] = useState([]);
-    const [isLoading, setIsLoading] = useState(true);
+    const [datesContainerReservedRemove, setDatesContainerReservedRemove] = useState([]);
     let {id} = useParams();
 
     function tileDisable({date, view}) {
@@ -96,17 +96,39 @@ function CalendarReservation() {
     useEffect(() => {
         axios.get(process.env.REACT_APP_BACKEND_API_CONTAINERS + "/dates/" + id)
             .then(data => {
-                setIsLoading(false);
                 setDatesContainerReserved(data.data)
+            })
+            .catch(error => console.log(error));
+
+
+        axios.get(process.env.REACT_APP_BACKEND_API_CONTAINERS + "/dates-remove/" + id)
+            .then(response => {
+                if (response.status === 200 && response.data !== "") {
+                    // deleteDates(response.data);
+                    setDatesContainerReservedRemove(response.data);
+                }
             })
             .catch(error => console.log(error));
     }, [datesRange]);
 
+    function deleteDates(dates) {
+        for (let i = 0; i < containerReservedDates.length; i++) {
+            for (let j = 0; j < containerReservedDates[i].length; j++) {
+                if(new Date(dates[j]).getTime() === containerReservedDates[i][j].getTime()){
+                    delete containerReservedDates[j];
+                    break;
+                }
+            }
+        }
+        return containerReservedDates;
+    }
 
     if (datesContainerReserved.length !== 0) {
         addReservedDates(datesContainerReserved);
     }
-
+    if(datesContainerReservedRemove.length !== 0){
+        deleteDates(datesContainerReservedRemove);
+    }
 
     return (
         <div>

@@ -2,6 +2,8 @@ import styled from 'styled-components/macro';
 import {Button} from "../button/Button";
 import {Link} from 'react-router-dom';
 import {FaTimes} from 'react-icons/fa';
+import {getToken, logOut} from "../pages/authentication-service/AuthenticationService";
+import React from "react";
 
 
 const DropDownContainer = styled.div`
@@ -83,8 +85,15 @@ function DropDownMenu({isOpen, toggle}) {
                     <DropDownLink to="/location">Location 📍</DropDownLink>
                 </DropDownMenuList>
                 <BtnWrapper>
-                    <Button primary="true" round="true" size="true" to="/contact">Contact Us</Button>
-                    <Button primary="true" round="true" size="true" to="/register">Login</Button>
+                    {getToken() === null &&
+                        <Button to="/register" primary='true'>Login</Button>
+                    }
+                    {getToken() !== null &&
+                        <>
+                            <Button to="/account" primary='true'>Account</Button>
+                        </>
+                    }
+                    <Button primary="true" round="true"  to="/contact-us">Contact Us</Button>
                 </BtnWrapper>
             </DropDownWrapper>
         </DropDownContainer>

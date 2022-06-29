@@ -26,7 +26,6 @@ public class ApiHomeContainerApplication {
 
     @Bean
     CommandLineRunner commandLineRunner(ShippingContainerRepository shippingContainerRepository
-            , ReservationRepository reservationRepository
             , ReviewRepository reviewRepository) {
         return args -> {
             ShippingContainer shippingContainer1 = new ShippingContainer(
@@ -94,8 +93,6 @@ public class ApiHomeContainerApplication {
                             review1, review2, review3, review4
                     )
             );
-
-
         };
     }
 }

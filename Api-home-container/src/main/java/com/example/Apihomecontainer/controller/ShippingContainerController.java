@@ -35,4 +35,9 @@ public class ShippingContainerController {
         return service.getDatesContainerOccupy(containerId);
     }
 
+    @GetMapping(path="/dates-remove/{containerId}")
+    public List<LocalDate> removeDates(@PathVariable("containerId") Long containerId){
+        return service.removeDates(containerId);
+    }
+
 }

@@ -11,8 +11,9 @@ import {ChakraProvider} from "@chakra-ui/react";
 import Register from "./components/pages/register/Register";
 import Login from "./components/pages/login/Login";
 import GoogleMaps from "./components/pages/google-maps/GoogleMaps";
+import Contact from "./components/pages/contact-us/Contact";
+import AccountUser from "./components/pages/user-account/AccountUser";
 
-const path = window.location.pathname;
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
@@ -27,6 +28,8 @@ root.render(
                     <Route path="/register" element={<Register/>}/>
                     <Route path="/login" element={<Login/>}/>
                     <Route path="/location" element={<GoogleMaps/>}/>
+                    <Route path="/contact-us" element={<Contact/>}/>
+                    <Route path="/account" element={<AccountUser/>}/>
                 </Routes>
             </ChakraProvider>
         </Router>
@@ -34,6 +37,3 @@ root.render(
 );
 
 reportWebVitals();
-
-
-// {/*{path.indexOf('/support') === -1 ? <App/> : <SupportAdmin/>}*/}

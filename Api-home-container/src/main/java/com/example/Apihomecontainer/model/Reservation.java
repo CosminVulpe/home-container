@@ -1,6 +1,7 @@
 package com.example.Apihomecontainer.model;
 
 import com.example.Apihomecontainer.model.enums.ReservationStatus;
+import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.*;
 
@@ -48,7 +49,10 @@ public class Reservation {
     @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     private ShippingContainer container;
 
-
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "user_id", referencedColumnName = "id")
+    @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
+    private ApplicationUser applicationUser;
 
 //    public String transformTotalPriceStrCurrency(double sum) {
 //        return NumberFormat.getCurrencyInstance().format(sum);
@@ -64,7 +68,8 @@ public class Reservation {
             , ReservationStatus reservationStatus
             , Integer totalNumberOfDays
             , Double totalPrice
-            , ShippingContainer container) {
+            , ShippingContainer container
+            , ApplicationUser applicationUser) {
         this.reservationCustomerName = reservationCustomerName;
         this.reservationCustomerEmail = reservationCustomerEmail;
         this.startDate = startDate;
@@ -76,5 +81,7 @@ public class Reservation {
         this.totalPrice = totalPrice;
         this.container = container;
         this.reservationId = UUID.randomUUID();
+        this.applicationUser = applicationUser;
     }
+
 }

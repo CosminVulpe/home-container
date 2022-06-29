@@ -24,7 +24,7 @@ function App() {
                 console.log(error);
             });
 
-        fetchUserData()
+        fetchUserData("/user/info")
             .then((response) => {
                 if (response.status === 200) {
                     if (response.data === "") {
@@ -35,6 +35,9 @@ function App() {
                 }
             })
             .catch((error) => console.log(error));
+
+
+
     }, []);
 
 

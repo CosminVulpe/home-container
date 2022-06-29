@@ -33,10 +33,10 @@ export const userLogin = (authRequest) => {
     });
 }
 
-export const fetchUserData = () => {
+export const fetchUserData = (url) => {
     return axios({
         method: 'GET',
-        url: `${process.env.REACT_APP_BACKEND_AUTH_FETCH_USER_DATA}`,
+        url: `${process.env.REACT_APP_BACKEND_AUTH_FETCH_USER_DATA}` + url,
         headers: {
             'Authorization': 'Bearer ' + getToken()
         }

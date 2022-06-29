@@ -15,8 +15,9 @@ import axios from "axios";
 import 'react-toastify/dist/ReactToastify.css';
 import {errorNotification, successfulNotification} from "../../toastify-notifications/ToastifyNotifications";
 import {ToastContainer} from "react-toastify";
-import {sendEmail} from "../send-email-service/EmailService";
+import {handleClickEventEmail, sendEmail} from "../send-email-service/EmailService";
 import {useNavigate} from "react-router-dom";
+import StripeCheckout from "react-stripe-checkout";
 
 function Checkout() {
     window.scroll(0, 0);
@@ -55,7 +56,7 @@ function Checkout() {
         await axios.get(process.env.REACT_APP_BACKEND_API_RESERVATION + containerDetailsCheckout.id)
             .then(data => setReservationID(data.data))
             .catch(error => console.log(error));
-        // handleClickEventEmail();
+        handleClickEventEmail();
         setTimeout(() => {
             navigate("/");
         }, 5000);
@@ -206,17 +207,17 @@ function Checkout() {
                                     Price {reservationDetailsCheckout.totalPrice} Lei</p>
                                 <div className="d-flex justify-content-center">
                                     <ToastContainer/>
-                                    {/*<StripeCheckout*/}
-                                    {/*    name="Payment"*/}
-                                    {/*    description="Enter Details"*/}
-                                    {/*    stripeKey={process.env.REACT_APP_STRIPE_PUBLISHABLE_KEY}*/}
-                                    {/*    token={handleToken}*/}
-                                    {/*    amount={reservationDetailsCheckout.totalPrice * 100}*/}
-                                    {/*    currency="RON"*/}
-                                    {/*>*/}
-                                    {/*    <Button to="#">Payment</Button>*/}
-                                    {/*</StripeCheckout>*/}
-                                    <Button to="#" onClick={sendInfoBackend}>Payment</Button>
+                                    <StripeCheckout
+                                        name="Payment"
+                                        description="Enter Details"
+                                        stripeKey={process.env.REACT_APP_STRIPE_PUBLISHABLE_KEY}
+                                        token={handleToken}
+                                        amount={reservationDetailsCheckout.totalPrice * 100}
+                                        currency="RON"
+                                    >
+                                        <Button to="#">Payment</Button>
+                                    </StripeCheckout>
+                                    {/*<Button to="#" onClick={sendInfoBackend}>Payment</Button>*/}
                                 </div>
                             </div>
                         </div>
@@ -242,21 +243,6 @@ function Checkout() {
                     }
                     <label>Message</label>
                     <textarea name="message" value={reservationID}/>
-                    {/*<textarea name="message-from-date" value={*/}
-                    {/*    reservationDetailsCheckout.startDate.getDate()*/}
-                    {/*    + "/"*/}
-                    {/*    + (reservationDetailsCheckout.startDate.getMonth() + 1)*/}
-                    {/*    + "/"*/}
-                    {/*    + reservationDetailsCheckout.startDate.getFullYear()*/}
-                    {/*}/>*/}
-                    {/*<textarea name="message-to-date" value={*/}
-                    {/*    reservationDetailsCheckout.finishDate.getDate()*/}
-                    {/*    + "/"*/}
-                    {/*    + (reservationDetailsCheckout.finishDate.getMonth() + 1)*/}
-                    {/*    + "/"*/}
-                    {/*    + reservationDetailsCheckout.finishDate.getFullYear()*/}
-                    {/*}/>*/}
-                    {/*<textarea name="message-price" value={reservationDetailsCheckout.totalPrice}/>*/}
                     <input type="submit" value="Send" id="submit_email"/>
                 </form>
             </div>

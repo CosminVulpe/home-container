@@ -75,8 +75,6 @@ function Register() {
     return (
         <>
             <ToastContainer/>
-
-
             <Flex
                 minH={'100vh'}
                 align={'center'}

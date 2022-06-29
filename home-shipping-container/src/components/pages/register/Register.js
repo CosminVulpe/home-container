@@ -43,7 +43,7 @@ function Register() {
     });
     const [isUserRegister, setIsUseRegister] = useState(false);
     const {onClose} = useDisclosure();
-    let navigate = useNavigate();
+    const navigate = useNavigate();
 
 
     function onChangeEvent(e) {
@@ -58,6 +58,7 @@ function Register() {
         authentication();
         registerUser(loginCredentials)
             .then(response => {
+                console.log(response.data)
                 if (response.status === 200) {
                     setIsUseRegister(true);
                     successfulNotification("Account register successful")
@@ -71,6 +72,15 @@ function Register() {
         });
     }
 
+
+    function checkLoginCredentials(){
+        for (let [key, value] of Object.entries(loginCredentials)) {
+            if(value.length === 0){
+                return false;
+            }
+        }
+        return true;
+    }
 
     return (
         <>
@@ -148,6 +158,7 @@ function Register() {
                                         size="lg"
                                         bg={'blue.400'}
                                         color={'white'}
+                                        isDisabled={!checkLoginCredentials()}
                                         _hover={{
                                             bg: 'blue.500',
                                         }}>

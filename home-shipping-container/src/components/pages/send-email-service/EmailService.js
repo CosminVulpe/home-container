@@ -1,7 +1,7 @@
 import emailjs from "@emailjs/browser";
 import {errorNotification, successfulNotification} from "../../toastify-notifications/ToastifyNotifications";
 
-export const handleClickEventEmail = () =>{
+export const submitFormEmail = () =>{
     document.querySelector("#submit_email").click();
 }
 

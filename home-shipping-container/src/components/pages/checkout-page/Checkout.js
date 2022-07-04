@@ -15,7 +15,7 @@ import axios from "axios";
 import 'react-toastify/dist/ReactToastify.css';
 import {errorNotification, successfulNotification} from "../../toastify-notifications/ToastifyNotifications";
 import {ToastContainer} from "react-toastify";
-import {handleClickEventEmail, sendEmail} from "../send-email-service/EmailService";
+import {submitFormEmail, sendEmail} from "../send-email-service/EmailService";
 import {useNavigate} from "react-router-dom";
 import StripeCheckout from "react-stripe-checkout";
 
@@ -56,7 +56,7 @@ function Checkout() {
         await axios.get(process.env.REACT_APP_BACKEND_API_RESERVATION + containerDetailsCheckout.id)
             .then(data => setReservationID(data.data))
             .catch(error => console.log(error));
-        handleClickEventEmail();
+        submitFormEmail();
         setTimeout(() => {
             navigate("/");
         }, 5000);

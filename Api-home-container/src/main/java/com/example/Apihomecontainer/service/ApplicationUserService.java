@@ -76,7 +76,7 @@ public class ApplicationUserService implements UserDetailsService {
                 .build();
     }
 
-    public ResponseEntity<?> login(AuthenticationRequest authenticationRequest) throws InvalidKeySpecException, NoSuchAlgorithmException {
+    public ResponseEntity<String> login(AuthenticationRequest authenticationRequest) throws InvalidKeySpecException, NoSuchAlgorithmException {
         final Authentication authentication =
                 authenticationManager.authenticate(
                         new UsernamePasswordAuthenticationToken(
@@ -97,22 +97,12 @@ public class ApplicationUserService implements UserDetailsService {
         return ResponseEntity.ok().build();
     }
 
-    public ResponseEntity<?> getUserReservations(Principal user) {
-        List<Reservation> reservations = new ArrayList<>();
-        for (Reservation reservation : getUser(user).getReservations()) {
-            if (reservation.getReservationStatus() == ReservationStatus.OCCUPY) {
-                reservations.add(reservation);
-            } else {
-                reservations.remove(reservation);
-            }
-        }
-        return ResponseEntity.ok(reservations);
+    public ResponseEntity<List<Reservation>> getUserReservations(Principal user) {
+        return ResponseEntity.ok(getUser(user).getReservations());
     }
 
-    public ResponseEntity<?> getUserContainers(Principal user) {
+    public ResponseEntity<List<String>> getUserContainers(Principal user) {
         List<String> shippingContainerList = new ArrayList<>();
-
-
         getUser(user).getReservations().forEach(item -> shippingContainerList.add(item.getContainer().getName()));
         return ResponseEntity.ok(shippingContainerList);
     }

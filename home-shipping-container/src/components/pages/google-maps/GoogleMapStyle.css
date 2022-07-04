@@ -1,0 +1,7 @@
+.map-container {
+    width: 75%;
+    height: 70vh;
+    position: static;
+    margin-left: 10rem;
+    margin-bottom: 2rem;
+}

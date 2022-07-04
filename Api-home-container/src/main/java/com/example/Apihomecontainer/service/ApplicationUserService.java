@@ -1,10 +1,8 @@
 package com.example.Apihomecontainer.service;
 
 import com.example.Apihomecontainer.jwt.JWTTokenHelper;
-import com.example.Apihomecontainer.model.ApplicationUser;
-import com.example.Apihomecontainer.model.AuthenticationRequest;
-import com.example.Apihomecontainer.model.Authority;
-import com.example.Apihomecontainer.model.ShippingContainer;
+import com.example.Apihomecontainer.model.*;
+import com.example.Apihomecontainer.model.enums.ReservationStatus;
 import com.example.Apihomecontainer.service.DAO.ApplicationUserRepository;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -100,18 +98,27 @@ public class ApplicationUserService implements UserDetailsService {
     }
 
     public ResponseEntity<?> getUserReservations(Principal user) {
-        return ResponseEntity.ok(getUser(user).getReservations());
+        List<Reservation> reservations = new ArrayList<>();
+        for (Reservation reservation : getUser(user).getReservations()) {
+            if (reservation.getReservationStatus() == ReservationStatus.OCCUPY) {
+                reservations.add(reservation);
+            } else {
+                reservations.remove(reservation);
+            }
+        }
+        return ResponseEntity.ok(reservations);
     }
 
     public ResponseEntity<?> getUserContainers(Principal user) {
         List<String> shippingContainerList = new ArrayList<>();
+
+
         getUser(user).getReservations().forEach(item -> shippingContainerList.add(item.getContainer().getName()));
-        shippingContainerList.forEach(System.out::println);
         return ResponseEntity.ok(shippingContainerList);
     }
 
 
-    private ApplicationUser getUser(Principal user){
+    private ApplicationUser getUser(Principal user) {
         return (ApplicationUser) loadUserByUsername(user.getName());
     }
 

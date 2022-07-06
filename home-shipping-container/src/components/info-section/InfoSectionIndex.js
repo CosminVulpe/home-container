@@ -7,8 +7,8 @@ import Container8 from '../images/container8.jpg';
 import Container10 from '../images/container10.png';
 import Container2db from './../images/image-carousel-data/container2db.png';
 import InfoInteriorContainer from "./InfoInteriorContainer";
-import axios from "axios";
 import {Heading} from "@chakra-ui/react";
+import {ApiGetContainer} from "../service/api-requests/ApiService";
 
 
 export const Section = styled.section`
@@ -91,9 +91,9 @@ function InfoSectionIndex() {
         });
         AOS.refresh();
 
-        axios.get(process.env.REACT_APP_BACKEND_API_CONTAINER + "1")
+        ApiGetContainer("1")
             .then(data => setFirstContainer(data.data))
-        axios.get(process.env.REACT_APP_BACKEND_API_CONTAINER + "2")
+        ApiGetContainer("2")
             .then(info => setSecondContainer(info.data))
             .catch(error => {
                 console.log(error);
@@ -109,12 +109,15 @@ function InfoSectionIndex() {
                 <Container>
                     <ColumnLeft>
                         <div data-aos="zoom-out">
-                            <Heading as='h1' style={{fontFamily:"'Roboto',sans-serif"}}>Explore our cozy shipping-containers</Heading>
-                            <p style={{fontFamily:"'Arimo', sans-serif" }}>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem
+                            <Heading as='h1' style={{fontFamily: "'Roboto',sans-serif"}}>Explore our cozy
+                                shipping-containers</Heading>
+                            <p style={{fontFamily: "'Arimo', sans-serif"}}>Lorem Ipsum is simply dummy text of the
+                                printing and typesetting industry. Lorem
                                 Ipsum
                                 has been the industry's standard dummy text ever since the 1500s, when an unknown
                                 printer took a galley of type and scrambled it to make a type specimen book.</p>
-                            <p style={{fontFamily:"'Arimo', sans-serif" }}>It has survived not only five centuries, but also the leap into electronic
+                            <p style={{fontFamily: "'Arimo', sans-serif"}}>It has survived not only five centuries, but
+                                also the leap into electronic
                                 typesetting,
                                 remaining essentially unchanged.It was popularised in the 1960s with the release of
                                 Letraset sheets containing Lorem Ipsum passages, and more recently with desktop
@@ -141,7 +144,7 @@ function InfoSectionIndex() {
                                 <div css={`display: flex;
                                   flex-direction: column`}>
                                     <img src={Container8} alt="container8"/>
-                                    <p style={{fontFamily:"'Arimo', sans-serif" , fontSize:"18px"}}>
+                                    <p style={{fontFamily: "'Arimo', sans-serif", fontSize: "18px"}}>
                                         {firstContainer.description} </p>
                                     <Button
                                         to={"/container/" + firstContainer.id}
@@ -157,7 +160,7 @@ function InfoSectionIndex() {
                     <ColumnRight>
                         <div css={` object-fit: contain !important`} data-aos="zoom-in">
                             <img src={Container2db} alt="container8" css={`width: 80% !important`}/>
-                            <p style={{fontFamily:"'Arimo', sans-serif" , fontSize:"18px"}}>
+                            <p style={{fontFamily: "'Arimo', sans-serif", fontSize: "18px"}}>
                                 {secondContainer.description}</p>
                             <Button
                                 to={"/container/" + secondContainer.id}

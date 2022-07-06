@@ -16,6 +16,7 @@ import axios from "axios";
 import {ContainerDetails} from "../../userContext/UserContext";
 import Footer from "../../footer/Footer";
 import {Heading} from "@chakra-ui/react";
+import {ApiGetContainer} from "../../service/api-requests/ApiService";
 
 
 function ContainerSection() {
@@ -24,11 +25,9 @@ function ContainerSection() {
     let {id} = useParams();
 
     useEffect(() => {
-        axios.get(process.env.REACT_APP_BACKEND_API_CONTAINER + id)
+        ApiGetContainer(id)
             .then(data => setOneContainerDetails(data.data))
-            .catch(error => {
-                console.log(error);
-            });
+            .catch(error => console.log(error));
     }, [id]);
 
     return (

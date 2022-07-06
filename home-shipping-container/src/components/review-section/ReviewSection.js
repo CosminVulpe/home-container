@@ -7,9 +7,9 @@ import 'swiper/css/pagination';
 import 'swiper/css/scrollbar';
 import './reviews.css';
 import StarRatingEffect from "./StarRatingEffect";
-import axios from "axios";
 import {ImageReviewData} from "../images/image-review-data/ImageReviewData";
 import {Heading} from "@chakra-ui/react";
+import {ApiGetReview} from "../service/api-requests/ApiService";
 
 SwiperCore.use([EffectCoverflow, Pagination]);
 
@@ -17,7 +17,7 @@ function ReviewSection() {
     const [reviewData, setReviewData] = useState([]);
 
     useEffect(() => {
-        axios.get(process.env.REACT_APP_BACKEND_API_REVIEW)
+        ApiGetReview("")
             .then(data => setReviewData(data.data))
             .catch(error => {
                 console.log(error);

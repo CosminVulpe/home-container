@@ -2,12 +2,12 @@ import GlobalStyle from "../../global-style/GlobalStyles";
 import NavBar from "../../navBar/NavBar";
 import React, {useEffect, useState} from "react";
 import {Badge, Box, Flex, Heading, Image, Spacer, Spinner, Wrap, WrapItem} from "@chakra-ui/react";
-import axios from "axios";
 import {StarIcon} from "@chakra-ui/icons";
 import {ImageCarouselData} from "../../images/image-carousel-data/ImageCarouselData";
 import './ContainersStyle.css';
 import {useNavigate} from "react-router-dom";
 import Footer from "../../footer/Footer";
+import {ApiGetContainers} from "../../service/api-requests/ApiService";
 
 function Containers() {
     const [allContainers, setAllContainers] = useState({});
@@ -15,13 +15,11 @@ function Containers() {
     let navigate = useNavigate();
 
     useEffect(() => {
-        setIsLoading(true);
-        axios.get(process.env.REACT_APP_BACKEND_API_CONTAINERS)
+        ApiGetContainers("")
             .then(data => {
                 setIsLoading(false);
                 setAllContainers(data.data);
-            })
-            .catch(error => console.log(error));
+            }).catch(error => console.log(error));
     }, []);
 
 

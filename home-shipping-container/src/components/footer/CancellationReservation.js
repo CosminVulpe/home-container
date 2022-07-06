@@ -14,7 +14,7 @@ import {
     useDisclosure
 } from "@chakra-ui/react";
 import axios from "axios";
-import {errorNotification, successfulNotification} from "../toastify-notifications/ToastifyNotifications";
+import {errorNotification, successfulNotification} from "../service/toastify-notifications/ToastifyNotifications";
 import {ToastContainer} from "react-toastify";
 
 function CancellationReservation() {

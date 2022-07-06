@@ -4,7 +4,7 @@ import {Link} from 'react-router-dom';
 import {Button} from "../button/Button";
 import Bars from '../images/bars.svg';
 import ImgLogo2 from './../images/logo/white-logo-home-container.png';
-import {getToken, logOut} from "../pages/authentication-service/AuthenticationService";
+import {getToken, logOut} from "../service/authentication-service/AuthenticationService";
 
 
 const Nav = styled.nav`

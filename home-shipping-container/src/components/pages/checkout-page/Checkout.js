@@ -13,50 +13,54 @@ import {
 import {FormControl, FormHelperText, FormLabel, Heading, Input} from "@chakra-ui/react";
 import axios from "axios";
 import 'react-toastify/dist/ReactToastify.css';
-import {errorNotification, successfulNotification} from "../../toastify-notifications/ToastifyNotifications";
+import {errorNotification, successfulNotification} from "../../service/toastify-notifications/ToastifyNotifications";
 import {ToastContainer} from "react-toastify";
-import {submitFormEmail, sendEmail} from "../send-email-service/EmailService";
+import {sendEmail} from "../send-email-service/EmailService";
 import {useNavigate} from "react-router-dom";
+import {ApiGetReservation, ApiPostReservation} from "../../service/api-requests/ApiService";
 import StripeCheckout from "react-stripe-checkout";
 
 function Checkout() {
     window.scroll(0, 0);
     const [containerDetailsCheckout, setContainerDetailsCheckout] = useAtom(CONTAINER_DETAILS_CHECKOUT);
     const [reservationDetailsCheckout, setReservationDetailsCheckout] = useAtom(RESERVATION_DETAILS_CHECKOUT);
-    const [reservationName, setReservationName] = useState("");
-    const [reservationEmail, setReservationEmail] = useState("");
+    const [reservationInfoCustomer, setReservationInfoCustomer] = useState({
+        reservationName: "",
+        reservationEmail: ""
+    })
+
     const [reservationID, setReservationID] = useAtom(RESERVATION_ID);
     const [userInfo, setUserInfo] = useAtom(USER_INFO);
-    const isError = (reservationEmail === "");
+    const isError = (reservationInfoCustomer.reservationEmail === "");
     const form = useRef();
     const navigate = useNavigate();
+
+    function onChangeEvent(e) {
+        e.persist();
+        setReservationInfoCustomer(prevState => ({
+            ...prevState,
+            [e.target.name]: e.target.value
+        }));
+    }
 
     async function sendInfoBackend() {
         if (userInfo !== null) {
             reservationDetailsCheckout["reservationCustomerName"] = userInfo.firstName + " " + userInfo.lastName;
             reservationDetailsCheckout["reservationCustomerEmail"] = userInfo.emailAddress;
             reservationDetailsCheckout["applicationUser"] = {
-                "username":userInfo.username
+                "username": userInfo.username
             };
-
         } else {
-            reservationDetailsCheckout["reservationCustomerName"] = reservationName;
-            reservationDetailsCheckout["reservationCustomerEmail"] = reservationEmail;
+            reservationDetailsCheckout["reservationCustomerName"] = reservationInfoCustomer.reservationName;
+            reservationDetailsCheckout["reservationCustomerEmail"] = reservationInfoCustomer.reservationEmail;
         }
 
-        await axios.post(process.env.REACT_APP_BACKEND_API_RESERVATION + containerDetailsCheckout.id,
-            JSON.stringify(reservationDetailsCheckout),
-            {
-                headers: {
-                    'Content-Type': 'application/json',
-                    'accept': 'application/json'
-                }
-            });
+        await ApiPostReservation(reservationDetailsCheckout, containerDetailsCheckout.id.toString());
 
-        await axios.get(process.env.REACT_APP_BACKEND_API_RESERVATION + containerDetailsCheckout.id)
+        await ApiGetReservation(containerDetailsCheckout.id)
             .then(data => setReservationID(data.data))
             .catch(error => console.log(error));
-        submitFormEmail();
+        // submitFormEmail();
         setTimeout(() => {
             navigate("/");
         }, 5000);
@@ -133,6 +137,7 @@ function Checkout() {
                                         <div style={{marginBottom: "10px"}}>
                                             <FormLabel htmlFor='name'>Full name</FormLabel>
                                             <Input id='name'
+                                                   name="name"
                                                    placeholder={userInfo.firstName + " " + userInfo.lastName}
                                                    style={{marginBottom: "10px"}}
                                                    isDisabled={true}
@@ -152,8 +157,10 @@ function Checkout() {
                                     <FormControl isRequired>
                                         <div style={{marginBottom: "10px"}}>
                                             <FormLabel htmlFor='name'>Full name</FormLabel>
-                                            <Input id='name' placeholder='name'
-                                                   onChange={(e) => setReservationName(e.target.value)}
+                                            <Input id='name'
+                                                   placeholder='name'
+                                                   name="reservationName"
+                                                   onChange={onChangeEvent}
                                                    style={{marginBottom: "10px"}}/>
                                         </div>
 
@@ -161,9 +168,9 @@ function Checkout() {
                                         <Input
                                             id='user_email'
                                             type='user_email'
-                                            name='email'
-                                            value={reservationEmail}
-                                            onChange={(e) => setReservationEmail(e.target.value)}
+                                            name='reservationEmail'
+                                            value={reservationInfoCustomer.reservationEmail}
+                                            onChange={onChangeEvent}
                                         />
                                         {!isError ? (
                                             <FormHelperText style={{marginBottom: "10px"}}>Enter your email to receive
@@ -207,17 +214,17 @@ function Checkout() {
                                     Price {reservationDetailsCheckout.totalPrice} Lei</p>
                                 <div className="d-flex justify-content-center">
                                     <ToastContainer/>
-                                    <StripeCheckout
-                                        name="Payment"
-                                        description="Enter Details"
-                                        stripeKey={process.env.REACT_APP_STRIPE_PUBLISHABLE_KEY}
-                                        token={handleToken}
-                                        amount={reservationDetailsCheckout.totalPrice * 100}
-                                        currency="RON"
-                                    >
-                                        <Button to="#">Payment</Button>
-                                    </StripeCheckout>
-                                    {/*<Button to="#" onClick={sendInfoBackend}>Payment</Button>*/}
+                                    {/*<StripeCheckout*/}
+                                    {/*    name="Payment"*/}
+                                    {/*    description="Enter Details"*/}
+                                    {/*    stripeKey={process.env.REACT_APP_STRIPE_PUBLISHABLE_KEY}*/}
+                                    {/*    token={handleToken}*/}
+                                    {/*    amount={reservationDetailsCheckout.totalPrice * 100}*/}
+                                    {/*    currency="RON"*/}
+                                    {/*>*/}
+                                    {/*    <Button to="#">Payment</Button>*/}
+                                    {/*</StripeCheckout>*/}
+                                    <Button to="#" onClick={sendInfoBackend}>Payment</Button>
                                 </div>
                             </div>
                         </div>
@@ -236,9 +243,9 @@ function Checkout() {
                         </>
                         :
                         <>
-                            <input type="text" name="name" value={reservationName}/>
+                            <input type="text" name="name" value={reservationInfoCustomer.reservationName}/>
                             <label>Email</label>
-                            <input type="email" name="user_email" value={reservationEmail}/>
+                            <input type="email" name="user_email" value={reservationInfoCustomer.reservationEmail}/>
                         </>
                     }
                     <label>Message</label>

@@ -5,24 +5,21 @@ import {useEffect, useState} from "react";
 import DropDownMenu from "./components/drop-down-menu/DropDownMenu";
 import InfoSectionIndex from "./components/info-section/InfoSectionIndex";
 import Footer from "./components/footer/Footer";
-import axios from "axios";
 import "@stripe/stripe-js";
 import {useAtom} from "jotai";
 import {USER_INFO} from "./components/jotai-atom/useAtom";
-import {fetchUserData} from "./components/pages/authentication-service/AuthenticationService";
+import {fetchUserData} from "./components/service/authentication-service/AuthenticationService";
+import {ApiGetContainers} from "./components/service/api-requests/ApiService";
 
 function App() {
     const [isOpen, setIsOpen] = useState(false);
     const [detailsCarousel, setDetailsCarousel] = useState([]);
     const [userInfo, setUserInfo] = useAtom(USER_INFO);
 
-
     useEffect(() => {
-        axios.get(process.env.REACT_APP_BACKEND_API_CONTAINERS)
+        ApiGetContainers("")
             .then(data => setDetailsCarousel(data.data))
-            .catch(error => {
-                console.log(error);
-            });
+            .catch(error => console.log(error));
 
         fetchUserData("/user/info")
             .then((response) => {
@@ -35,9 +32,6 @@ function App() {
                 }
             })
             .catch((error) => console.log(error));
-
-
-
     }, []);
 
 

@@ -19,7 +19,7 @@ import {FaHistory} from 'react-icons/fa';
 import {IconType} from 'react-icons';
 import MobileNav from "./MobileNav";
 import SidebarContent from "./SidebarContent";
-import {fetchUserData} from "../authentication-service/AuthenticationService";
+import {fetchUserData} from "../../service/authentication-service/AuthenticationService";
 
 interface LinkItemProps {
     name: string;

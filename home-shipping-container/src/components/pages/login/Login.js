@@ -2,11 +2,11 @@ import React, {useState} from "react";
 import {Button, Flex, FormControl, FormLabel, Heading, Image, Input, Stack,} from '@chakra-ui/react';
 import CoverImage from '../../images/login-image/img.png';
 import {useNavigate} from "react-router-dom";
-import {userLogin} from "../authentication-service/AuthenticationService";
+import {userLogin} from "../../service/authentication-service/AuthenticationService";
 import {authenticationFailure, authenticationSuccess} from "../redux/Authentication";
 import {toast, ToastContainer} from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
-import {errorNotification} from "../../toastify-notifications/ToastifyNotifications";
+import {errorNotification} from "../../service/toastify-notifications/ToastifyNotifications";
 
 function Login() {
     let navigate = useNavigate();
@@ -24,7 +24,7 @@ function Login() {
     }
 
     function handleClickEvent() {
-        userLogin(values)
+        userLogin(values, "/login")
             .then((response) => {
                 if (response.status === 200) {
                     authenticationSuccess(response.data);

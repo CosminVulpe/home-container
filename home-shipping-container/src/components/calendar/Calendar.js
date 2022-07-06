@@ -41,18 +41,18 @@ function CalendarReservation() {
     }
 
     function addReservedDates(dates) {
-        let apiDates = [];
+        let datesReservation = [];
         let counter = 0;
 
         for (let i = 0; i < dates.length; i++) {
-            apiDates.push(
+            datesReservation.push(
                 new Date(dates[i])
             );
             counter++;
             if (counter === 2) {
-                containerReservedDates.push(apiDates);
+                containerReservedDates.push(datesReservation);
                 counter = 0;
-                apiDates = [];
+                datesReservation = [];
             }
         }
     }

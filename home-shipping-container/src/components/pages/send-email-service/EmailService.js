@@ -1,5 +1,5 @@
 import emailjs from "@emailjs/browser";
-import {errorNotification, successfulNotification} from "../../toastify-notifications/ToastifyNotifications";
+import {errorNotification, successfulNotification} from "../../service/toastify-notifications/ToastifyNotifications";
 
 export const submitFormEmail = () =>{
     document.querySelector("#submit_email").click();

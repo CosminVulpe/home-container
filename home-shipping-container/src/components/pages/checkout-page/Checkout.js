@@ -15,7 +15,7 @@ import axios from "axios";
 import 'react-toastify/dist/ReactToastify.css';
 import {errorNotification, successfulNotification} from "../../service/toastify-notifications/ToastifyNotifications";
 import {ToastContainer} from "react-toastify";
-import {sendEmail} from "../send-email-service/EmailService";
+import {sendEmail, submitFormEmail} from "../send-email-service/EmailService";
 import {useNavigate} from "react-router-dom";
 import {ApiGetReservation, ApiPostReservation} from "../../service/api-requests/ApiService";
 import StripeCheckout from "react-stripe-checkout";
@@ -54,7 +54,6 @@ function Checkout() {
             reservationDetailsCheckout["reservationCustomerName"] = reservationInfoCustomer.reservationName;
             reservationDetailsCheckout["reservationCustomerEmail"] = reservationInfoCustomer.reservationEmail;
         }
-
         await ApiPostReservation(reservationDetailsCheckout, containerDetailsCheckout.id.toString());
 
         await ApiGetReservation(containerDetailsCheckout.id)

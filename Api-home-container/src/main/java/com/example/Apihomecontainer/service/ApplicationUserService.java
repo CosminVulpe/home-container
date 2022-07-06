@@ -2,7 +2,6 @@ package com.example.Apihomecontainer.service;
 
 import com.example.Apihomecontainer.jwt.JWTTokenHelper;
 import com.example.Apihomecontainer.model.*;
-import com.example.Apihomecontainer.model.enums.ReservationStatus;
 import com.example.Apihomecontainer.service.DAO.ApplicationUserRepository;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;

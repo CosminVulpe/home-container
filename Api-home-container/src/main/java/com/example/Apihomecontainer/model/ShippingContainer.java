@@ -10,9 +10,7 @@ import static javax.persistence.GenerationType.SEQUENCE;
 @Table
 @Getter
 @Setter
-@Builder
 @NoArgsConstructor
-@AllArgsConstructor
 public class ShippingContainer {
 
     @Id

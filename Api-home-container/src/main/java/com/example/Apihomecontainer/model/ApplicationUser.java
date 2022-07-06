@@ -14,9 +14,7 @@ import static javax.persistence.GenerationType.SEQUENCE;
 @Table
 @Getter
 @Setter
-@Builder
 @NoArgsConstructor
-@AllArgsConstructor
 public class ApplicationUser implements UserDetails {
     @Id
     @SequenceGenerator(

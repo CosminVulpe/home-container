@@ -15,9 +15,7 @@ import static javax.persistence.GenerationType.SEQUENCE;
 @Table
 @Getter
 @Setter
-@Builder
 @NoArgsConstructor
-@AllArgsConstructor
 public class Reservation {
 
     @Id
@@ -53,11 +51,6 @@ public class Reservation {
     @JoinColumn(name = "user_id", referencedColumnName = "id")
     @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     private ApplicationUser applicationUser;
-
-//    public String transformTotalPriceStrCurrency(double sum) {
-//        return NumberFormat.getCurrencyInstance().format(sum);
-//    }
-
 
     public Reservation(String reservationCustomerName
             , String reservationCustomerEmail

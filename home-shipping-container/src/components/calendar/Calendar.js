@@ -8,7 +8,7 @@ import {RESERVATION_DETAILS, TOTAL_NUMBER_OF_DAY} from "../jotai-atom/useAtom";
 import DateRangePicker from '@wojtekmaj/react-daterange-picker';
 import 'react-calendar/dist/Calendar.css';
 import {useParams} from "react-router-dom";
-import {ApiGetContainers} from "../service/api-requests/ApiService";
+import {ApiGetContainer, ApiGetContainers} from "../service/api-requests/ApiService";
 
 
 function CalendarReservation() {
@@ -94,13 +94,13 @@ function CalendarReservation() {
 
 
     useEffect(() => {
-        ApiGetContainers("/dates/" + id)
+        ApiGetContainer("/dates/" + id)
             .then(data => {
                 setDatesContainerReserved(data.data)
             })
             .catch(error => console.log(error));
 
-        ApiGetContainers("/dates-remove/" + id)
+        ApiGetContainer("/dates-remove/" + id)
             .then(response => {
                 if (response.status === 200 && response.data !== "") {
                     setDatesContainerReservedRemove(response.data);

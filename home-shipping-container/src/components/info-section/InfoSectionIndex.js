@@ -91,9 +91,9 @@ function InfoSectionIndex() {
         });
         AOS.refresh();
 
-        ApiGetContainer("1")
+        ApiGetContainer("/1")
             .then(data => setFirstContainer(data.data))
-        ApiGetContainer("2")
+        ApiGetContainer("/2")
             .then(info => setSecondContainer(info.data))
             .catch(error => {
                 console.log(error);
@@ -159,7 +159,7 @@ function InfoSectionIndex() {
                     </ColumnLeft>
                     <ColumnRight>
                         <div css={` object-fit: contain !important`} data-aos="zoom-in">
-                            <img src={Container2db} alt="container8" css={`width: 80% !important`}/>
+                            <img src={Container2db} alt="container8" css={`width: 88% !important`}/>
                             <p style={{fontFamily: "'Arimo', sans-serif", fontSize: "18px"}}>
                                 {secondContainer.description}</p>
                             <Button

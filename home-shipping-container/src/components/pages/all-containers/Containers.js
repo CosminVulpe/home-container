@@ -7,7 +7,7 @@ import {ImageCarouselData} from "../../images/image-carousel-data/ImageCarouselD
 import './ContainersStyle.css';
 import {useNavigate} from "react-router-dom";
 import Footer from "../../footer/Footer";
-import {ApiGetContainers} from "../../service/api-requests/ApiService";
+import {ApiGetContainer} from "../../service/api-requests/ApiService";
 
 function Containers() {
     const [allContainers, setAllContainers] = useState({});
@@ -15,7 +15,7 @@ function Containers() {
     let navigate = useNavigate();
 
     useEffect(() => {
-        ApiGetContainers("")
+        ApiGetContainer("")
             .then(data => {
                 setIsLoading(false);
                 setAllContainers(data.data);

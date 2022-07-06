@@ -9,7 +9,7 @@ import "@stripe/stripe-js";
 import {useAtom} from "jotai";
 import {USER_INFO} from "./components/jotai-atom/useAtom";
 import {fetchUserData} from "./components/service/authentication-service/AuthenticationService";
-import {ApiGetContainers} from "./components/service/api-requests/ApiService";
+import {ApiGetContainer} from "./components/service/api-requests/ApiService";
 
 function App() {
     const [isOpen, setIsOpen] = useState(false);
@@ -17,7 +17,7 @@ function App() {
     const [userInfo, setUserInfo] = useAtom(USER_INFO);
 
     useEffect(() => {
-        ApiGetContainers("")
+        ApiGetContainer("")
             .then(data => setDetailsCarousel(data.data))
             .catch(error => console.log(error));
 

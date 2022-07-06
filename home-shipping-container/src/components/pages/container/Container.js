@@ -25,7 +25,7 @@ function ContainerSection() {
     let {id} = useParams();
 
     useEffect(() => {
-        ApiGetContainer(id)
+        ApiGetContainer("/+" + id)
             .then(data => setOneContainerDetails(data.data))
             .catch(error => console.log(error));
     }, [id]);

@@ -1,7 +1,6 @@
 package com.example.Apihomecontainer.model;
 
 import com.example.Apihomecontainer.model.enums.ReservationStatus;
-import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.*;
 

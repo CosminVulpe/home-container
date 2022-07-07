@@ -12,7 +12,6 @@ import Interior8 from '../../images/interior-container/interior8.png';
 import ContentContainer from "./content-container/ContentContainer";
 import React, {useEffect, useState} from "react";
 import {useParams} from "react-router-dom";
-import axios from "axios";
 import {ContainerDetails} from "../../userContext/UserContext";
 import Footer from "../../footer/Footer";
 import {Heading} from "@chakra-ui/react";
@@ -25,7 +24,7 @@ function ContainerSection() {
     let {id} = useParams();
 
     useEffect(() => {
-        ApiGetContainer("/+" + id)
+        ApiGetContainer("/" + id)
             .then(data => setOneContainerDetails(data.data))
             .catch(error => console.log(error));
     }, [id]);
@@ -36,7 +35,7 @@ function ContainerSection() {
             <NavBar/>
             <Section css={css`padding: 7rem 0rem`}>
                 <div className="container">
-                    <Heading as='h3' size='lg' style={{marginBottom:"10px"}}>{oneContainerDetails.name}</Heading>
+                    <Heading as='h3' size='lg' style={{marginBottom: "10px"}}>{oneContainerDetails.name}</Heading>
                     <div className="gallery-container">
 
                         <figure className="gallery__item gallery__item--1">

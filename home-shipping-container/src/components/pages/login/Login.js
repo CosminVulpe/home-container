@@ -11,8 +11,8 @@ import {errorNotification} from "../../service/toastify-notifications/ToastifyNo
 function Login() {
     let navigate = useNavigate();
     const [values, setValues] = useState({
-        userName: '',
-        password: ''
+        userName: "",
+        password: ""
     });
 
     function onChangeEvent(e) {
@@ -65,8 +65,6 @@ function Login() {
                             direction={{base: 'column', sm: 'row'}}
                             align={'start'}
                             justify={'space-between'}>
-                            {/*<Checkbox>Remember me</Checkbox>*/}
-                            {/*<Link color={'blue.500'}>Forgot password?</Link>*/}
                         </Stack>
                         <Button colorScheme={'blue'} variant={'solid'} onClick={handleClickEvent}>
                             Sign in

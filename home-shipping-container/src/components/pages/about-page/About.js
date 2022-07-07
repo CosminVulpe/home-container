@@ -6,14 +6,13 @@ import AOS from "aos";
 import {Heading} from "@chakra-ui/react";
 import BusinessManPicture from '../../images/about-page-images/business-man.png';
 import BusinessWomanPicture from '../../images/about-page-images/business-woman.png';
-
+import {dataAos} from "../../service/data-aos/DataAos";
 
 function About() {
+    window.scroll(0,0);
+
     useEffect(() => {
-        AOS.init({
-            duration: 1500
-        });
-        AOS.refresh();
+        dataAos();
     }, []);
 
     return (

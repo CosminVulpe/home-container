@@ -48,38 +48,15 @@ public class ReservationService {
                 findById(containerId);
         Reservation newReservation;
 
-
         if (checkIfShippingContainerExists(shippingContainerOptional)) {
             if (reservation.getApplicationUser() != null) {
-                newReservation = new Reservation(
-                        reservation.getReservationCustomerName()
-                        , reservation.getReservationCustomerEmail()
-                        , reservation.getStartDate()
-                        , reservation.getFinishDate()
-                        , reservation.getNumberAdults()
-                        , reservation.getNumberKids()
-                        , ReservationStatus.OCCUPY
-                        , reservation.getTotalNumberOfDays()
-                        , reservation.getTotalPrice()
-                        , shippingContainerOptional.get()
+                newReservation = createNewReservation(reservation
                         , reservation.getApplicationUser()
-                );
+                        , shippingContainerOptional.get());
                 UserDetails userDetails = applicationUserService.loadUserByUsername(reservation.getApplicationUser().getUsername());
                 reservation.getApplicationUser().addReservation(newReservation, userDetails);
             } else {
-                newReservation = new Reservation(
-                        reservation.getReservationCustomerName()
-                        , reservation.getReservationCustomerEmail()
-                        , reservation.getStartDate()
-                        , reservation.getFinishDate()
-                        , reservation.getNumberAdults()
-                        , reservation.getNumberKids()
-                        , ReservationStatus.OCCUPY
-                        , reservation.getTotalNumberOfDays()
-                        , reservation.getTotalPrice()
-                        , shippingContainerOptional.get()
-                        , null
-                );
+                newReservation = createNewReservation(reservation, null, shippingContainerOptional.get());
                 shippingContainerOptional.get().addReservations(newReservation);
             }
             addNewReservation(newReservation);
@@ -93,9 +70,8 @@ public class ReservationService {
 
     public UUID getReservationId(Long containerId) {
         Optional<ShippingContainer> shippingContainerOption = shippingContainerRepository.findById(containerId);
-
         List<UUID> allReservationIds = new ArrayList<>();
-        if (shippingContainerOption.isPresent()) {
+        if (checkIfShippingContainerExists(shippingContainerOption)) {
             for (Reservation reservation : shippingContainerOption.get().getReservationList()) {
                 allReservationIds.add(reservation.getReservationId());
             }
@@ -118,5 +94,39 @@ public class ReservationService {
     private boolean doesReservationIdExists(UUID reservationDB, UUID reservationIdUser) {
         return reservationDB.equals(reservationIdUser);
     }
+
+    private Reservation createNewReservation(Reservation reservation
+            , ApplicationUser user
+            , ShippingContainer shippingContainer) {
+        if (user != null) {
+            return new Reservation(
+                    reservation.getReservationCustomerName()
+                    , reservation.getReservationCustomerEmail()
+                    , reservation.getStartDate()
+                    , reservation.getFinishDate()
+                    , reservation.getNumberAdults()
+                    , reservation.getNumberKids()
+                    , ReservationStatus.OCCUPY
+                    , reservation.getTotalNumberOfDays()
+                    , reservation.getTotalPrice()
+                    , shippingContainer
+                    , reservation.getApplicationUser()
+            );
+        }
+        return new Reservation(
+                reservation.getReservationCustomerName()
+                , reservation.getReservationCustomerEmail()
+                , reservation.getStartDate()
+                , reservation.getFinishDate()
+                , reservation.getNumberAdults()
+                , reservation.getNumberKids()
+                , ReservationStatus.OCCUPY
+                , reservation.getTotalNumberOfDays()
+                , reservation.getTotalPrice()
+                , shippingContainer
+                , null
+        );
+    }
+
 
 }

@@ -2,6 +2,7 @@ package com.example.Apihomecontainer.controller;
 
 import com.example.Apihomecontainer.model.ApplicationUser;
 import com.example.Apihomecontainer.model.AuthenticationRequest;
+import com.example.Apihomecontainer.model.Reservation;
 import com.example.Apihomecontainer.service.ApplicationUserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -10,6 +11,7 @@ import org.springframework.web.bind.annotation.*;
 import java.security.NoSuchAlgorithmException;
 import java.security.Principal;
 import java.security.spec.InvalidKeySpecException;
+import java.util.List;
 
 @RestController
 @CrossOrigin(origins = "http://localhost:3000/")
@@ -29,23 +31,22 @@ public class ApplicationUserController {
     }
 
     @PostMapping(path = "/login")
-    public ResponseEntity<?> login(@RequestBody AuthenticationRequest authenticationRequest) throws InvalidKeySpecException, NoSuchAlgorithmException {
+    public ResponseEntity<String> login(@RequestBody AuthenticationRequest authenticationRequest) throws InvalidKeySpecException, NoSuchAlgorithmException {
         return applicationUserService.login(authenticationRequest);
     }
 
     @GetMapping(path = "/user/info")
     public ResponseEntity<?> getUserInfo(Principal user) {
-
         return applicationUserService.getUserInfo(user);
     }
 
     @GetMapping(path="/user/reservations")
-    public ResponseEntity<?> getUserReservations(Principal user){
+    public ResponseEntity<List<Reservation>> getUserReservations(Principal user){
         return applicationUserService.getUserReservations(user);
     }
 
     @GetMapping(path="/user/reservation/containers")
-    public ResponseEntity<?> getUserContainers(Principal user){
+    public ResponseEntity<List<String>> getUserContainers(Principal user){
         return applicationUserService.getUserContainers(user);
     }
 

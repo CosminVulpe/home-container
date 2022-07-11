@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from 'react';
+import React, {useState} from 'react';
 import {
     Button,
     FormControl,
@@ -13,35 +13,26 @@ import {
     ModalOverlay,
     useDisclosure
 } from "@chakra-ui/react";
-import axios from "axios";
-import {errorNotification, successfulNotification} from "../toastify-notifications/ToastifyNotifications";
+import {errorNotification, successfulNotification} from "../service/toastify-notifications/ToastifyNotifications";
 import {ToastContainer} from "react-toastify";
+import {ApiPostReservation} from "../service/api-requests/ApiService";
 
 function CancellationReservation() {
     const {isOpen, onOpen, onClose} = useDisclosure()
     const [reservationIdUser, setReservationIdUser] = useState("");
 
-    function onClickHandleEvent(){
-        let data = {
-            reservationId:reservationIdUser
+    async function onClickHandleEvent() {
+        const data = {
+            reservationId: reservationIdUser
         }
 
-        axios.post(process.env.REACT_APP_BACKEND_API_RESERVATION + "cancel-reservation",
-            JSON.stringify(data) ,
-            {
-                headers:{
-                    'Content-Type': 'application/json',
-                    'accept': 'application/json'
+        await ApiPostReservation(data, "cancel-reservation")
+            .then(response => {
+                if (response.status === 200) {
+                    successfulNotification("Reservation cancel!");
                 }
             })
-            .then(response => {
-              if(response.status === 200){
-                  successfulNotification("Reservation cancel!");
-              }
-            })
-            .catch(error => {
-                errorNotification("Wrong reservation id");
-            });
+            .catch(error => errorNotification("Wrong reservation id"));
     }
 
     return (

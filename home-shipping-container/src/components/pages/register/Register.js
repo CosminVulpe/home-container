@@ -25,11 +25,11 @@ import {
 } from '@chakra-ui/react';
 import {ViewIcon, ViewOffIcon} from '@chakra-ui/icons';
 import {useNavigate} from "react-router-dom";
-import {registerUser} from "../authentication-service/AuthenticationService";
+import {userLogin} from "../../service/authentication-service/AuthenticationService";
 import {ToastContainer} from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import {authentication, authenticationFailure} from "../redux/Authentication";
-import {errorNotification, successfulNotification} from "../../toastify-notifications/ToastifyNotifications";
+import {errorNotification, successfulNotification} from "../../service/toastify-notifications/ToastifyNotifications";
 
 
 function Register() {
@@ -56,7 +56,7 @@ function Register() {
 
     function onClickHandleEvent() {
         authentication();
-        registerUser(loginCredentials)
+        userLogin(loginCredentials, "/register")
             .then(response => {
                 console.log(response.data)
                 if (response.status === 200) {
@@ -73,9 +73,9 @@ function Register() {
     }
 
 
-    function checkLoginCredentials(){
+    function checkLoginCredentials() {
         for (let [key, value] of Object.entries(loginCredentials)) {
-            if(value.length === 0){
+            if (value.length === 0) {
                 return false;
             }
         }

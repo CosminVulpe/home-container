@@ -29,8 +29,8 @@ const Slide = styled.div`
   z-index: 1;
   width: 100%;
   height: 100%;
-
 `;
+
 const Slider = styled.div`
   position: absolute;
   top: 0;
@@ -77,11 +77,6 @@ const Content = styled.div`
   max-width: 1600px;
   width: calc(100% - 100px);
   color: #fff;
-  //margin-left: -10rem;
-  //position: absolute;
-  //top: 50%;
-  //left: 50%;
-  //transform: translate(-52%, -40%);
 
   h1 {
     font-size: clamp(1rem, 8vw, 2rem);

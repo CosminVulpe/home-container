@@ -34,7 +34,6 @@ public class ShippingContainerService {
     public List<LocalDate> getDatesContainerOccupy(Long containerId) {
         List<LocalDate> reservationDateOccupied = new ArrayList<>();
         for (Reservation reservation : getContainerById(containerId).getReservationList()) {
-
             reservationDateOccupied.addAll(
                     List.of(
                             reservation.getStartDate()

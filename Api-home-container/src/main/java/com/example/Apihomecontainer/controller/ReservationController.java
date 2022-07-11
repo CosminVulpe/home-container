@@ -1,12 +1,10 @@
 package com.example.Apihomecontainer.controller;
 
-import com.example.Apihomecontainer.model.ApplicationUser;
 import com.example.Apihomecontainer.model.Reservation;
 import com.example.Apihomecontainer.model.ShippingContainer;
 import com.example.Apihomecontainer.service.ReservationService;
 import com.example.Apihomecontainer.service.ShippingContainerService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.UUID;

@@ -13,6 +13,7 @@ import Login from "./components/pages/login/Login";
 import GoogleMaps from "./components/pages/google-maps/GoogleMaps";
 import Contact from "./components/pages/contact-us/Contact";
 import AccountUser from "./components/pages/user-account/AccountUser";
+import About from "./components/pages/about-page/About";
 
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
@@ -30,6 +31,7 @@ root.render(
                     <Route path="/location" element={<GoogleMaps/>}/>
                     <Route path="/contact-us" element={<Contact/>}/>
                     <Route path="/account" element={<AccountUser/>}/>
+                    <Route path="/about" element={<About/>}/>
                 </Routes>
             </ChakraProvider>
         </Router>

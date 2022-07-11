@@ -14,12 +14,12 @@ import {
     useColorModeValue,
     useDisclosure,
 } from '@chakra-ui/react';
-import {FiHome, FiSettings} from 'react-icons/fi';
+import {FiHome} from 'react-icons/fi';
 import {FaHistory} from 'react-icons/fa';
 import {IconType} from 'react-icons';
 import MobileNav from "./MobileNav";
 import SidebarContent from "./SidebarContent";
-import {fetchUserData} from "../authentication-service/AuthenticationService";
+import {fetchUserData} from "../../service/authentication-service/AuthenticationService";
 
 interface LinkItemProps {
     name: string;
@@ -40,6 +40,7 @@ function AccountUser() {
     useEffect(() => {
         fetchUserData("/user/reservations")
             .then(response => {
+                console.log(response.data)
                 setUserOrderHistory(response.data)
             })
             .catch(error => console.log(error));
@@ -83,6 +84,7 @@ function AccountUser() {
                                             <Th>Finish Date</Th>
                                             <Th>Total Number of Days</Th>
                                             <Th>Total Price</Th>
+                                            <Th>Reservation Status</Th>
                                         </Tr>
                                     </Thead>
                                     <Tbody>
@@ -94,6 +96,7 @@ function AccountUser() {
                                                 <Td>{item.finishDate}</Td>
                                                 <Td>{item.totalNumberOfDays}</Td>
                                                 <Td>{item.totalPrice}</Td>
+                                                <Td>{item.reservationStatus}</Td>
                                             </Tr>
                                         )}
                                     </Tbody>

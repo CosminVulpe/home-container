@@ -7,8 +7,8 @@ import {useAtom} from 'jotai';
 import {RESERVATION_DETAILS, TOTAL_NUMBER_OF_DAY} from "../jotai-atom/useAtom";
 import DateRangePicker from '@wojtekmaj/react-daterange-picker';
 import 'react-calendar/dist/Calendar.css';
-import axios from "axios";
 import {useParams} from "react-router-dom";
+import {ApiGetContainer, ApiGetContainers} from "../service/api-requests/ApiService";
 
 
 function CalendarReservation() {
@@ -41,18 +41,18 @@ function CalendarReservation() {
     }
 
     function addReservedDates(dates) {
-        let apiDates = [];
+        let datesReservation = [];
         let counter = 0;
 
         for (let i = 0; i < dates.length; i++) {
-            apiDates.push(
+            datesReservation.push(
                 new Date(dates[i])
             );
             counter++;
             if (counter === 2) {
-                containerReservedDates.push(apiDates);
+                containerReservedDates.push(datesReservation);
                 counter = 0;
-                apiDates = [];
+                datesReservation = [];
             }
         }
     }
@@ -94,27 +94,25 @@ function CalendarReservation() {
 
 
     useEffect(() => {
-        axios.get(process.env.REACT_APP_BACKEND_API_CONTAINERS + "/dates/" + id)
+        ApiGetContainer("/dates/" + id)
             .then(data => {
                 setDatesContainerReserved(data.data)
             })
             .catch(error => console.log(error));
 
-
-        axios.get(process.env.REACT_APP_BACKEND_API_CONTAINERS + "/dates-remove/" + id)
+        ApiGetContainer("/dates-remove/" + id)
             .then(response => {
                 if (response.status === 200 && response.data !== "") {
-                    // deleteDates(response.data);
                     setDatesContainerReservedRemove(response.data);
                 }
-            })
-            .catch(error => console.log(error));
+            }).catch(error => console.log(error));
+
     }, [datesRange]);
 
     function deleteDates(dates) {
         for (let i = 0; i < containerReservedDates.length; i++) {
             for (let j = 0; j < containerReservedDates[i].length; j++) {
-                if(new Date(dates[j]).getTime() === containerReservedDates[i][j].getTime()){
+                if (new Date(dates[j]).getTime() === containerReservedDates[i][j].getTime()) {
                     delete containerReservedDates[j];
                     break;
                 }
@@ -126,7 +124,7 @@ function CalendarReservation() {
     if (datesContainerReserved.length !== 0) {
         addReservedDates(datesContainerReserved);
     }
-    if(datesContainerReservedRemove.length !== 0){
+    if (datesContainerReservedRemove.length !== 0) {
         deleteDates(datesContainerReservedRemove);
     }
 
@@ -147,9 +145,3 @@ function CalendarReservation() {
 }
 
 export default CalendarReservation;
-
-// const ContainerReservedDates = [
-//     [new Date("2022/06/13"), new Date("2022/06/18")],
-//     [new Date("2022/06/25"), new Date("2022/06/29")],
-//     [new Date("2022/07/02"), new Date("2022/07/06")],
-// ];

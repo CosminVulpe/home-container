@@ -1,20 +1,15 @@
 package com.example.Apihomecontainer;
 
-import com.example.Apihomecontainer.model.Reservation;
 import com.example.Apihomecontainer.model.Review;
 import com.example.Apihomecontainer.model.ShippingContainer;
-import com.example.Apihomecontainer.model.enums.ReservationStatus;
-import com.example.Apihomecontainer.service.DAO.ReservationRepository;
 import com.example.Apihomecontainer.service.DAO.ReviewRepository;
 import com.example.Apihomecontainer.service.DAO.ShippingContainerRepository;
-import org.apache.tomcat.jni.Local;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
 
-import java.text.NumberFormat;
-import java.time.LocalDate;
+
 import java.util.*;
 
 @SpringBootApplication
@@ -71,22 +66,22 @@ public class ApiHomeContainerApplication {
                     )
             );
 
-            Review review1 = new Review(
-                    "Cosmin"
-                    , "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua."
-            );
-            Review review2 = new Review(
-                    "Shadrack"
-                    , "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua."
-            );
-            Review review3 = new Review(
-                    "Alex"
-                    , "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua."
-            );
-            Review review4 = new Review(
-                    "Tudor"
-                    , "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua."
-            );
+            Review review1 = Review.builder()
+                    .userName("Cosmin")
+                    .description("Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.")
+                    .build();
+            Review review2 = Review.builder()
+                    .userName("Shadrack")
+                    .description("Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.")
+                    .build();
+            Review review3 = Review.builder()
+                    .userName("Alex")
+                    .description("Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.")
+                    .build();
+            Review review4 =  Review.builder()
+                    .userName("Tudor")
+                    .description("Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.")
+                    .build();
 
             reviewRepository.saveAll(
                     List.of(

@@ -26,7 +26,7 @@ import Footer from "../../footer/Footer";
 import {useAtom} from "jotai";
 import {USER_INFO} from "../../jotai-atom/useAtom";
 import {
-    handleClickEventEmail,
+    submitFormEmail,
     sendEmail
 } from "../send-email-service/EmailService";
 import {ToastContainer} from "react-toastify";
@@ -180,7 +180,7 @@ function Contact() {
                                                             bg="#0D74FF"
                                                             color="white"
                                                             _hover={{}}
-                                                            onClick={() => handleClickEventEmail()}
+                                                            onClick={() => submitFormEmail()}
                                                         >
                                                             Send Message
                                                         </Button>

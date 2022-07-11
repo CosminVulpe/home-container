@@ -3,16 +3,21 @@ package com.example.Apihomecontainer.service;
 import com.stripe.Stripe;
 import com.stripe.model.Charge;
 import com.stripe.model.Customer;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
+import javax.annotation.PostConstruct;
 import java.util.HashMap;
 import java.util.Map;
 
 @Component
 public class StripeClientPayment {
+    @Value("${stripe_key}")
+    private String secretKeyStripe;
 
-    StripeClientPayment() {
-        Stripe.apiKey = "sk_test_51LAYjtL0ph6rc8pviLOPUPiWRZwNVXpAEmFcxVJuPgpAu48MIFI5FuQACJlggXzRADjQZY0xyMQzIwJHThetaKet00MLonmsbZ";
+    @PostConstruct
+    public void init() {
+        Stripe.apiKey = secretKeyStripe;
     }
 
     public Customer createCustomer(String token
@@ -29,15 +34,15 @@ public class StripeClientPayment {
 
     public Charge chargeNewCard(String token, double amount) throws Exception {
         Map<String, Object> chargeParams = new HashMap<>();
-        chargeParams.put("amount",(int)(amount * 100));
+        chargeParams.put("amount", (int) (amount * 100));
         chargeParams.put("currency", "RON");
         chargeParams.put("source", token);
         return Charge.create(chargeParams);
     }
 
-    public Charge chargeCustomerCard(String customerId, int amount) throws Exception{
+    public Charge chargeCustomerCard(String customerId, int amount) throws Exception {
         String sourceCard = getCustomer(customerId).getDefaultSource();
-        Map<String,Object> chargeParams = new HashMap<>();
+        Map<String, Object> chargeParams = new HashMap<>();
         chargeParams.put("amount", amount);
         chargeParams.put("currency", "USD");
         chargeParams.put("customer", customerId);

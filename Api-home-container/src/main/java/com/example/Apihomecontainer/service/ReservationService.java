@@ -71,7 +71,7 @@ public class ReservationService {
     public UUID getReservationId(Long containerId) {
         Optional<ShippingContainer> shippingContainerOption = shippingContainerRepository.findById(containerId);
         List<UUID> allReservationIds = new ArrayList<>();
-        if (shippingContainerOption.isPresent()) {
+        if (checkIfShippingContainerExists(shippingContainerOption)) {
             for (Reservation reservation : shippingContainerOption.get().getReservationList()) {
                 allReservationIds.add(reservation.getReservationId());
             }

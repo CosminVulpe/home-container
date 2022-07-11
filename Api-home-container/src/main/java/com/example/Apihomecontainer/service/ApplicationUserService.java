@@ -63,7 +63,7 @@ public class ApplicationUserService implements UserDetailsService {
             applicationUserRepository.save(user);
             log.info("User was successful register");
         } catch (Exception e) {
-            log.error("User was NOT successful register");
+            log.error("User was NOT successful register", e);
         }
     }
 

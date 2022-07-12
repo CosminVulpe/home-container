@@ -4,7 +4,7 @@
 > ### Home-container is a unique business which offers to the customers shipping container well-organized with kitchen and bathroom to relax near lake.
 Home-container was created to demonstrate a fully fledged full-stack application built with Spring boot + React including CRUD operations, authentication, routing, Spring Security, Stripe and more.
 
-## PostgresSql Schema
+## PostgreSql Schema
 Using hibernate as a tool for developing the database, the schema looks as follows: 
 ![home_container@localhost](https://user-images.githubusercontent.com/86559678/178455180-794cee52-3196-4281-8863-c98237b45ff3.png)
 
@@ -42,7 +42,7 @@ To connect to the databse locally, please change in the `application.properties`
 - Stripe
 - Google Maps 
 
-### The general pages breakdown:
+### The general page breakdown:
 - Home Page (URL: /)
     - Navbar: Logo, About, Containers, Location, Login, Contact Us.
     - Image Carousel presenting the shipping containers with full name, price and button to view that shipping container.

@@ -59,7 +59,7 @@ function Checkout() {
         await ApiGetReservation(containerDetailsCheckout.id)
             .then(data => setReservationID(data.data))
             .catch(error => console.log(error));
-        // submitFormEmail();
+        submitFormEmail();
         setTimeout(() => {
             navigate("/");
         }, 5000);
@@ -213,17 +213,16 @@ function Checkout() {
                                     Price {reservationDetailsCheckout.totalPrice} Lei</p>
                                 <div className="d-flex justify-content-center">
                                     <ToastContainer/>
-                                    {/*<StripeCheckout*/}
-                                    {/*    name="Payment"*/}
-                                    {/*    description="Enter Details"*/}
-                                    {/*    stripeKey={process.env.REACT_APP_STRIPE_PUBLISHABLE_KEY}*/}
-                                    {/*    token={handleToken}*/}
-                                    {/*    amount={reservationDetailsCheckout.totalPrice * 100}*/}
-                                    {/*    currency="RON"*/}
-                                    {/*>*/}
-                                    {/*    <Button to="#">Payment</Button>*/}
-                                    {/*</StripeCheckout>*/}
-                                    <Button to="#" onClick={sendInfoBackend}>Payment</Button>
+                                    <StripeCheckout
+                                        name="Payment"
+                                        description="Enter Details"
+                                        stripeKey={process.env.REACT_APP_STRIPE_PUBLISHABLE_KEY}
+                                        token={handleToken}
+                                        amount={reservationDetailsCheckout.totalPrice * 100}
+                                        currency="RON"
+                                    >
+                                        <Button to="#">Payment</Button>
+                                    </StripeCheckout>
                                 </div>
                             </div>
                         </div>

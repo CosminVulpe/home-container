@@ -62,11 +62,16 @@ To connect to the databse locally, please change in the `application.properties`
  - Location (URL: /location)
     - The user can see and guide to arrive at the destion using the implemented Google Maps feature.
     
+- Order user history (URL: /account)
+  - The user can see the previous orders made in the past and if he/she cancelled the reservation.
+    
   ## Screenshots
   ![Screenshot from 2022-07-12 13-16-33](https://user-images.githubusercontent.com/86559678/178468272-993736fd-72c0-4fe5-b3bd-654d62c8fa53.png)
   ![Screenshot from 2022-07-12 13-19-01](https://user-images.githubusercontent.com/86559678/178468876-bfa2e0a2-aa4e-4dad-9df6-1b2cf492973a.png)
-![Screenshot from 2022-07-12 13-19-19](https://user-images.githubusercontent.com/86559678/178468945-059cbef8-15e6-4058-851e-36e019e2ff24.png)
-![Screenshot from 2022-07-12 13-19-23](https://user-images.githubusercontent.com/86559678/178468979-e0c3dc10-c253-4220-bcca-b6ab9069b975.png)
-![Screenshot from 2022-07-12 13-22-38](https://user-images.githubusercontent.com/86559678/178470648-b5eaa6e2-bb2a-4c27-a308-f10f4e2a76f1.png)
+  ![Screenshot from 2022-07-12 13-19-19](https://user-images.githubusercontent.com/86559678/178468945-059cbef8-15e6-4058-851e-36e019e2ff24.png)
+  ![Screenshot from 2022-07-12 13-19-23](https://user-images.githubusercontent.com/86559678/178468979-e0c3dc10-c253-4220-bcca-b6ab9069b975.png)
+  ![Screenshot from 2022-07-12 13-22-38](https://user-images.githubusercontent.com/86559678/178470648-b5eaa6e2-bb2a-4c27-a308-f10f4e2a76f1.png)
+  ![Screenshot from 2022-07-12 13-53-33](https://user-images.githubusercontent.com/86559678/178474585-557c090c-e318-4ad9-bb14-a92bfe9ff3f9.png)
+  ![Screenshot from 2022-07-12 13-53-51](https://user-images.githubusercontent.com/86559678/178474675-ed63c510-8dbf-444b-ad35-6ad14f405485.png)
 
 

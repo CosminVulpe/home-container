@@ -72,5 +72,4 @@ To connect to the databse locally, please change in the `application.properties`
   ![Screenshot from 2022-07-12 13-19-23](https://user-images.githubusercontent.com/86559678/178468979-e0c3dc10-c253-4220-bcca-b6ab9069b975.png)
   ![Screenshot from 2022-07-12 13-22-38](https://user-images.githubusercontent.com/86559678/178470648-b5eaa6e2-bb2a-4c27-a308-f10f4e2a76f1.png)
   ![Screenshot from 2022-07-12 13-53-33](https://user-images.githubusercontent.com/86559678/178474585-557c090c-e318-4ad9-bb14-a92bfe9ff3f9.png)
-  ![Screenshot from 2022-07-12 13-53-51](https://user-images.githubusercontent.com/86559678/178474675-ed63c510-8dbf-444b-ad35-6ad14f405485.png)
   ![Screenshot from 2022-07-12 14-32-32](https://user-images.githubusercontent.com/86559678/178481161-975df340-1d2f-4751-9e71-68b95639fc32.png)

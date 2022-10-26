@@ -84,7 +84,7 @@ public class ReservationService {
             for (Reservation reservationDB : shippingContainer.getReservationList()) {
                 if (doesReservationIdExists(reservationDB.getReservationId()
                         , reservation.getReservationId())) {
-                    reservationDB.setReservationStatus(ReservationStatus.NOT_OCCUPY);
+                    reservationDB.setReservationStatus(ReservationStatus.NOT_OCCUPIED);
                     reservationRepository.save(reservationDB);
                 }
             }
@@ -98,21 +98,6 @@ public class ReservationService {
     private Reservation createNewReservation(Reservation reservation
             , ApplicationUser user
             , ShippingContainer shippingContainer) {
-        if (user != null) {
-            return new Reservation(
-                    reservation.getReservationCustomerName()
-                    , reservation.getReservationCustomerEmail()
-                    , reservation.getStartDate()
-                    , reservation.getFinishDate()
-                    , reservation.getNumberAdults()
-                    , reservation.getNumberKids()
-                    , ReservationStatus.OCCUPY
-                    , reservation.getTotalNumberOfDays()
-                    , reservation.getTotalPrice()
-                    , shippingContainer
-                    , reservation.getApplicationUser()
-            );
-        }
         return new Reservation(
                 reservation.getReservationCustomerName()
                 , reservation.getReservationCustomerEmail()
@@ -120,11 +105,11 @@ public class ReservationService {
                 , reservation.getFinishDate()
                 , reservation.getNumberAdults()
                 , reservation.getNumberKids()
-                , ReservationStatus.OCCUPY
+                , ReservationStatus.OCCUPIED
                 , reservation.getTotalNumberOfDays()
                 , reservation.getTotalPrice()
                 , shippingContainer
-                , null
+                , (user != null) ? reservation.getApplicationUser() : null
         );
     }
 

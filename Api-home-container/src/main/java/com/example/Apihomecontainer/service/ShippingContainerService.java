@@ -58,6 +58,6 @@ public class ShippingContainerService {
     }
 
     private boolean isDateOccupied(ReservationStatus reservationStatus) {
-        return reservationStatus == ReservationStatus.NOT_OCCUPY;
+        return reservationStatus == ReservationStatus.NOT_OCCUPIED;
     }
 }

@@ -108,10 +108,8 @@ function NavBar({toggle}) {
                 <NavMenuLinks to="/location">Location </NavMenuLinks>
             </NavMenu>
             <NavBtn>
-                {getToken() === null &&
-                    <Button to="/register" primary='true'>Login</Button>
-                }
-                {getToken() !== null &&
+                {getToken() === null ?
+                    <Button to="/register" primary='true'>Login</Button> :
                     <>
                         <Button to="#" primary='true' onClick={logOut}>Logout</Button>
                         <Button to="/account" primary='true'>Account</Button>

@@ -120,7 +120,7 @@ function ContentContainer() {
                     <div className="p-2 text-lg-start">
                         <div className="card" style={{
                             width: "18rem",
-                            boxShadow: "10px 10px 10px 10px"
+                            boxShadow: "5px 5px 5px 5px"
                         }}>
                             <img src={ImageCarouselData[id - 1].image} className="card-img-top"
                                  alt={"shipping-container-" + id.toString()}/>
